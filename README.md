@@ -37,7 +37,7 @@ See [example.ipynb](./example.ipynb)
 
 This extension is still in development. It is only tested on Firefox.
 
-There are [several major limtations](https://github.com/manics/jupyter-offlinenotebook/issues) including:
+There are [several major limitations](https://github.com/manics/jupyter-offlinenotebook/issues) including:
 
 - There are no error messages, you must open the Javascript console to check whether save/load has worked.
 - The size of downloaded notebooks is limited by the browser.
