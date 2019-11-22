@@ -20,12 +20,16 @@ This should automatically enable the extension. If it is not listed in `jupyter 
 Usage
 -----
 
+![Offline notebook buttons](./offline-notebook-buttons.png)
+
 There are three new icons to:
 - download the in-memory (browser) state of the notebook
 - save the in-memory state of the notebook to local-storage
 - load a notebook from local-storage
 
 Saving and loading uses the path of the current notebook
+
+See [example.ipynb](./example.ipynb)
 
 
 **WARNING**
