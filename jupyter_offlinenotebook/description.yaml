@@ -1,0 +1,9 @@
+Type: Jupyter Notebook Extension
+Compatibility: 6.x
+Name: Offline Notebook
+Main: main.js
+Link: README.md
+Description: |
+  Save, load and download notebooks to local-storage in your browser. 
+Parameters:
+- none

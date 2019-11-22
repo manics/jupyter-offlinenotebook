@@ -1,0 +1,78 @@
+define([
+  'base/js/namespace',
+  'base/js/events'
+  ],
+  function(Jupyter, events) {
+    var addButtons = function () {
+      Jupyter.toolbar.add_buttons_group([
+        Jupyter.keyboard_manager.actions.register ({
+          'help': 'Download (size limited)',
+          'icon' : 'fa-medkit',
+          'handler': downloadNotebookFromBrowser
+        }, 'offline-notebook-download', 'Download from browser'),
+        Jupyter.keyboard_manager.actions.register ({
+          'help': 'Save to local-storage',
+          'icon' : 'fa-download',
+          'handler': localstoreSaveNotebook
+        }, 'offline-notebook-save', 'Save to local-storage'),
+        Jupyter.keyboard_manager.actions.register ({
+          'help': 'Load from local-storage',
+          'icon' : 'fa-upload',
+          'handler': localstoreLoadNotebook
+        }, 'offline-notebook-load', 'Load from local-storage')
+      ])
+    }
+
+    function getNotebookFromBrowser() {
+      return Jupyter.notebook.toJSON();
+    }
+
+    function localstoreSaveNotebook() {
+      var path = Jupyter.notebook.notebook_path;
+      var nb = getNotebookFromBrowser();
+      localStorage.setItem(path, JSON.stringify(nb));
+      console.log("local-storage saved: " + path)
+    }
+
+    function localstoreLoadNotebook() {
+      var name = Jupyter.notebook.notebook_name;
+      var path = Jupyter.notebook.notebook_path;
+      var nb = localStorage.getItem(path);
+      if (nb) {
+        var wrappednb = {
+          "content": JSON.parse(nb),
+          "name": name,
+          "path": path,
+          "format": "json",
+          "type": "notebook"
+        };
+        Jupyter.notebook.fromJSON(wrappednb);
+          console.log("local-storage loaded " + path)
+      }
+      else {
+          console.log("local-storage not found: " + path)
+      }
+    }
+
+    // Download (size limited) https://stackoverflow.com/a/18197341
+    function downloadNotebookFromBrowser() {
+      var name = Jupyter.notebook.notebook_name;
+      var nb = getNotebookFromBrowser();
+      var element = document.createElement("a");
+      element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(nb)));
+      element.setAttribute("download", name);
+      element.style.display = "none";
+      document.body.appendChild(element);
+      element.click();  
+      document.body.removeChild(element);
+    }
+
+    // Run on start
+    function load_ipython_extension() {
+      addButtons();
+    }
+
+    return {
+      load_ipython_extension: load_ipython_extension
+    };
+});

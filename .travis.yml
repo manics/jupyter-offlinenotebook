@@ -1,0 +1,16 @@
+language: python
+
+python:
+  - "3.6"
+
+script:
+  - python setup.py sdist
+  - python -mpip install dist/*.tar.gz
+
+deploy:
+  provider: pypi
+  user: __token__
+  password: $PYPI_TOKEN
+  skip_existing: true
+  on:
+    tags: true
