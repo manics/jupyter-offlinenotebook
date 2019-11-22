@@ -1,7 +1,7 @@
 Jupyter Offline Notebook
 ========================
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-notebookparams/master?urlpath=notebooks%2Fexample.ipynb%3Fa%3D1%26b%3D%22whatever%22%26autorun%3Dtrue)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?filepath=example.ipynb)
 
 Save and load notebooks to local-storage, even if you've lost your connection to the server.
 
@@ -36,6 +36,8 @@ See [example.ipynb](./example.ipynb)
 -----------
 
 This extension is still in development. It is only tested on Firefox.
+
+There are [several major limtations](https://github.com/manics/jupyter-offlinenotebook/issues) including:
 
 - There are no error messages, you must open the Javascript console to check whether save/load has worked.
 - The size of downloaded notebooks is limited by the browser.
