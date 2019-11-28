@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='jupyter-offlinenotebook',
-    version='0.0.2',
+    version='0.0.3',
     author='Simon Li',
     author_email='spli@dundee.ac.uk',
     packages=[
@@ -19,11 +19,14 @@ setup(
     install_requires=[
         'notebook',
     ],
-    data_files=[(
-            'share/jupyter/nbextensions/jupyter-offlinenotebook', [
-                'jupyter_offlinenotebook/static/main.js'
+    data_files=[
+        ('share/jupyter/nbextensions/jupyter-offlinenotebook', [
+            'jupyter_offlinenotebook/static/main.js']),
+        ('etc/jupyter/jupyter_notebook_config.d', [
+            'jupyter_offlinenotebook/etc/offlinenotebook_serverextension.json'
             ]),
-        ('etc/jupyter/nbconfig/notebook.d', ['jupyter_offlinenotebook.json'])
+        ('etc/jupyter/nbconfig/notebook.d', [
+            'jupyter_offlinenotebook/etc/offlinenotebook_nbextension.json']),
     ],
     zip_safe=False,
     include_package_data=True,

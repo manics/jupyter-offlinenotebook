@@ -11,10 +11,20 @@ Installation
 
     pip install jupyter-offlinenotebook
 
-This should automatically enable the extension. If it is not listed in `jupyter nbextension list` install and enable it:
+This should automatically enable the extension. If it is not listed in `jupyter nbextension list` or `jupyter serverextension list` install and enable it:
 
     jupyter nbextension install --py jupyter_offlinenotebook --sys-prefix
     jupyter nbextension enable --py jupyter_offlinenotebook --sys-prefix
+
+    jupyter serverextension install --py jupyter_offlinenotebook --sys-prefix
+    jupyter serverextension enable --py jupyter_offlinenotebook --sys-prefix
+
+
+Configuration
+-------------
+
+By default this extension will obtain a repository identifier from an environment variable `BINDER_REPO_URL`.
+You can change the name of the environment variable by setting `c.OfflineNotebookConfig.repoid_variable` in `jupyter_notebook_config.py`.
 
 
 Usage
@@ -27,7 +37,8 @@ There are three new icons to:
 - save the in-memory state of the notebook to local-storage
 - load a notebook from local-storage
 
-Saving and loading uses the path of the current notebook
+Saving and loading uses the repository ID and the path of the current notebook.
+If you don't see the buttons check the Javascritp console log, it may mean no repository ID was found.
 
 See [example.ipynb](./example.ipynb)
 
@@ -35,11 +46,13 @@ See [example.ipynb](./example.ipynb)
 **WARNING**
 -----------
 
-This extension is still in development. It is only tested on Firefox.
+This extension is still in development.
+It is only tested on Firefox.
+Breaking changes may occur in future.
 
 There are [several major limitations](https://github.com/manics/jupyter-offlinenotebook/issues) including:
 
 - There are no error messages, you must open the Javascript console to check whether save/load has worked.
 - The size of downloaded notebooks is limited by the browser.
-- Only the path of the notebook within Jupyter Notebook is used.
-  If you have multiple notebook environments on the same domain the notebooks may have the same path.
+- A repository ID and path of the notebook within Jupyter Notebook are used, joined by a ` `.
+  This may change in future.
