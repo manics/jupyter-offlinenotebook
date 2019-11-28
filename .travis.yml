@@ -3,7 +3,11 @@ language: python
 python:
   - "3.6"
 
+install:
+  - pip install flake8
+
 script:
+  - flake8 .
   - python setup.py sdist
   - python -mpip install dist/*.tar.gz
 

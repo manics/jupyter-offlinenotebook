@@ -22,8 +22,8 @@ setup(
     data_files=[(
             'share/jupyter/nbextensions/jupyter-offlinenotebook', [
                 'jupyter_offlinenotebook/static/main.js'
-        ]),
-        ('etc/jupyter/nbconfig/notebook.d' , ['jupyter_offlinenotebook.json'])
+            ]),
+        ('etc/jupyter/nbconfig/notebook.d', ['jupyter_offlinenotebook.json'])
     ],
     zip_safe=False,
     include_package_data=True,
