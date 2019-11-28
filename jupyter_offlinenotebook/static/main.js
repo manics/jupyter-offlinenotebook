@@ -1,8 +1,25 @@
 define([
   'base/js/namespace',
-  'base/js/events'
+  'base/js/events',
+  'base/js/utils',
+  'jquery'
   ],
-  function(Jupyter, events) {
+  function(Jupyter, events, utils, $) {
+    var repoid = null;
+
+    var initialise = function() {
+      $.getJSON(utils.get_body_data('baseUrl') + 'offlinenotebookconfig', function(data) {
+        repoid = data['repoid'];
+        if (repoid) {
+          console.log("local-storage repoid: " + repoid);
+          addButtons();
+        }
+        else {
+          console.log('local-storage repoid not found, disabled')
+        }
+      });
+    }
+
     var addButtons = function () {
       Jupyter.toolbar.add_buttons_group([
         Jupyter.keyboard_manager.actions.register ({
@@ -28,7 +45,7 @@ define([
     }
 
     function localstoreSaveNotebook() {
-      var path = Jupyter.notebook.notebook_path;
+      var path = repoid + ' ' + Jupyter.notebook.notebook_path;
       var nb = getNotebookFromBrowser();
       localStorage.setItem(path, JSON.stringify(nb));
       console.log("local-storage saved: " + path)
@@ -36,13 +53,13 @@ define([
 
     function localstoreLoadNotebook() {
       var name = Jupyter.notebook.notebook_name;
-      var path = Jupyter.notebook.notebook_path;
+      var path = repoid + ' ' + Jupyter.notebook.notebook_path;
       var nb = localStorage.getItem(path);
       if (nb) {
         var wrappednb = {
           "content": JSON.parse(nb),
           "name": name,
-          "path": path,
+          "path": Jupyter.notebook.notebook_path,
           "format": "json",
           "type": "notebook"
         };
@@ -69,7 +86,7 @@ define([
 
     // Run on start
     function load_ipython_extension() {
-      addButtons();
+      initialise();
     }
 
     return {
