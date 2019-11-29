@@ -23,8 +23,19 @@ This should automatically enable the extension. If it is not listed in `jupyter 
 Configuration
 -------------
 
-By default this extension will obtain a repository identifier from an environment variable `BINDER_REPO_URL`.
-You can change the name of the environment variable by setting `c.OfflineNotebookConfig.repoid_variable` in `jupyter_notebook_config.py`.
+This extension can be configured in `jupyter_notebook_config.py` by setting the following properties of `c.OfflineNotebookConfig`:
+- `repository_id`:
+  A callable that returns the repository ID.
+  This is used when storing and retrieving notebooks.
+  Default is the value of the `BINDER_REPO_URL` environment variable.
+- `repository_ref_url`:
+  A callable that returns the repository reference URL.
+  Default is the value of the `BINDER_REF_URL` environment variable.
+- `binder_persistent_url`:
+  A callable that returns the repository reference URL.
+  Default is the values of the `BINDER_LAUNCH_HOST` and
+  `BINDER_PERSISTENT_REQUEST` environment variables.
+
 
 
 Usage
