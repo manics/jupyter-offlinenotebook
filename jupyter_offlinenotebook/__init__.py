@@ -21,8 +21,22 @@ class OfflineNotebookHandler(IPythonHandler):
         repoid = os.getenv(config.repoid_variable)
         self.log.debug('OfflineNotebook repoid: %s=%s',
                        config.repoid_variable, repoid)
+
+        binder_ref_url = os.getenv('BINDER_REF_URL')
+
+        binder_launch = os.environ.get('BINDER_LAUNCH_HOST')
+        binder_persistent_request = os.environ.get('BINDER_PERSISTENT_REQUEST')
+        if binder_launch and binder_persistent_request:
+            binder_persistent_url = binder_launch + binder_persistent_request
+        else:
+            binder_persistent_url = None
+
         self.set_header('Content-Type', 'application/json')
-        self.write(json.dumps({'repoid': repoid}))
+        self.write(json.dumps({
+            'repoid': repoid,
+            'binder_ref_url': binder_ref_url,
+            'binder_persistent_url': binder_persistent_url,
+        }))
 
 
 class OfflineNotebookConfig(Configurable):
