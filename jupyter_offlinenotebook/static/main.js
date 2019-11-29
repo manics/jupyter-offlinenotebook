@@ -12,32 +12,38 @@ define([
         repoid = data['repoid'];
         if (repoid) {
           console.log("local-storage repoid: " + repoid);
-          addButtons();
+          addButtons(true);
         }
         else {
           console.log('local-storage repoid not found, disabled')
+          addButtons(false);
         }
       });
     }
 
-    var addButtons = function () {
-      Jupyter.toolbar.add_buttons_group([
-        Jupyter.keyboard_manager.actions.register ({
-          'help': 'Download (size limited)',
-          'icon' : 'fa-medkit',
-          'handler': downloadNotebookFromBrowser
-        }, 'offline-notebook-download', 'Download from browser'),
-        Jupyter.keyboard_manager.actions.register ({
-          'help': 'Save to local-storage',
-          'icon' : 'fa-download',
-          'handler': localstoreSaveNotebook
-        }, 'offline-notebook-save', 'Save to local-storage'),
-        Jupyter.keyboard_manager.actions.register ({
-          'help': 'Load from local-storage',
-          'icon' : 'fa-upload',
-          'handler': localstoreLoadNotebook
-        }, 'offline-notebook-load', 'Load from local-storage')
-      ])
+    var addButtons = function(storageEnabled) {
+      var buttons = [Jupyter.keyboard_manager.actions.register({
+        'help': 'Download (size limited)',
+        'icon' : 'fa-medkit',
+        'handler': downloadNotebookFromBrowser
+      }, 'offline-notebook-download', 'Download from browser')];
+      if (storageEnabled) {
+        buttons.push(
+          Jupyter.keyboard_manager.actions.register({
+            'help': 'Save to local-storage',
+            'icon' : 'fa-download',
+            'handler': localstoreSaveNotebook
+          }, 'offline-notebook-save', 'Save to local-storage')
+        );
+        buttons.push(
+          Jupyter.keyboard_manager.actions.register ({
+            'help': 'Load from local-storage',
+            'icon' : 'fa-upload',
+            'handler': localstoreLoadNotebook
+          }, 'offline-notebook-load', 'Load from local-storage')
+        );
+      }
+      Jupyter.toolbar.add_buttons_group(buttons);
     }
 
     function getNotebookFromBrowser() {
