@@ -27,21 +27,21 @@ define([
         'help': 'Download (size limited)',
         'icon' : 'fa-medkit',
         'handler': downloadNotebookFromBrowser
-      }, 'offline-notebook-download', 'Download from browser')];
+      }, 'offline-notebook-download', 'offlinenotebook')];
       if (storageEnabled) {
         buttons.push(
           Jupyter.keyboard_manager.actions.register({
             'help': 'Save to local-storage',
             'icon' : 'fa-download',
             'handler': localstoreSaveNotebook
-          }, 'offline-notebook-save', 'Save to local-storage')
+          }, 'offline-notebook-save', 'offlinenotebook')
         );
         buttons.push(
           Jupyter.keyboard_manager.actions.register ({
             'help': 'Load from local-storage',
             'icon' : 'fa-upload',
             'handler': localstoreLoadNotebook
-          }, 'offline-notebook-load', 'Load from local-storage')
+          }, 'offline-notebook-load', 'offlinenotebook')
         );
       }
       Jupyter.toolbar.add_buttons_group(buttons);
