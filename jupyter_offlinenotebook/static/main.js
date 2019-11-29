@@ -2,9 +2,10 @@ define([
   'base/js/namespace',
   'base/js/events',
   'base/js/utils',
+  'base/js/dialog',
   'jquery'
   ],
-  function(Jupyter, events, utils, $) {
+  function(Jupyter, events, utils, dialog, $) {
     var repoid = null;
 
     var initialise = function() {
@@ -46,6 +47,20 @@ define([
       Jupyter.toolbar.add_buttons_group(buttons);
     }
 
+    function modalDialog(title, text, displayclass) {
+      var body = $('<div/>').text(text);
+      if (displayclass) {
+        body.addClass(displayclass);
+      }
+      dialog.modal({
+        title: title,
+        body: body,
+        buttons: {
+          OK: {'class': 'btn-primary'}
+        }
+      });
+    }
+
     function getNotebookFromBrowser() {
       return Jupyter.notebook.toJSON();
     }
@@ -54,7 +69,8 @@ define([
       var path = repoid + ' ' + Jupyter.notebook.notebook_path;
       var nb = getNotebookFromBrowser();
       localStorage.setItem(path, JSON.stringify(nb));
-      console.log("local-storage saved: " + path)
+      console.log("local-storage saved: " + path);
+      modalDialog('Notebook saved to local-storage', path);
     }
 
     function localstoreLoadNotebook() {
@@ -70,10 +86,12 @@ define([
           "type": "notebook"
         };
         Jupyter.notebook.fromJSON(wrappednb);
-          console.log("local-storage loaded " + path)
+        console.log("local-storage loaded " + path);
+        modalDialog('Loaded notebook from local-storage', path);
       }
       else {
-          console.log("local-storage not found: " + path)
+        console.log("local-storage not found: " + path);
+        modalDialog('Notebook not found in local-storage', path, 'alert alert-danger');
       }
     }
 
