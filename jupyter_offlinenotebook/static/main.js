@@ -206,16 +206,17 @@ define([
     }
 
     function showBinderLink() {
+      var binderUrl = binderPersistentUrl + '?filepath=' + Jupyter.notebook.notebook_path;
       var body = $('<div/>', {
         'style': 'display: flex;',
       }).append(
         $('<pre/>', {
-          'text': binderPersistentUrl,
+          'text': binderUrl,
           'style': 'flex-grow: 1; margin: 0;'
         }));
       var button = $('<button/>', {
           'title': 'Copy binder link to clipboard',
-          'data-url': binderPersistentUrl
+          'data-url': binderUrl
         }).click(function() {
           copy_link_into_clipboard(this);
         })
