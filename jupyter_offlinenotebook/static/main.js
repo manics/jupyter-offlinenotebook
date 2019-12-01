@@ -47,7 +47,7 @@ define([
       var showRepoAction = Jupyter.actions.register({
         'help': 'Visit Binder repository',
         'icon' : 'fa-external-link',
-        'handler': showBinderRepo
+        'handler': openBinderRepo
       }, 'offline-notebook-binderrepo', 'offlinenotebook');
       var showBinderAction = Jupyter.actions.register({
         'help': 'Link to this Binder',
@@ -68,7 +68,7 @@ define([
       if (bindeRefUrl) {
         binderButtons.push({
           'action': showRepoAction,
-          'label': 'Open repo'
+          'label': 'Repo'
         });
       }
       if (binderPersistentUrl) {
@@ -148,15 +148,14 @@ define([
       document.body.removeChild(element);
     }
 
-    function showBinderRepo() {
-      var body = $('<div/>').append(
-        $('<a>',{
-          'href': bindeRefUrl,
-          'target': '_blank',
-          'text': bindeRefUrl,
-          'title': 'Binder repository'
-        }));
-      modalDialog('Binder repository', null, null, body);
+    function openBinderRepo() {
+      var a = document.createElement('a');
+      document.body.appendChild(a);
+      a.href = bindeRefUrl;
+      a.target = '_blank';
+      a.style.display = 'none';
+      a.click();
+      document.body.removeChild(a);
     }
 
     function showBinderLink() {
