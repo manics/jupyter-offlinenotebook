@@ -105,5 +105,5 @@ def load_jupyter_server_extension(nbapp):
     nbapp.web_app.settings['offline_notebook_config'] = OfflineNotebookConfig(
         parent=nbapp)
     route_pattern = url_path_join(
-        nbapp.web_app.settings['base_url'], '/offlinenotebookconfig')
+        nbapp.web_app.settings['base_url'], '/offlinenotebook/config')
     nbapp.web_app.add_handlers('.*', [(route_pattern, OfflineNotebookHandler)])

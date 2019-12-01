@@ -11,7 +11,7 @@ define([
     var binderPersistentUrl = null
 
     var initialise = function() {
-      $.getJSON(utils.get_body_data('baseUrl') + 'offlinenotebookconfig', function(data) {
+      $.getJSON(utils.get_body_data('baseUrl') + 'offlinenotebook/config', function(data) {
         repoid = data['repoid'];
         if (repoid) {
           console.log('local-storage repoid: ' + repoid);
