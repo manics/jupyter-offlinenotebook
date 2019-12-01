@@ -3,7 +3,7 @@ from glob import glob
 
 setup(
     name='jupyter-offlinenotebook',
-    version='0.0.7',
+    version='0.0.8',
     author='Simon Li',
     author_email='spli@dundee.ac.uk',
     packages=[
