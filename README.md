@@ -3,7 +3,7 @@ Jupyter Offline Notebook
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?filepath=example.ipynb)
 
-Save and load notebooks to local-storage, even if you've lost your connection to the server.
+Save and load notebooks to browser storage, even if you've lost your connection to the server.
 
 
 Installation
@@ -66,3 +66,12 @@ There are [several major limitations](https://github.com/manics/jupyter-offlinen
 - Local-storage is limited by quotas imposed by the browser.
 - A repository ID and path of the notebook within Jupyter Notebook are used, joined by a ` `.
   This may change in future.
+
+
+Development notes
+-----------------
+
+This extension stores notebooks in browser storage using the [IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), wrapped with [Dexie.js](https://dexie.org/).
+
+One server API call is made during initialisation to obtain the storage configuration.
+Everything else is done client-side so should work even if the server is disconnected.
