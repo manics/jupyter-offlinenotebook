@@ -29,7 +29,7 @@ define([
 
     var addButtons = function() {
       var downloadAction = Jupyter.actions.register({
-        'help': 'Download (size limited)',
+        'help': 'Download visible',
         'icon' : 'fa-medkit',
         'handler': downloadNotebookFromBrowser
       }, 'offline-notebook-download', 'offlinenotebook');
@@ -135,17 +135,21 @@ define([
       }
     }
 
-    // Download (size limited) https://stackoverflow.com/a/18197341
+    // Download https://jsfiddle.net/koldev/cW7W5/
     function downloadNotebookFromBrowser() {
       var name = Jupyter.notebook.notebook_name;
       var nb = getNotebookFromBrowser();
-      var element = document.createElement("a");
-      element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(nb)));
-      element.setAttribute("download", name);
-      element.style.display = "none";
-      document.body.appendChild(element);
-      element.click();  
-      document.body.removeChild(element);
+      var blob = new Blob([JSON.stringify(nb)], {type: 'application/json'});
+      var url = window.URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      document.body.appendChild(a);
+      a.href = url;
+      a.style.display = 'none';
+      a.download = name;
+      console.log('offlinenotebook: ' + name, blob);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
     }
 
     function showBinderRepo() {
