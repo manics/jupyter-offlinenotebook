@@ -11,29 +11,32 @@ define([
     var bindeRefUrl = null;
     var binderPersistentUrl = null
     var db = null;
+    var dbname = 'jupyter-offlinenotebook';
 
     var initialise = function() {
       $.getJSON(utils.get_body_data('baseUrl') + 'offlinenotebook/config', function(data) {
         repoid = data['repoid'];
         if (repoid) {
-          console.log('local-storage repoid: ' + repoid);
-          db = setupDb('jupyter-offlinenotebook');
+          console.log('offline-notebook repoid: ' + repoid);
         }
         else {
-          console.log('local-storage repoid not found, disabled');
+          console.log('offline-notebook repoid not found, disabled');
         }
         bindeRefUrl = data['binder_ref_url'];
-        console.log('local-storage bindeRefUrl: ' + bindeRefUrl);
+        console.log('offline-notebook bindeRefUrl: ' + bindeRefUrl);
         binderPersistentUrl = data['binder_persistent_url']
-        console.log('local-storage binderPersistentUrl: ' + binderPersistentUrl);
+        console.log('offline-notebook binderPersistentUrl: ' + binderPersistentUrl);
         addButtons();
       });
     }
 
-    var setupDb = function(dbname) {
-      var db = new dexie(dbname);
-      // Only define indexed fields. pk: primary key
-      db.version(1).stores({'offlinenotebook': 'pk,repoid,name,type'})
+    var getDb = function() {
+      if (!db) {
+        db = new dexie(dbname);
+        // Only define indexed fields. pk: primary key
+        db.version(1).stores({'offlinenotebook': 'pk,repoid,name,type'});
+        console.log('offline-notebook: Opened IndexedDB');
+      }
       return db;
     }
 
@@ -44,12 +47,12 @@ define([
         'handler': downloadNotebookFromBrowser
       }, 'offline-notebook-download', 'offlinenotebook');
       var saveAction = Jupyter.actions.register({
-        'help': 'Save to local-storage',
+        'help': 'Save to browser storage',
         'icon' : 'fa-download',
         'handler': localstoreSaveNotebook
       }, 'offline-notebook-save', 'offlinenotebook');
       var loadAction = Jupyter.actions.register({
-        'help': 'Load from local-storage',
+        'help': 'Load from browser storage',
         'icon' : 'fa-upload',
         'handler': localstoreLoadNotebook
       }, 'offline-notebook-load', 'offlinenotebook');
@@ -119,7 +122,7 @@ define([
       var path = Jupyter.notebook.notebook_path;
       var primaryKey = 'repoid:' + repoid + ' path:' + path;
       var nb = getNotebookFromBrowser();
-      db.offlinenotebook.put({
+      getDb().offlinenotebook.put({
         'pk': primaryKey,
         'repoid': repoid,
         'name': Jupyter.notebook.notebook_name,
@@ -128,8 +131,8 @@ define([
         'type': 'notebook',
         'content': nb
       }).then(function(key) {
-        console.log('local-storage saved: ', key);
-        modalDialog('Notebook saved to local-storage', key);
+        console.log('offline-notebook saved: ', key);
+        modalDialog('Notebook saved to browser storage', key);
       }).catch(function(e) {
         var body = $('<div/>').append(
           $('<div/>', {
@@ -146,15 +149,15 @@ define([
     function localstoreLoadNotebook() {
       var path = Jupyter.notebook.notebook_path;
       var primaryKey = 'repoid:' + repoid + ' path:' + path;
-      db.offlinenotebook.get(primaryKey).then(function(nb) {
+      getDb().offlinenotebook.get(primaryKey).then(function(nb) {
         if (nb) {
           Jupyter.notebook.fromJSON(nb);
-          console.log('local-storage loaded ' + primaryKey);
-          modalDialog('Loaded notebook from local-storage', primaryKey);
+          console.log('offline-notebook loaded ' + primaryKey);
+          modalDialog('Loaded notebook from browser storage', primaryKey);
         }
         else {
-          console.log('local-storage not found ' + primaryKey);
-          modalDialog('Notebook not found in local-storage', primaryKey, 'alert alert-danger');
+          console.log('offline-notebook not found ' + primaryKey);
+          modalDialog('Notebook not found in browser storage', primaryKey, 'alert alert-danger');
         }
       }).catch(function(e) {
         var body = $('<div/>').append(
