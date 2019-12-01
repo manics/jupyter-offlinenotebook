@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='jupyter-offlinenotebook',
-    version='0.0.6',
+    version='0.0.7',
     author='Simon Li',
     author_email='spli@dundee.ac.uk',
     packages=[

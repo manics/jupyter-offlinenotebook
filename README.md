@@ -63,7 +63,6 @@ Breaking changes may occur in future.
 
 There are [several major limitations](https://github.com/manics/jupyter-offlinenotebook/issues) including:
 
-- There are no error messages, you must open the Javascript console to check whether save/load has worked.
-- The size of downloaded notebooks is limited by the browser.
+- Local-storage is limited by quotas imposed by the browser.
 - A repository ID and path of the notebook within Jupyter Notebook are used, joined by a ` `.
   This may change in future.
