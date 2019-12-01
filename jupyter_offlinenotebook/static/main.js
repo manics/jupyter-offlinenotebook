@@ -108,9 +108,22 @@ define([
     function localstoreSaveNotebook() {
       var path = repoid + ' ' + Jupyter.notebook.notebook_path;
       var nb = getNotebookFromBrowser();
-      localStorage.setItem(path, JSON.stringify(nb));
-      console.log("local-storage saved: " + path);
-      modalDialog('Notebook saved to local-storage', path);
+      try {
+        localStorage.setItem(path, JSON.stringify(nb));
+        console.log("local-storage saved: " + path);
+        modalDialog('Notebook saved to local-storage', path);
+      }
+      catch(e) {
+        console.log("local-storage save failed: " + path + " " + e);
+        var body = $('<div/>').append(
+          $('<div/>', {
+            'text': path
+          })).append(
+          $('<div/>', {
+            'text': e
+          }));
+        modalDialog('Failed to save notebook to local-storage', null, 'alert alert-danger', body);
+      }
     }
 
     function localstoreLoadNotebook() {
