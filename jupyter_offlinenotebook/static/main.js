@@ -74,7 +74,7 @@ define([
       if (binderPersistentUrl) {
         binderButtons.push({
           'action': showBinderAction,
-          'label': 'Link to Binder'
+          'label': 'Binder'
         })
       }
       if (binderButtons) {
@@ -158,14 +158,34 @@ define([
       document.body.removeChild(a);
     }
 
+    // https://github.com/jupyterhub/binderhub/blob/b32ad4425be3319f7a2c59cf8253e979512b955d/examples/appendix/static/custom.js#L1-L7
+    function copy_link_into_clipboard(b) {
+      var $temp = $("<input>");
+      $(b).parent().append($temp);
+      $temp.val($(b).data('url')).select();
+      document.execCommand("copy");
+      $temp.remove();
+    }
+
     function showBinderLink() {
-      var body = $('<div/>').append(
-        $('<a>',{
-          'href': binderPersistentUrl,
-          'target': '_blank',
+      var body = $('<div/>', {
+        'style': 'display: flex;',
+      }).append(
+        $('<pre/>', {
           'text': binderPersistentUrl,
-          'title': 'Link to this Binder'
+          'style': 'flex-grow: 1; margin: 0;'
         }));
+      var button = $('<button/>', {
+          'title': 'Copy binder link to clipboard',
+          'data-url': binderPersistentUrl
+        }).click(function() {
+          copy_link_into_clipboard(this);
+        })
+      button.append(
+        $('<i/>', {
+          'class': 'fa fa-clipboard'
+        }));
+      body.append(button);
       modalDialog('Link to this Binder', null, null, body);
     }
 
