@@ -1,4 +1,5 @@
 from setuptools import setup
+from glob import glob
 
 setup(
     name='jupyter-offlinenotebook',
@@ -10,9 +11,6 @@ setup(
     ],
     url='https://github.com/manics/jupyter-offlinenotebook',
     license='MIT',
-    package_data={
-        'jupyter_offlinenotebook': ['jupyter_offlinenotebook/static/main.js'],
-    },
     description='Save and load notebooks to local-storage',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
@@ -20,8 +18,9 @@ setup(
         'notebook',
     ],
     data_files=[
-        ('share/jupyter/nbextensions/jupyter-offlinenotebook', [
-            'jupyter_offlinenotebook/static/main.js']),
+        ('share/jupyter/nbextensions/jupyter-offlinenotebook',
+            glob('jupyter_offlinenotebook/static/*.js') +
+            glob('jupyter_offlinenotebook/static/*.js.map')),
         ('etc/jupyter/jupyter_notebook_config.d', [
             'jupyter_offlinenotebook/etc/offlinenotebook_serverextension.json'
             ]),

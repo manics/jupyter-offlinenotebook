@@ -3,18 +3,21 @@ define([
   'base/js/events',
   'base/js/utils',
   'base/js/dialog',
+  './dexie',
   'jquery'
   ],
-  function(Jupyter, events, utils, dialog, $) {
+  function(Jupyter, events, utils, dialog, dexie, $) {
     var repoid = null;
     var bindeRefUrl = null;
     var binderPersistentUrl = null
+    var db = null;
 
     var initialise = function() {
       $.getJSON(utils.get_body_data('baseUrl') + 'offlinenotebook/config', function(data) {
         repoid = data['repoid'];
         if (repoid) {
           console.log('local-storage repoid: ' + repoid);
+          db = setupDb('jupyter-offlinenotebook');
         }
         else {
           console.log('local-storage repoid not found, disabled');
@@ -25,6 +28,13 @@ define([
         console.log('local-storage binderPersistentUrl: ' + binderPersistentUrl);
         addButtons();
       });
+    }
+
+    var setupDb = function(dbname) {
+      var db = new dexie(dbname);
+      // Only define indexed fields. pk: primary key
+      db.version(1).stores({'offlinenotebook': 'pk,repoid,name,type'})
+      return db;
     }
 
     var addButtons = function() {
@@ -106,46 +116,57 @@ define([
     }
 
     function localstoreSaveNotebook() {
-      var path = repoid + ' ' + Jupyter.notebook.notebook_path;
+      var path = Jupyter.notebook.notebook_path;
+      var primaryKey = 'repoid:' + repoid + ' path:' + path;
       var nb = getNotebookFromBrowser();
-      try {
-        localStorage.setItem(path, JSON.stringify(nb));
-        console.log("local-storage saved: " + path);
-        modalDialog('Notebook saved to local-storage', path);
-      }
-      catch(e) {
-        console.log("local-storage save failed: " + path + " " + e);
+      db.offlinenotebook.put({
+        'pk': primaryKey,
+        'repoid': repoid,
+        'name': Jupyter.notebook.notebook_name,
+        'path': path,
+        'format': 'json',
+        'type': 'notebook',
+        'content': nb
+      }).then(function(key) {
+        console.log('local-storage saved: ', key);
+        modalDialog('Notebook saved to local-storage', key);
+      }).catch(function(e) {
         var body = $('<div/>').append(
           $('<div/>', {
-            'text': path
+            'text': primaryKey
           })).append(
           $('<div/>', {
             'text': e
           }));
-        modalDialog('Failed to save notebook to local-storage', null, 'alert alert-danger', body);
-      }
+        modalDialog('Local storage IndexedDB error', null, 'alert alert-danger', body);
+        throw(e);
+      });
     }
 
     function localstoreLoadNotebook() {
-      var name = Jupyter.notebook.notebook_name;
-      var path = repoid + ' ' + Jupyter.notebook.notebook_path;
-      var nb = localStorage.getItem(path);
-      if (nb) {
-        var wrappednb = {
-          "content": JSON.parse(nb),
-          "name": name,
-          "path": Jupyter.notebook.notebook_path,
-          "format": "json",
-          "type": "notebook"
-        };
-        Jupyter.notebook.fromJSON(wrappednb);
-        console.log("local-storage loaded " + path);
-        modalDialog('Loaded notebook from local-storage', path);
-      }
-      else {
-        console.log("local-storage not found: " + path);
-        modalDialog('Notebook not found in local-storage', path, 'alert alert-danger');
-      }
+      var path = Jupyter.notebook.notebook_path;
+      var primaryKey = 'repoid:' + repoid + ' path:' + path;
+      db.offlinenotebook.get(primaryKey).then(function(nb) {
+        if (nb) {
+          Jupyter.notebook.fromJSON(nb);
+          console.log('local-storage loaded ' + primaryKey);
+          modalDialog('Loaded notebook from local-storage', primaryKey);
+        }
+        else {
+          console.log('local-storage not found ' + primaryKey);
+          modalDialog('Notebook not found in local-storage', primaryKey, 'alert alert-danger');
+        }
+      }).catch(function(e) {
+        var body = $('<div/>').append(
+          $('<div/>', {
+            'text': primaryKey
+          })).append(
+          $('<div/>', {
+            'text': e
+          }));
+        modalDialog('Local storage IndexedDB error', null, 'alert alert-danger', body);
+        throw(e);
+      });
     }
 
     // Download https://jsfiddle.net/koldev/cW7W5/
