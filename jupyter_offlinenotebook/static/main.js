@@ -11,13 +11,13 @@ define([
     var bindeRefUrl = null;
     var binderPersistentUrl = null
     var db = null;
+    var dbname = 'jupyter-offlinenotebook';
 
     var initialise = function() {
       $.getJSON(utils.get_body_data('baseUrl') + 'offlinenotebook/config', function(data) {
         repoid = data['repoid'];
         if (repoid) {
           console.log('local-storage repoid: ' + repoid);
-          db = setupDb('jupyter-offlinenotebook');
         }
         else {
           console.log('local-storage repoid not found, disabled');
@@ -30,10 +30,13 @@ define([
       });
     }
 
-    var setupDb = function(dbname) {
-      var db = new dexie(dbname);
-      // Only define indexed fields. pk: primary key
-      db.version(1).stores({'offlinenotebook': 'pk,repoid,name,type'})
+    var getDb = function() {
+      if (!db) {
+        db = new dexie(dbname);
+        // Only define indexed fields. pk: primary key
+        db.version(1).stores({'offlinenotebook': 'pk,repoid,name,type'});
+        console.log('offline-notebook: Opened IndexedDB');
+      }
       return db;
     }
 
@@ -119,7 +122,7 @@ define([
       var path = Jupyter.notebook.notebook_path;
       var primaryKey = 'repoid:' + repoid + ' path:' + path;
       var nb = getNotebookFromBrowser();
-      db.offlinenotebook.put({
+      getDb().offlinenotebook.put({
         'pk': primaryKey,
         'repoid': repoid,
         'name': Jupyter.notebook.notebook_name,
@@ -146,7 +149,7 @@ define([
     function localstoreLoadNotebook() {
       var path = Jupyter.notebook.notebook_path;
       var primaryKey = 'repoid:' + repoid + ' path:' + path;
-      db.offlinenotebook.get(primaryKey).then(function(nb) {
+      getDb().offlinenotebook.get(primaryKey).then(function(nb) {
         if (nb) {
           Jupyter.notebook.fromJSON(nb);
           console.log('local-storage loaded ' + primaryKey);
