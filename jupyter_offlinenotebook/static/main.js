@@ -95,23 +95,40 @@ define([
       }
     }
 
-    function modalDialog(title, text, displayclass, body) {
-      if (!body) {
-        body = $('<div/>');
-      }
-      if (text) {
-        body.text(text);
-      }
+    function modalDialog(title, body, displayclass, buttons) {
       if (displayclass) {
         body.addClass(displayclass);
+      }
+      if (!buttons) {
+        buttons = {
+          OK: {'class': 'btn-primary'}
+        };
       }
       dialog.modal({
         title: title,
         body: body,
-        buttons: {
-          OK: {'class': 'btn-primary'}
-        }
+        buttons: buttons
       });
+    }
+
+    function formatRepoPathforDialog(repoid, path) {
+      var displayRepoid = $('<div/>').append(
+        $('<span/>', {
+          'text': 'repoid: '
+        }).append(
+        $('<b/>', {
+          'text': repoid
+        })
+      ));
+      var displayPath = $('<div/>').append(
+        $('<span/>', {
+          'text': 'path: '
+        }).append(
+        $('<b/>', {
+          'text': path
+        })
+      ));
+      return displayRepoid.append(displayPath);
     }
 
     function getNotebookFromBrowser() {
@@ -122,6 +139,7 @@ define([
       var path = Jupyter.notebook.notebook_path;
       var primaryKey = 'repoid:' + repoid + ' path:' + path;
       var nb = getNotebookFromBrowser();
+      var repopathDisplay = formatRepoPathforDialog(repoid, path);
       getDb().offlinenotebook.put({
         'pk': primaryKey,
         'repoid': repoid,
@@ -132,16 +150,18 @@ define([
         'content': nb
       }).then(function(key) {
         console.log('offline-notebook saved: ', key);
-        modalDialog('Notebook saved to browser storage', key);
+        modalDialog(
+          'Notebook saved to browser storage',
+          repopathDisplay);
       }).catch(function(e) {
-        var body = $('<div/>').append(
-          $('<div/>', {
-            'text': primaryKey
-          })).append(
+        var body = repopathDisplay.append(
           $('<div/>', {
             'text': e
           }));
-        modalDialog('Local storage IndexedDB error', null, 'alert alert-danger', body);
+        modalDialog(
+          'Local storage IndexedDB error',
+          body,
+          'alert alert-danger');
         throw(e);
       });
     }
@@ -150,14 +170,31 @@ define([
       var path = Jupyter.notebook.notebook_path;
       var primaryKey = 'repoid:' + repoid + ' path:' + path;
       getDb().offlinenotebook.get(primaryKey).then(function(nb) {
+        var repopathDisplay = formatRepoPathforDialog(repoid, path);
         if (nb) {
-          Jupyter.notebook.fromJSON(nb);
-          console.log('offline-notebook loaded ' + primaryKey);
-          modalDialog('Loaded notebook from browser storage', primaryKey);
+          console.log('offline-notebook found ' + primaryKey);
+          modalDialog(
+            'This will replace your current notebook with',
+            repopathDisplay,
+            null,
+            {
+              OK: {
+                class: 'btn-primary',
+                click: function () {
+                  Jupyter.notebook.fromJSON(nb);
+                  console.log('offline-notebook loaded ' + primaryKey);
+                }
+              },
+              Cancel: {}
+            }
+          );
         }
         else {
           console.log('offline-notebook not found ' + primaryKey);
-          modalDialog('Notebook not found in browser storage', primaryKey, 'alert alert-danger');
+          modalDialog(
+            'Notebook not found in browser storage',
+            repopathDisplay,
+            'alert alert-danger');
         }
       }).catch(function(e) {
         var body = $('<div/>').append(
@@ -167,7 +204,10 @@ define([
           $('<div/>', {
             'text': e
           }));
-        modalDialog('Local storage IndexedDB error', null, 'alert alert-danger', body);
+        modalDialog(
+          'Local storage IndexedDB error',
+          body,
+          'alert alert-danger');
         throw(e);
       });
     }
@@ -228,7 +268,9 @@ define([
           'class': 'fa fa-clipboard'
         }));
       body.append(button);
-      modalDialog('Link to this Binder', null, null, body);
+      modalDialog(
+        'Link to this Binder',
+        body);
     }
 
     // Run on start
