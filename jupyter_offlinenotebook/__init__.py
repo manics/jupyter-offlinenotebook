@@ -36,7 +36,7 @@ class OfflineNotebookHandler(IPythonHandler):
         config = self.settings['offline_notebook_config']
         jcfg = json.dumps({
             'repoid': config.repository_id(),
-            'binder_repotype_label': config.repository_type_label(),
+            'binder_repo_label': config.repository_label(),
             'binder_ref_url': config.repository_ref_url(),
             'binder_persistent_url': config.binder_persistent_url(),
         })
@@ -71,11 +71,12 @@ class OfflineNotebookConfig(Configurable):
         """
     ).tag(config=True)
 
-    repository_type_label = Callable(
+    repository_label = Callable(
         default_value=_repo_label_from_binder_request,
         help="""
-        A callable that returns the repository type. Binder URL.
-        Default is the value of the `BINDER_REF_URL` environment variable.
+        A callable that returns the repository label.
+        Default is to parse the `BINDER_PERSISTENT_REQUEST` environment
+        variable.
         """
     ).tag(config=True)
 

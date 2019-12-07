@@ -8,7 +8,7 @@ define([
   ],
   function(Jupyter, events, utils, dialog, dexie, $) {
     var repoid = null;
-    var repoTypeLabel = null;
+    var repoLabel = null;
     var bindeRefUrl = null;
     var binderPersistentUrl = null
     var db = null;
@@ -23,8 +23,8 @@ define([
         else {
           console.log('offline-notebook repoid not found, disabled');
         }
-        repoTypeLabel = data['binder_repotype_label'] || 'Repo'
-        console.log('offline-notebook repoTypeLabel: ' + repoTypeLabel);
+        repoLabel = data['binder_repo_label'] || 'Repo'
+        console.log('offline-notebook repoLabel: ' + repoLabel);
         bindeRefUrl = data['binder_ref_url'];
         console.log('offline-notebook bindeRefUrl: ' + bindeRefUrl);
         binderPersistentUrl = data['binder_persistent_url']
@@ -46,17 +46,17 @@ define([
     var addButtons = function() {
       var downloadAction = Jupyter.actions.register({
         'help': 'Download visible',
-        'icon' : 'fa-medkit',
+        'icon' : 'fa-download',
         'handler': downloadNotebookFromBrowser
       }, 'offline-notebook-download', 'offlinenotebook');
       var saveAction = Jupyter.actions.register({
         'help': 'Save to browser storage',
-        'icon' : 'fa-download',
+        'icon' : 'fa-cloud-download',
         'handler': localstoreSaveNotebook
       }, 'offline-notebook-save', 'offlinenotebook');
       var loadAction = Jupyter.actions.register({
-        'help': 'Load from browser storage',
-        'icon' : 'fa-upload',
+        'help': 'Restore from browser storage',
+        'icon' : 'fa-cloud-upload',
         'handler': localstoreLoadNotebook
       }, 'offline-notebook-load', 'offlinenotebook');
 
@@ -67,18 +67,19 @@ define([
       }
       var showRepoAction = Jupyter.actions.register({
         'help': 'Visit Binder repository',
-        'icon' : repoIcons[repoTypeLabel] || 'fa-external-link',
+        'icon': repoIcons[repoLabel] || 'fa-external-link',
         'handler': openBinderRepo
       }, 'offline-notebook-binderrepo', 'offlinenotebook');
       var showBinderAction = Jupyter.actions.register({
         'help': 'Link to this Binder',
-        'icon' : 'fa-external-link',
+        'icon': 'fa-link',
         'handler': showBinderLink
       }, 'offline-notebook-binderlink', 'offlinenotebook');
 
-      var buttons = [
-        downloadAction
-      ];
+      var buttons = [{
+        'action': downloadAction,
+        'label': 'Download'
+      }];
       if (repoid) {
         buttons.push(saveAction);
         buttons.push(loadAction);
@@ -89,7 +90,7 @@ define([
       if (bindeRefUrl) {
         binderButtons.push({
           'action': showRepoAction,
-          'label': repoTypeLabel
+          'label': repoLabel
         });
       }
       if (binderPersistentUrl) {
