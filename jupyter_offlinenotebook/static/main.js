@@ -8,6 +8,7 @@ define([
   ],
   function(Jupyter, events, utils, dialog, dexie, $) {
     var repoid = null;
+    var repoTypeLabel = null;
     var bindeRefUrl = null;
     var binderPersistentUrl = null
     var db = null;
@@ -22,6 +23,8 @@ define([
         else {
           console.log('offline-notebook repoid not found, disabled');
         }
+        repoTypeLabel = data['binder_repotype_label'] || 'Repo'
+        console.log('offline-notebook repoTypeLabel: ' + repoTypeLabel);
         bindeRefUrl = data['binder_ref_url'];
         console.log('offline-notebook bindeRefUrl: ' + bindeRefUrl);
         binderPersistentUrl = data['binder_persistent_url']
@@ -57,9 +60,14 @@ define([
         'handler': localstoreLoadNotebook
       }, 'offline-notebook-load', 'offlinenotebook');
 
+      var repoIcons = {
+        'GitHub': 'fa-github',
+        'GitLab': 'fa-gitlab',
+        'Git': 'fa-git'
+      }
       var showRepoAction = Jupyter.actions.register({
         'help': 'Visit Binder repository',
-        'icon' : 'fa-external-link',
+        'icon' : repoIcons[repoTypeLabel] || 'fa-external-link',
         'handler': openBinderRepo
       }, 'offline-notebook-binderrepo', 'offlinenotebook');
       var showBinderAction = Jupyter.actions.register({
@@ -81,7 +89,7 @@ define([
       if (bindeRefUrl) {
         binderButtons.push({
           'action': showRepoAction,
-          'label': 'Repo'
+          'label': repoTypeLabel
         });
       }
       if (binderPersistentUrl) {

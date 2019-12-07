@@ -34,17 +34,27 @@ class OfflineNotebookHandler(IPythonHandler):
         to work if the user subsequently goes offline
         """
         config = self.settings['offline_notebook_config']
-        repoid = config.repository_id()
-        binder_ref_url = config.repository_ref_url()
-        binder_persistent_url = config.binder_persistent_url()
         jcfg = json.dumps({
-            'repoid': repoid,
-            'binder_ref_url': binder_ref_url,
-            'binder_persistent_url': binder_persistent_url,
+            'repoid': config.repository_id(),
+            'binder_repotype_label': config.repository_type_label(),
+            'binder_ref_url': config.repository_ref_url(),
+            'binder_persistent_url': config.binder_persistent_url(),
         })
         self.log.debug('OfflineNotebook config:%s ', jcfg)
         self.set_header('Content-Type', 'application/json')
         self.write(jcfg)
+
+
+def _repo_label_from_binder_request():
+    try:
+        repotype = os.getenv('BINDER_PERSISTENT_REQUEST', '').split('/')[1]
+    except IndexError:
+        return ''
+    if repotype == 'gh':
+        return 'GitHub'
+    if repotype == 'gl':
+        return 'GitLab'
+    return repotype.capitalize()
 
 
 class OfflineNotebookConfig(Configurable):
@@ -58,6 +68,14 @@ class OfflineNotebookConfig(Configurable):
         A callable that returns the repository ID.
         This is used when storing and retrieving notebooks.
         Default is the value of the `BINDER_REPO_URL` environment variable.
+        """
+    ).tag(config=True)
+
+    repository_type_label = Callable(
+        default_value=_repo_label_from_binder_request,
+        help="""
+        A callable that returns the repository type. Binder URL.
+        Default is the value of the `BINDER_REF_URL` environment variable.
         """
     ).tag(config=True)
 
