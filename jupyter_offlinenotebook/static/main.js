@@ -43,18 +43,18 @@ define([
       return db;
     }
 
-    var addButtons = function() {
-      var downloadAction = Jupyter.actions.register({
+    var addButtons = function () {
+      Jupyter.actions.register({
         'help': 'Download visible',
         'icon' : 'fa-download',
         'handler': downloadNotebookFromBrowser
       }, 'offline-notebook-download', 'offlinenotebook');
-      var saveAction = Jupyter.actions.register({
+      Jupyter.actions.register({
         'help': 'Save to browser storage',
         'icon' : 'fa-cloud-download',
         'handler': localstoreSaveNotebook
       }, 'offline-notebook-save', 'offlinenotebook');
-      var loadAction = Jupyter.actions.register({
+      Jupyter.actions.register({
         'help': 'Restore from browser storage',
         'icon' : 'fa-cloud-upload',
         'handler': localstoreLoadNotebook
@@ -65,37 +65,37 @@ define([
         'GitLab': 'fa-gitlab',
         'Git': 'fa-git'
       }
-      var showRepoAction = Jupyter.actions.register({
+      Jupyter.actions.register({
         'help': 'Visit Binder repository',
         'icon': repoIcons[repoLabel] || 'fa-external-link',
         'handler': openBinderRepo
       }, 'offline-notebook-binderrepo', 'offlinenotebook');
-      var showBinderAction = Jupyter.actions.register({
+      Jupyter.actions.register({
         'help': 'Link to this Binder',
         'icon': 'fa-link',
         'handler': showBinderLink
       }, 'offline-notebook-binderlink', 'offlinenotebook');
 
       var buttons = [{
-        'action': downloadAction,
+        'action': 'offlinenotebook:offline-notebook-download',
         'label': 'Download'
       }];
       if (repoid) {
-        buttons.push(saveAction);
-        buttons.push(loadAction);
+        buttons.push('offlinenotebook:offline-notebook-save');
+        buttons.push('offlinenotebook:offline-notebook-load');
       }
       Jupyter.toolbar.add_buttons_group(buttons);
 
       var binderButtons = []
       if (bindeRefUrl) {
         binderButtons.push({
-          'action': showRepoAction,
+          'action': 'offlinenotebook:offline-notebook-binderrepo',
           'label': repoLabel
         });
       }
       if (binderPersistentUrl) {
         binderButtons.push({
-          'action': showBinderAction,
+          'action': 'offlinenotebook:offline-notebook-binderlink',
           'label': 'Binder'
         })
       }
