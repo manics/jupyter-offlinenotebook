@@ -5,7 +5,6 @@ export function saveNotebook(path: string, nb: JSONValue, success: CallableFunct
 export function loadNotebook(path: string, success: CallableFunction, error: CallableFunction)
 export function downloadNotebookFromBrowser(name: string, nb: JSONValue): null;
 export function openBinderRepo(): null;
-export function getBinderLink(path: string): string;
 
 export function repoid(): string;
 export function repoLabel(): string;

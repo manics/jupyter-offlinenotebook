@@ -41,7 +41,7 @@ define([
       getDb().offlinenotebook.put({
         'pk': primaryKey,
         'repoid': repoid,
-        'name': Jupyter.notebook.notebook_name,
+        'name': path.replace(/.*\//, ''),
         'path': path,
         'format': 'json',
         'type': 'notebook',
@@ -87,11 +87,6 @@ define([
       document.body.removeChild(a);
     }
 
-    function getBinderLink(path) {
-      var binderUrl = binderPersistentUrl + '?filepath=' + path;
-      return binderUrl;
-    }
-
     function getRepoid() {
       return repoid;
     }
@@ -114,7 +109,6 @@ define([
       'loadNotebook': loadNotebook,
       'downloadNotebookFromBrowser': downloadNotebookFromBrowser,
       'openBinderRepo': openBinderRepo,
-      'getBinderLink': getBinderLink,
 
       'repoid': getRepoid,
       'repoLabel': getRepoLabel,

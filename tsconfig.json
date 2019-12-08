@@ -37,13 +37,13 @@
     "target": "es2019",
 
     "outDir": "./lib",
-    "rootDir": "./jupyter_offlinenotebook/static",
+    "rootDir": "./jupyter_offlinenotebook/static/jslib",
     "skipLibCheck": true
   },
   "include": [
-    "jupyter_offlinenotebook/static/dexie.*",
-    "jupyter_offlinenotebook/static/offlinenotebook.*",
-    "jupyter_offlinenotebook/static/index.*",
+    "jupyter_offlinenotebook/static/jslib/dexie.*",
+    "jupyter_offlinenotebook/static/jslib/offlinenotebook.*",
+    "jupyter_offlinenotebook/static/jslib/index.*",
   ],
   "exclude": ["node_modules"]
 }

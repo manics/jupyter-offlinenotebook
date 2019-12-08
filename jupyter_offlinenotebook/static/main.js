@@ -1,12 +1,13 @@
+// TODO: Convert to typescript
 define([
   'base/js/namespace',
   'base/js/events',
   'base/js/utils',
   'base/js/dialog',
-  './offlinenotebook',
-  'jquery'
+  'jquery',
+  './jslib/offlinenotebook'
 ],
-  function (Jupyter, events, utils, dialog, offline, $) {
+  function (Jupyter, events, utils, dialog, $, offline) {
 
     var initialise = function () {
       $.getJSON(utils.get_body_data('baseUrl') + 'offlinenotebook/config', function (data) {
@@ -166,7 +167,7 @@ define([
             );
           }
           else {
-            console.log('offline-notebook not found ' + primaryKey);
+            console.log('offline-notebook not found ' + key);
             modalDialog(
               'Notebook not found in browser storage',
               repopathDisplay,
@@ -206,7 +207,7 @@ define([
     }
 
     function showBinderLink() {
-      var binderUrl = offline.getBinderLink(Jupyter.notebook.notebook_path);
+      var binderUrl = offline.binderPersistentUrl() + '?filepath=' + Jupyter.notebook.notebook_path;
       var body = $('<div/>', {
         'style': 'display: flex;',
       }).append(
