@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# JavaScript
+node_modules
+tsconfig.tsbuildinfo
+yarn.lock

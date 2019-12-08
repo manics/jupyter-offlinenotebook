@@ -19,8 +19,11 @@ setup(
     ],
     data_files=[
         ('share/jupyter/nbextensions/jupyter-offlinenotebook',
+            glob('jupyter_offlinenotebook/static/*.js')),
+        ('share/jupyter/nbextensions/jupyter-offlinenotebook/jslib',
             glob('jupyter_offlinenotebook/static/*.js') +
-            glob('jupyter_offlinenotebook/static/*.js.map')),
+            glob('jupyter_offlinenotebook/static/jslib/*.js') +
+            glob('jupyter_offlinenotebook/static/jslib/*.js.map')),
         ('etc/jupyter/jupyter_notebook_config.d', [
             'jupyter_offlinenotebook/etc/offlinenotebook_serverextension.json'
             ]),
