@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "allowJs": false,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "alwaysStrict": true,
     "charset": "utf8",
     "checkJs": false,
-    "composite": true,
-    "declaration": true,
+    "composite": false,
+    "declaration": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
@@ -37,9 +37,13 @@
     "target": "es2019",
 
     "outDir": "./lib",
-    "rootDir": "./src",
+    "rootDir": "./jupyter_offlinenotebook/static",
     "skipLibCheck": true
   },
-  "include": ["src/*"],
+  "include": [
+    "jupyter_offlinenotebook/static/dexie.*",
+    "jupyter_offlinenotebook/static/offlinenotebook.*",
+    "jupyter_offlinenotebook/static/index.*",
+  ],
   "exclude": ["node_modules"]
 }

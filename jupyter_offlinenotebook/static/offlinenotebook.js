@@ -1,7 +1,7 @@
 define([
   './dexie'
 ],
-  function (dexie) {
+  function offline(dexie) {
 
     var repoid = null;
     var repoLabel = null;

@@ -4,6 +4,10 @@ import {
 } from '@phosphor/disposable';
 
 import {
+  PageConfig
+} from '@jupyterlab/coreutils';
+
+import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
@@ -21,6 +25,9 @@ import {
   INotebookModel
 } from '@jupyterlab/notebook';
 
+import * as offline from "./offlinenotebook";
+
+import $ from "jquery";
 
 /**
  * The plugin registration information.
@@ -48,16 +55,7 @@ export
 
       var name = panel.context.path.replace(/.*\//, '');
       var nb = panel.content.model.toJSON()
-      var blob = new Blob([JSON.stringify(nb)], { type: 'application/json' });
-      var url = window.URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      document.body.appendChild(a);
-      a.href = url;
-      a.style.display = 'none';
-      a.download = name;
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      offline.downloadNotebookFromBrowser(name, nb);
     };
     // https://jupyterlab.github.io/jupyterlab/apputils/classes/toolbarbutton.html
     // https://jupyterlab.github.io/jupyterlab/apputils/interfaces/toolbarbuttoncomponent.iprops.html
@@ -82,6 +80,11 @@ export
  */
 function activate(app: JupyterFrontEnd) {
   console.log('Activating jupyter-offlinenotebook JupyterLab extension');
+  const baseUrl = PageConfig.getBaseUrl();
+  $.getJSON(baseUrl + 'offlinenotebook/config', function (data) {
+    offline.initialise(data);
+    // addButtons();
+  });
   app.docRegistry.addWidgetExtension('Notebook', new OfflineNotebookButtons());
 };
 
