@@ -1,6 +1,8 @@
 JupyterLab Offline Notebook extension
 =====================================
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/lab?urlpath=%2Flab%2Ftree%2Fexample.ipynb)
+
 Currently this only supports the `Download` button.
 
 

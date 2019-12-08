@@ -4,3 +4,6 @@ set -eux
 env
 pwd
 pip install .
+cd jupyter-offlinenotebook
+jlpm
+jupyter labextension install
