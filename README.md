@@ -21,6 +21,29 @@ This should automatically enable the extension. If it is not listed in `jupyter 
     jupyter serverextension enable --py jupyter_offlinenotebook --sys-prefix
 
 
+Usage
+-----
+
+![Offline notebook buttons](./offline-notebook-buttons.png)
+
+You should see up to five new buttons depending on your configuration and where you are running the notebook:
+- download the in-memory (browser) state of the notebook
+- save the in-memory state of the notebook to local-storage
+- load a notebook from local-storage
+- open the permanent URL of the repository containing this notebook
+- copy the permanent mybinder URL to share this repository
+
+Saving and loading uses the repository ID and the path of the current notebook.
+
+You should always see the `Download` button.
+If you are running this on mybinder all buttons should be visible.
+See the configuration section below to enable the other buttons on other systems.
+
+If you don't see the buttons check the Javascript console log.
+
+See [example.ipynb](./example.ipynb)
+
+
 Configuration
 -------------
 
@@ -36,23 +59,8 @@ This extension can be configured in `jupyter_notebook_config.py` by setting the 
   A callable that returns the repository reference URL.
   Default is the values of the `BINDER_LAUNCH_HOST` and
   `BINDER_PERSISTENT_REQUEST` environment variables.
-
-
-
-Usage
------
-
-![Offline notebook buttons](./offline-notebook-buttons.png)
-
-There are three new icons to:
-- download the in-memory (browser) state of the notebook
-- save the in-memory state of the notebook to local-storage
-- load a notebook from local-storage
-
-Saving and loading uses the repository ID and the path of the current notebook.
-If you don't see the buttons check the Javascritp console log, it may mean no repository ID was found.
-
-See [example.ipynb](./example.ipynb)
+- `binder_repo_label`:
+  A callable that returns the label used to link to the repository.
 
 
 **WARNING**

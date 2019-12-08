@@ -5,16 +5,17 @@ define([
   'base/js/dialog',
   './dexie',
   'jquery'
-  ],
-  function(Jupyter, events, utils, dialog, dexie, $) {
+],
+  function (Jupyter, events, utils, dialog, dexie, $) {
     var repoid = null;
+    var repoLabel = null;
     var bindeRefUrl = null;
     var binderPersistentUrl = null
     var db = null;
     var dbname = 'jupyter-offlinenotebook';
 
-    var initialise = function() {
-      $.getJSON(utils.get_body_data('baseUrl') + 'offlinenotebook/config', function(data) {
+    var initialise = function () {
+      $.getJSON(utils.get_body_data('baseUrl') + 'offlinenotebook/config', function (data) {
         repoid = data['repoid'];
         if (repoid) {
           console.log('offline-notebook repoid: ' + repoid);
@@ -22,6 +23,8 @@ define([
         else {
           console.log('offline-notebook repoid not found, disabled');
         }
+        repoLabel = data['binder_repo_label'] || 'Repo'
+        console.log('offline-notebook repoLabel: ' + repoLabel);
         bindeRefUrl = data['binder_ref_url'];
         console.log('offline-notebook bindeRefUrl: ' + bindeRefUrl);
         binderPersistentUrl = data['binder_persistent_url']
@@ -30,63 +33,69 @@ define([
       });
     }
 
-    var getDb = function() {
+    var getDb = function () {
       if (!db) {
         db = new dexie(dbname);
         // Only define indexed fields. pk: primary key
-        db.version(1).stores({'offlinenotebook': 'pk,repoid,name,type'});
+        db.version(1).stores({ 'offlinenotebook': 'pk,repoid,name,type' });
         console.log('offline-notebook: Opened IndexedDB');
       }
       return db;
     }
 
-    var addButtons = function() {
-      var downloadAction = Jupyter.actions.register({
+    var addButtons = function () {
+      Jupyter.actions.register({
         'help': 'Download visible',
-        'icon' : 'fa-medkit',
+        'icon': 'fa-download',
         'handler': downloadNotebookFromBrowser
       }, 'offline-notebook-download', 'offlinenotebook');
-      var saveAction = Jupyter.actions.register({
+      Jupyter.actions.register({
         'help': 'Save to browser storage',
-        'icon' : 'fa-download',
+        'icon': 'fa-cloud-download',
         'handler': localstoreSaveNotebook
       }, 'offline-notebook-save', 'offlinenotebook');
-      var loadAction = Jupyter.actions.register({
-        'help': 'Load from browser storage',
-        'icon' : 'fa-upload',
+      Jupyter.actions.register({
+        'help': 'Restore from browser storage',
+        'icon': 'fa-cloud-upload',
         'handler': localstoreLoadNotebook
       }, 'offline-notebook-load', 'offlinenotebook');
 
-      var showRepoAction = Jupyter.actions.register({
+      var repoIcons = {
+        'GitHub': 'fa-github',
+        'GitLab': 'fa-gitlab',
+        'Git': 'fa-git'
+      }
+      Jupyter.actions.register({
         'help': 'Visit Binder repository',
-        'icon' : 'fa-external-link',
+        'icon': repoIcons[repoLabel] || 'fa-external-link',
         'handler': openBinderRepo
       }, 'offline-notebook-binderrepo', 'offlinenotebook');
-      var showBinderAction = Jupyter.actions.register({
+      Jupyter.actions.register({
         'help': 'Link to this Binder',
-        'icon' : 'fa-external-link',
+        'icon': 'fa-link',
         'handler': showBinderLink
       }, 'offline-notebook-binderlink', 'offlinenotebook');
 
-      var buttons = [
-        downloadAction
-      ];
+      var buttons = [{
+        'action': 'offlinenotebook:offline-notebook-download',
+        'label': 'Download'
+      }];
       if (repoid) {
-        buttons.push(saveAction);
-        buttons.push(loadAction);
+        buttons.push('offlinenotebook:offline-notebook-save');
+        buttons.push('offlinenotebook:offline-notebook-load');
       }
       Jupyter.toolbar.add_buttons_group(buttons);
 
       var binderButtons = []
       if (bindeRefUrl) {
         binderButtons.push({
-          'action': showRepoAction,
-          'label': 'Repo'
+          'action': 'offlinenotebook:offline-notebook-binderrepo',
+          'label': repoLabel
         });
       }
       if (binderPersistentUrl) {
         binderButtons.push({
-          'action': showBinderAction,
+          'action': 'offlinenotebook:offline-notebook-binderlink',
           'label': 'Binder'
         })
       }
@@ -101,7 +110,7 @@ define([
       }
       if (!buttons) {
         buttons = {
-          OK: {'class': 'btn-primary'}
+          OK: { 'class': 'btn-primary' }
         };
       }
       dialog.modal({
@@ -116,18 +125,18 @@ define([
         $('<span/>', {
           'text': 'repoid: '
         }).append(
-        $('<b/>', {
-          'text': repoid
-        })
-      ));
+          $('<b/>', {
+            'text': repoid
+          })
+        ));
       var displayPath = $('<div/>').append(
         $('<span/>', {
           'text': 'path: '
         }).append(
-        $('<b/>', {
-          'text': path
-        })
-      ));
+          $('<b/>', {
+            'text': path
+          })
+        ));
       return displayRepoid.append(displayPath);
     }
 
@@ -148,12 +157,12 @@ define([
         'format': 'json',
         'type': 'notebook',
         'content': nb
-      }).then(function(key) {
+      }).then(function (key) {
         console.log('offline-notebook saved: ', key);
         modalDialog(
           'Notebook saved to browser storage',
           repopathDisplay);
-      }).catch(function(e) {
+      }).catch(function (e) {
         var body = repopathDisplay.append(
           $('<div/>', {
             'text': e
@@ -162,14 +171,14 @@ define([
           'Local storage IndexedDB error',
           body,
           'alert alert-danger');
-        throw(e);
+        throw (e);
       });
     }
 
     function localstoreLoadNotebook() {
       var path = Jupyter.notebook.notebook_path;
       var primaryKey = 'repoid:' + repoid + ' path:' + path;
-      getDb().offlinenotebook.get(primaryKey).then(function(nb) {
+      getDb().offlinenotebook.get(primaryKey).then(function (nb) {
         var repopathDisplay = formatRepoPathforDialog(repoid, path);
         if (nb) {
           console.log('offline-notebook found ' + primaryKey);
@@ -196,19 +205,19 @@ define([
             repopathDisplay,
             'alert alert-danger');
         }
-      }).catch(function(e) {
+      }).catch(function (e) {
         var body = $('<div/>').append(
           $('<div/>', {
             'text': primaryKey
           })).append(
-          $('<div/>', {
-            'text': e
-          }));
+            $('<div/>', {
+              'text': e
+            }));
         modalDialog(
           'Local storage IndexedDB error',
           body,
           'alert alert-danger');
-        throw(e);
+        throw (e);
       });
     }
 
@@ -216,7 +225,7 @@ define([
     function downloadNotebookFromBrowser() {
       var name = Jupyter.notebook.notebook_name;
       var nb = getNotebookFromBrowser();
-      var blob = new Blob([JSON.stringify(nb)], {type: 'application/json'});
+      var blob = new Blob([JSON.stringify(nb)], { type: 'application/json' });
       var url = window.URL.createObjectURL(blob);
       var a = document.createElement('a');
       document.body.appendChild(a);
@@ -258,11 +267,11 @@ define([
           'style': 'flex-grow: 1; margin: 0;'
         }));
       var button = $('<button/>', {
-          'title': 'Copy binder link to clipboard',
-          'data-url': binderUrl
-        }).click(function() {
-          copy_link_into_clipboard(this);
-        })
+        'title': 'Copy binder link to clipboard',
+        'data-url': binderUrl
+      }).click(function () {
+        copy_link_into_clipboard(this);
+      })
       button.append(
         $('<i/>', {
           'class': 'fa fa-clipboard'
@@ -281,4 +290,4 @@ define([
     return {
       load_ipython_extension: load_ipython_extension
     };
-});
+  });
