@@ -207,7 +207,7 @@ define([
     }
 
     function showBinderLink() {
-      var binderUrl = offline.binderPersistentUrl() + '?filepath=' + Jupyter.notebook.notebook_path;
+      var binderUrl = offline.binderPersistentUrl() + '?filepath=' + encodeURIComponent(Jupyter.notebook.notebook_path);
       var body = $('<div/>', {
         'style': 'display: flex;',
       }).append(
