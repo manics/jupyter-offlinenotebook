@@ -63,6 +63,23 @@ This extension can be configured in `jupyter_notebook_config.py` by setting the 
   A callable that returns the label used to link to the repository.
 
 
+JupyterLab Extension
+=====================================
+
+The JupyterLab extension is still under development.
+To try it out:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?urlpath=lab%2Ftree%2Fexample.ipynb)
+
+
+
+Installation
+------------
+
+    pip install jupyter-offlinenotebook
+    jupyter labextension install jupyter-offlinenotebook
+
+
 **WARNING**
 -----------
 
@@ -78,9 +95,24 @@ There are [several major limitations](https://github.com/manics/jupyter-offlinen
 
 
 Development notes
------------------
+=================
 
 This extension stores notebooks in browser storage using the [IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), wrapped with [Dexie.js](https://dexie.org/).
 
 One server API call is made during initialisation to obtain the storage configuration.
 Everything else is done client-side so should work even if the server is disconnected.
+
+Jupyter Notebook:
+
+    pip install .
+
+Jupyter Lab:
+
+    jlpm
+    jupyter labextension link
+
+Tagged releases of this repository are automatically published on Pypi by Travis.
+To publish the JupyterLab extension:
+
+    jlpm login
+    jlpm publish --access public
