@@ -1,9 +1,16 @@
 from setuptools import setup
 from glob import glob
+import json
+
+
+def get_version():
+    with open('package.json') as f:
+        return json.load(f)['version']
+
 
 setup(
     name='jupyter-offlinenotebook',
-    version='0.0.9',
+    version=get_version(),
     author='Simon Li',
     author_email='spli@dundee.ac.uk',
     packages=[
