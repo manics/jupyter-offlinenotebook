@@ -70,6 +70,7 @@ The JupyterLab extension is still under development.
 To try it out:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?urlpath=lab%2Ftree%2Fexample.ipynb)
+[![npm](https://img.shields.io/npm/v/jupyter-offlinenotebook)](https://www.npmjs.com/package/jupyter-offlinenotebook)
 
 
 
