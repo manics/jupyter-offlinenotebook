@@ -64,12 +64,13 @@ This extension can be configured in `jupyter_notebook_config.py` by setting the 
 
 
 JupyterLab Extension
-=====================================
+====================
 
 The JupyterLab extension is still under development.
 To try it out:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?urlpath=lab%2Ftree%2Fexample.ipynb)
+[![npm](https://img.shields.io/npm/v/jupyter-offlinenotebook)](https://www.npmjs.com/package/jupyter-offlinenotebook)
 
 
 
@@ -80,8 +81,8 @@ Installation
     jupyter labextension install jupyter-offlinenotebook
 
 
-**WARNING**
------------
+Warning
+=======
 
 This extension is still in development.
 It is only tested on Firefox.
@@ -111,8 +112,4 @@ Jupyter Lab:
     jlpm
     jupyter labextension link
 
-Tagged releases of this repository are automatically published on Pypi by Travis.
-To publish the JupyterLab extension:
-
-    jlpm login
-    jlpm publish --access public
+Tagged releases of this repository are automatically published to Pypi and NPM by Travis.
