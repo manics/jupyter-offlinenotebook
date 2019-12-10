@@ -107,7 +107,8 @@ export
         className: 'openRepo',
         iconClassName: repoIcons[offline.repoLabel()] || 'fa-external-link',
         onClick: offline.openBinderRepo,
-        tooltip: 'Visit Binder repository: ' + offline.repoLabel()
+        tooltip: 'Visit Binder repository',
+        label: offline.repoLabel()
       })]);
     }
     if (offline.binderPersistentUrl()) {
