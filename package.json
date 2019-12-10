@@ -1,6 +1,6 @@
 {
   "name": "jupyter-offlinenotebook",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "JupyterLab offline-notebook extension.",
   "keywords": [
     "jupyter",
