@@ -4,6 +4,10 @@ import {
 } from '@phosphor/disposable';
 
 import {
+  Widget
+} from '@phosphor/widgets';
+
+import {
   PageConfig
 } from '@jupyterlab/coreutils';
 
@@ -103,7 +107,8 @@ export
         className: 'openRepo',
         iconClassName: repoIcons[offline.repoLabel()] || 'fa-external-link',
         onClick: offline.openBinderRepo,
-        tooltip: 'Visit Binder repository: ' + offline.repoLabel()
+        tooltip: 'Visit Binder repository',
+        label: offline.repoLabel()
       })]);
     }
     if (offline.binderPersistentUrl()) {
@@ -209,22 +214,56 @@ function downloadNotebookFromBrowser(panel: NotebookPanel) {
   offline.downloadNotebookFromBrowser(name, nb);
 }
 
+class CopyShareURLWidget extends Widget {
+  constructor(
+    binderUrl: string
+  ) {
+    super({ node: createCopyShareURLNode(binderUrl) });
+  }
+}
+
 // https://github.com/jupyterhub/binderhub/blob/b32ad4425be3319f7a2c59cf8253e979512b955d/examples/appendix/static/custom.js#L1-L7
-// function copy_link_into_clipboard(b) {
-//   var $temp = $("<input>");
-//   $(b).parent().append($temp);
-//   $temp.val($(b).data('url')).select();
-//   document.execCommand("copy");
-//   $temp.remove();
-// }
+function copy_link_into_clipboard(b: JQuery<HTMLElement>) {
+  var $temp = $("<input>");
+  $(b).parent().append($temp);
+  $temp.val($(b).data('url')).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+function createCopyShareURLNode(binderUrl: string): HTMLElement {
+  var body = $('<div/>', {
+    'style': 'flex-direction: row;',
+    'data-url': binderUrl
+  }).append(
+    $('<pre/>', {
+      'text': binderUrl,
+      'style': 'margin: 0; white-space: pre-wrap; word-break: break-all;'
+    }));
+  var button = $('<button/>', {
+    'title': 'Copy binder link to clipboard',
+    'data-url': binderUrl
+  }).click(function () {
+    copy_link_into_clipboard(button);
+  })
+  button.append(
+    $('<i/>', {
+      'class': 'fa fa-clipboard'
+    }));
+  body.append(button);
+  // Unwrap JQuery object
+  return body.get(0);
+}
 
 // TODO: Format link and copy it
 function showBinderLink(panel: NotebookPanel) {
   var path = panel.context.path;
   var binderUrl = offline.binderPersistentUrl() + '?urlpath=' + encodeURIComponent('lab/tree/' + path);
+  // Note adding a copy button here doesn't work, perhaps because the event goes
+  // through too many steps (firefox only allows "copy" on certain actions)
   return showDialog({
     title: 'Share Binder link',
-    body: binderUrl,
+    body: new CopyShareURLWidget(binderUrl),
     buttons: [Dialog.okButton()]
   });
 }

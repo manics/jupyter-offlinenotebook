@@ -43,7 +43,9 @@
   "include": [
     "jupyter_offlinenotebook/static/jslib/dexie.*",
     "jupyter_offlinenotebook/static/jslib/offlinenotebook.*",
-    "jupyter_offlinenotebook/static/jslib/index.*",
+    "jupyter_offlinenotebook/static/jslib/index.*"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
