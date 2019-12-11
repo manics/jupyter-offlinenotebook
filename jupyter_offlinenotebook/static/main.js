@@ -13,6 +13,7 @@ define([
       $.getJSON(utils.get_body_data('baseUrl') + 'offlinenotebook/config', function (data) {
         offline.initialise(data);
         addButtons();
+        extraActions();
       });
     }
 
@@ -74,6 +75,35 @@ define([
       }
       if (binderButtons) {
         Jupyter.toolbar.add_buttons_group(binderButtons);
+      }
+    }
+
+    function extraActions() {
+      // Extra "hidden" actions
+      if (offline.repoid()) {
+        Jupyter.actions.register({
+          'help': 'List all notebooks',
+          // 'icon': 'fa-cloud-download',
+          'handler': () => {
+            offline.listFiles(null,
+              s => {
+                console.log('SUCCESS listFiles: ', s)
+                d = $('<div/>');
+                s.forEach(f => {
+                  $('<div/>', {
+                    text: f.path + ' [' + f.type + ']'
+                  }).appendTo(d);
+                });
+                modalDialog('Files in ' + offline.repoid(), d);
+              },
+              e => modalDialog(
+                'Error listing files in ' + offline.repoid(),
+                S('<div/>', { text: e }),
+                'alert alert-danger'
+              )
+            );
+          }
+        }, 'offline-notebook-list', 'offlinenotebook');
       }
     }
 

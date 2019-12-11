@@ -1,7 +1,8 @@
 define([
-  './dexie'
+  './dexie',
+  'jquery'
 ],
-  function offline(dexie) {
+  function offline(dexie, $) {
 
     var repoid = null;
     var repoLabel = null;
@@ -62,6 +63,23 @@ define([
       );
     }
 
+    function listFiles(type, success, error) {
+      var files = [];
+      var query = { 'repoid': repoid };
+      if (type) {
+        query['type'] = type;
+      }
+      getDb().offlinenotebook.where(
+        query
+      ).toArray(
+        items => items.map(item => ({ 'path': item.path, 'type': item.type }))
+      ).then(
+        success
+      ).catch(
+        error
+      );
+    }
+
     // Download https://jsfiddle.net/koldev/cW7W5/
     function downloadNotebookFromBrowser(name, nb) {
       var blob = new Blob([JSON.stringify(nb)], { type: 'application/json' });
@@ -109,6 +127,7 @@ define([
       'loadNotebook': loadNotebook,
       'downloadNotebookFromBrowser': downloadNotebookFromBrowser,
       'openBinderRepo': openBinderRepo,
+      'listFiles': listFiles,
 
       'repoid': getRepoid,
       'repoLabel': getRepoLabel,
