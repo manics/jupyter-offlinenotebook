@@ -1,1 +1,3 @@
 include package.json
+include LICENSE
+include LICENSE.dexie
