@@ -17,7 +17,7 @@ setup(
         'jupyter_offlinenotebook',
     ],
     url='https://github.com/manics/jupyter-offlinenotebook',
-    license='MIT',
+    license='BSD-3-Clause',
     description='Save and load notebooks to local-storage',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
