@@ -4,7 +4,7 @@ python:
   - "3.6"
 
 install:
-  - pip install flake8 jupyterlab
+  - pip install flake8 jupyterlab~=1.2
 
 script:
   - flake8 .
