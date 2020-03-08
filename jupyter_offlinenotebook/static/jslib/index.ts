@@ -1,11 +1,11 @@
 import {
   IDisposable,
   DisposableDelegate
-} from '@phosphor/disposable';
+} from '@lumino/disposable';
 
 import {
   Widget
-} from '@phosphor/widgets';
+} from '@lumino/widgets';
 
 import {
   PageConfig
@@ -35,7 +35,7 @@ import {
 import * as offline from "./offlinenotebook";
 
 import $ from "jquery";
-import { JSONValue } from '@phosphor/coreutils';
+import { PartialJSONValue } from '@lumino/coreutils';
 
 /**
  * The plugin registration information.
@@ -66,7 +66,7 @@ export
     let buttons: Array<[string, ToolbarButton]> = [];
     buttons.push(['downloadVisible', new ToolbarButton({
       className: 'downloadVisible',
-      iconClassName: 'fa fa-download',
+      iconClass: 'fa fa-download',
       onClick: () => {
         downloadNotebookFromBrowser(panel);
       },
@@ -77,7 +77,7 @@ export
     if (offline.repoid()) {
       buttons.push(['saveToBrowser', new ToolbarButton({
         className: 'saveToBrowser',
-        iconClassName: 'fa fa-cloud-download',
+        iconClass: 'fa fa-cloud-download',
         onClick: () => {
           localstoreSaveNotebook(panel);
         },
@@ -85,7 +85,7 @@ export
       })]);
       buttons.push(['loadFromBrowser', new ToolbarButton({
         className: 'loadFromBrowser',
-        iconClassName: 'fa fa-cloud-upload',
+        iconClass: 'fa fa-cloud-upload',
         onClick: () => {
           localstoreLoadNotebook(panel);
         },
@@ -105,7 +105,7 @@ export
 
       buttons.push(['openRepo', new ToolbarButton({
         className: 'openRepo',
-        iconClassName: repoIcons[offline.repoLabel()] || 'fa-external-link',
+        iconClass: repoIcons[offline.repoLabel()] || 'fa-external-link',
         onClick: offline.openBinderRepo,
         tooltip: 'Visit Binder repository',
         label: offline.repoLabel()
@@ -114,7 +114,7 @@ export
     if (offline.binderPersistentUrl()) {
       buttons.push(['linkToBinder', new ToolbarButton({
         className: 'linkToBinder',
-        iconClassName: 'fa fa-link',
+        iconClass: 'fa fa-link',
         onClick: () => {
           showBinderLink(panel);
         },
@@ -145,7 +145,12 @@ function formatRepoPathforDialog(path: string): string {
 
 function localstoreSaveNotebook(panel: NotebookPanel) {
   var path = panel.context.path;
-  var nb = panel.content.model.toJSON()
+  var nb = panel.content.model?.toJSON();
+  if (!nb) {
+    var e = 'Content model is null';
+    showErrorMessage('Local storage error', e);
+    throw (e);
+  }
   var repopathDisplay = formatRepoPathforDialog(path);
   offline.saveNotebook(path, nb,
     function (key: string) {
@@ -176,7 +181,7 @@ function localstoreLoadNotebook(panel: NotebookPanel) {
   var repopathDisplay = formatRepoPathforDialog(path);
   var key = 'repoid:' + offline.repoid() + ' path:' + path;
   offline.loadNotebook(path,
-    (nb: JSONValue) => {
+    (nb: PartialJSONValue) => {
       if (nb) {
         console.log('offline-notebook found ' + key);
         return showDialog({
@@ -210,7 +215,12 @@ function localstoreLoadNotebook(panel: NotebookPanel) {
 
 function downloadNotebookFromBrowser(panel: NotebookPanel) {
   var name = panel.context.path.replace(/.*\//, '');
-  var nb = panel.content.model.toJSON()
+  var nb = panel.content.model?.toJSON();
+  if (!nb) {
+    var e = 'Content model is null';
+    showErrorMessage('Local storage error', e);
+    throw (e);
+  }
   offline.downloadNotebookFromBrowser(name, nb);
 }
 
