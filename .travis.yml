@@ -1,5 +1,5 @@
 language: python
-
+dist: bionic
 python:
   - "3.6"
 
@@ -7,11 +7,12 @@ install:
   - pip install flake8 jupyterlab~=1.2
 
 script:
+  - pwd
   - flake8 .
   - python setup.py sdist
   - python -mpip install dist/*.tar.gz
   - jlpm
-  - jupyter labextension install
+  - jupyter labextension install --debug
 
 deploy:
   - provider: pypi
