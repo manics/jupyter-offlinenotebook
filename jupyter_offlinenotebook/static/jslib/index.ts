@@ -66,7 +66,7 @@ export
     let buttons: Array<[string, ToolbarButton]> = [];
     buttons.push(['downloadVisible', new ToolbarButton({
       className: 'downloadVisible',
-      iconClass: 'fa fa-download',
+      iconClass: 'fas fa-download',
       onClick: () => {
         downloadNotebookFromBrowser(panel);
       },
@@ -77,7 +77,7 @@ export
     if (offline.repoid()) {
       buttons.push(['saveToBrowser', new ToolbarButton({
         className: 'saveToBrowser',
-        iconClass: 'fa fa-cloud-download',
+        iconClass: 'fas fa-cloud-download-alt',
         onClick: () => {
           localstoreSaveNotebook(panel);
         },
@@ -85,7 +85,7 @@ export
       })]);
       buttons.push(['loadFromBrowser', new ToolbarButton({
         className: 'loadFromBrowser',
-        iconClass: 'fa fa-cloud-upload',
+        iconClass: 'fas fa-cloud-upload-alt',
         onClick: () => {
           localstoreLoadNotebook(panel);
         },
@@ -98,14 +98,14 @@ export
     }
     if (offline.binderRefUrl()) {
       let repoIcons: StringStringMap = {
-        'GitHub': 'fa fa-github',
-        'GitLab': 'fa fa-gitlab',
-        'Git': 'fa fa-git'
+        'GitHub': 'fab fa-github',
+        'GitLab': 'fab fa-gitlab',
+        'Git': 'fab fa-git'
       }
 
       buttons.push(['openRepo', new ToolbarButton({
         className: 'openRepo',
-        iconClass: repoIcons[offline.repoLabel()] || 'fa-external-link',
+        iconClass: repoIcons[offline.repoLabel()] || 'fas fa-external-link-alt',
         onClick: offline.openBinderRepo,
         tooltip: 'Visit Binder repository',
         label: offline.repoLabel()
@@ -114,7 +114,7 @@ export
     if (offline.binderPersistentUrl()) {
       buttons.push(['linkToBinder', new ToolbarButton({
         className: 'linkToBinder',
-        iconClass: 'fa fa-link',
+        iconClass: 'fas fa-link',
         onClick: () => {
           showBinderLink(panel);
         },
@@ -258,7 +258,7 @@ function createCopyShareURLNode(binderUrl: string): HTMLElement {
   })
   button.append(
     $('<i/>', {
-      'class': 'fa fa-clipboard'
+      'class': 'fas fa-clipboard'
     }));
   body.append(button);
   // Unwrap JQuery object
