@@ -37,6 +37,12 @@ import * as offline from "./offlinenotebook";
 import $ from "jquery";
 import { PartialJSONValue } from '@lumino/coreutils';
 
+
+/**
+ * The CSS class for a Toolbar icon.
+ */
+const CSS_ICON_CLASS = 'jp-OfflineNotebookToolbarIcon';
+
 /**
  * The plugin registration information.
  */
@@ -66,7 +72,7 @@ export
     let buttons: Array<[string, ToolbarButton]> = [];
     buttons.push(['downloadVisible', new ToolbarButton({
       className: 'downloadVisible',
-      iconClass: 'fas fa-download',
+      iconClass: 'fas fa-download ' + CSS_ICON_CLASS,
       onClick: () => {
         downloadNotebookFromBrowser(panel);
       },
@@ -77,7 +83,7 @@ export
     if (offline.repoid()) {
       buttons.push(['saveToBrowser', new ToolbarButton({
         className: 'saveToBrowser',
-        iconClass: 'fas fa-cloud-download-alt',
+        iconClass: 'fas fa-cloud-download-alt ' + CSS_ICON_CLASS,
         onClick: () => {
           localstoreSaveNotebook(panel);
         },
@@ -85,7 +91,7 @@ export
       })]);
       buttons.push(['loadFromBrowser', new ToolbarButton({
         className: 'loadFromBrowser',
-        iconClass: 'fas fa-cloud-upload-alt',
+        iconClass: 'fas fa-cloud-upload-alt ' + CSS_ICON_CLASS,
         onClick: () => {
           localstoreLoadNotebook(panel);
         },
@@ -105,7 +111,7 @@ export
 
       buttons.push(['openRepo', new ToolbarButton({
         className: 'openRepo',
-        iconClass: repoIcons[offline.repoLabel()] || 'fas fa-external-link-alt',
+        iconClass: (repoIcons[offline.repoLabel()] || 'fas fa-external-link-alt') + ' ' + CSS_ICON_CLASS,
         onClick: offline.openBinderRepo,
         tooltip: 'Visit Binder repository',
         label: offline.repoLabel()
@@ -114,7 +120,7 @@ export
     if (offline.binderPersistentUrl()) {
       buttons.push(['linkToBinder', new ToolbarButton({
         className: 'linkToBinder',
-        iconClass: 'fas fa-link',
+        iconClass: 'fas fa-link ' + CSS_ICON_CLASS,
         onClick: () => {
           showBinderLink(panel);
         },
