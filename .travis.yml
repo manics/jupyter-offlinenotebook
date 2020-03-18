@@ -3,8 +3,16 @@ dist: bionic
 python:
   - "3.6"
 
+addons:
+  firefox: latest
+
+before_install:
+  - mkdir $HOME/geckodriver
+  - curl -sSfL https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz | tar -C $HOME/geckodriver -zx
+  - export PATH=$PATH:$HOME/geckodriver
+
 install:
-  - pip install flake8 "jupyterlab>=2,<3"
+  - pip install -r dev-requirements.txt
 
 script:
   - pwd
@@ -13,6 +21,7 @@ script:
   - python -mpip install dist/*.tar.gz
   - jlpm
   - jupyter labextension install --debug
+  - pytest -vs tests
 
 deploy:
   - provider: pypi
