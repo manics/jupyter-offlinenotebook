@@ -1,11 +1,11 @@
 import {
   IDisposable,
   DisposableDelegate
-} from '@phosphor/disposable';
+} from '@lumino/disposable';
 
 import {
   Widget
-} from '@phosphor/widgets';
+} from '@lumino/widgets';
 
 import {
   PageConfig
@@ -35,7 +35,13 @@ import {
 import * as offline from "./offlinenotebook";
 
 import $ from "jquery";
-import { JSONValue } from '@phosphor/coreutils';
+import { PartialJSONValue } from '@lumino/coreutils';
+
+
+/**
+ * The CSS class for a Toolbar icon.
+ */
+const CSS_ICON_CLASS = 'jp-OfflineNotebookToolbarIcon';
 
 /**
  * The plugin registration information.
@@ -66,7 +72,7 @@ export
     let buttons: Array<[string, ToolbarButton]> = [];
     buttons.push(['downloadVisible', new ToolbarButton({
       className: 'downloadVisible',
-      iconClassName: 'fa fa-download',
+      iconClass: 'fas fa-download ' + CSS_ICON_CLASS,
       onClick: () => {
         downloadNotebookFromBrowser(panel);
       },
@@ -77,7 +83,7 @@ export
     if (offline.repoid()) {
       buttons.push(['saveToBrowser', new ToolbarButton({
         className: 'saveToBrowser',
-        iconClassName: 'fa fa-cloud-download',
+        iconClass: 'fas fa-cloud-download-alt ' + CSS_ICON_CLASS,
         onClick: () => {
           localstoreSaveNotebook(panel);
         },
@@ -85,7 +91,7 @@ export
       })]);
       buttons.push(['loadFromBrowser', new ToolbarButton({
         className: 'loadFromBrowser',
-        iconClassName: 'fa fa-cloud-upload',
+        iconClass: 'fas fa-cloud-upload-alt ' + CSS_ICON_CLASS,
         onClick: () => {
           localstoreLoadNotebook(panel);
         },
@@ -98,14 +104,14 @@ export
     }
     if (offline.binderRefUrl()) {
       let repoIcons: StringStringMap = {
-        'GitHub': 'fa fa-github',
-        'GitLab': 'fa fa-gitlab',
-        'Git': 'fa fa-git'
+        'GitHub': 'fab fa-github',
+        'GitLab': 'fab fa-gitlab',
+        'Git': 'fab fa-git'
       }
 
       buttons.push(['openRepo', new ToolbarButton({
         className: 'openRepo',
-        iconClassName: repoIcons[offline.repoLabel()] || 'fa-external-link',
+        iconClass: (repoIcons[offline.repoLabel()] || 'fas fa-external-link-alt') + ' ' + CSS_ICON_CLASS,
         onClick: offline.openBinderRepo,
         tooltip: 'Visit Binder repository',
         label: offline.repoLabel()
@@ -114,7 +120,7 @@ export
     if (offline.binderPersistentUrl()) {
       buttons.push(['linkToBinder', new ToolbarButton({
         className: 'linkToBinder',
-        iconClassName: 'fa fa-link',
+        iconClass: 'fas fa-link ' + CSS_ICON_CLASS,
         onClick: () => {
           showBinderLink(panel);
         },
@@ -145,7 +151,12 @@ function formatRepoPathforDialog(path: string): string {
 
 function localstoreSaveNotebook(panel: NotebookPanel) {
   var path = panel.context.path;
-  var nb = panel.content.model.toJSON()
+  var nb = panel.content.model?.toJSON();
+  if (!nb) {
+    var e = 'Content model is null';
+    showErrorMessage('Local storage error', e);
+    throw (e);
+  }
   var repopathDisplay = formatRepoPathforDialog(path);
   offline.saveNotebook(path, nb,
     function (key: string) {
@@ -176,7 +187,7 @@ function localstoreLoadNotebook(panel: NotebookPanel) {
   var repopathDisplay = formatRepoPathforDialog(path);
   var key = 'repoid:' + offline.repoid() + ' path:' + path;
   offline.loadNotebook(path,
-    (nb: JSONValue) => {
+    (nb: PartialJSONValue) => {
       if (nb) {
         console.log('offline-notebook found ' + key);
         return showDialog({
@@ -210,7 +221,12 @@ function localstoreLoadNotebook(panel: NotebookPanel) {
 
 function downloadNotebookFromBrowser(panel: NotebookPanel) {
   var name = panel.context.path.replace(/.*\//, '');
-  var nb = panel.content.model.toJSON()
+  var nb = panel.content.model?.toJSON();
+  if (!nb) {
+    var e = 'Content model is null';
+    showErrorMessage('Local storage error', e);
+    throw (e);
+  }
   offline.downloadNotebookFromBrowser(name, nb);
 }
 
@@ -248,7 +264,7 @@ function createCopyShareURLNode(binderUrl: string): HTMLElement {
   })
   button.append(
     $('<i/>', {
-      'class': 'fa fa-clipboard'
+      'class': 'fas fa-clipboard'
     }));
   body.append(button);
   // Unwrap JQuery object

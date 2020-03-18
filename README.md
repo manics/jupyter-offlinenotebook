@@ -113,3 +113,8 @@ Jupyter Lab:
     jupyter labextension link
 
 Tagged releases of this repository are automatically published to Pypi and NPM by Travis.
+
+To test that the binder and repo buttons work when developing locally set some placeholder environment variables, e.g.:
+```
+BINDER_LAUNCH_HOST=http://localhost BINDER_REPO_URL=http://localhost BINDER_PERSISTENT_REQUEST=v2/gh/repo BINDER_REF_URL=http://localhost jupyter-lab --debug
+```

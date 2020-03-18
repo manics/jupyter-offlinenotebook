@@ -1,9 +1,9 @@
-import { JSONValue } from "@phosphor/coreutils";
+import { PartialJSONValue } from "@lumino/coreutils";
 
 export function initialise(data: JSON): null;
-export function saveNotebook(path: string, nb: JSONValue, success: CallableFunction, error: CallableFunction)
+export function saveNotebook(path: string, nb: PartialJSONValue, success: CallableFunction, error: CallableFunction)
 export function loadNotebook(path: string, success: CallableFunction, error: CallableFunction)
-export function downloadNotebookFromBrowser(name: string, nb: JSONValue): null;
+export function downloadNotebookFromBrowser(name: string, nb: PartialJSONValue): null;
 export function openBinderRepo(): null;
 
 export function repoid(): string;
