@@ -1,4 +1,4 @@
 flake8==3.7.9
-jupyterlab==2.0.1
+jupyterlab==2.1.0
 pytest==5.4.1
 selenium==3.141.0
