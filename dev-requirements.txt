@@ -1,4 +1,4 @@
-flake8==3.7.9
+flake8==3.8.1
 jupyterlab==2.1.2
 pytest==5.4.2
 selenium==3.141.0
