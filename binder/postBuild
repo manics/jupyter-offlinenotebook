@@ -8,9 +8,6 @@ pwd
 # Uninstall to avoid conflicts
 jupyter labextension uninstall --no-build jupyter-offlinenotebook
 
-# Upgrade jupyterlab if necessary
-conda install jupyterlab=2
-
 # repo2docker copies this repo into $HOME which means jupyter labextension
 # picks up hidden dot files and runs into problems so install from a
 # different directory
