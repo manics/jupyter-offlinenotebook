@@ -8,7 +8,7 @@ addons:
 
 before_install:
   - mkdir $HOME/geckodriver
-  - curl -sSfL https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz | tar -C $HOME/geckodriver -zx
+  - curl -sSfL https://github.com/mozilla/geckodriver/releases/download/v0.27.0/geckodriver-v0.27.0-linux64.tar.gz | tar -C $HOME/geckodriver -zx
   - export PATH=$PATH:$HOME/geckodriver
 
 install:
