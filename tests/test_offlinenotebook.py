@@ -103,7 +103,7 @@ class TestOfflineNotebook(FirefoxTestBase):
 
     def download_visible(self):
         self.wait.until(EC.element_to_be_clickable(
-            (By.XPATH, "//button[@title='Download']"))).click()
+            (By.XPATH, "//button[@title='Download visible']"))).click()
         size = os.stat(self.expected_download).st_size
         with open(self.expected_download) as f:
             nb = json.load(f)
