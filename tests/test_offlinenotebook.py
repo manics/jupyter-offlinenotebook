@@ -94,6 +94,8 @@ class FirefoxTestBase:
         downloaddir = (tmpdir / 'download').mkdir()
 
         copyfile('example.ipynb', str(jupyterdir / 'example.ipynb'))
+        copyfile('offline-notebook-buttons.png',
+                 str(jupyterdir / 'offline-notebook-buttons.png'))
         self.expected_download = str(downloaddir / 'example.ipynb')
 
         self.start_jupyter(str(jupyterdir), app)
