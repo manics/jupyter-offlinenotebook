@@ -22,6 +22,7 @@ EXPECTED_SIZE = 1700
 EXPECTED_EMPTY_SIZE = 450
 EXPECTED_NUM_CELLS = 5
 HEADLESS = True
+TIMEOUT = 10
 
 
 # Size of downloaded notebook varies depending on jupyter versions as
@@ -83,7 +84,7 @@ class FirefoxTestBase:
 
         self.driver = webdriver.Firefox(
             firefox_profile=profile, options=options)
-        self.wait = WebDriverWait(self.driver, 10)
+        self.wait = WebDriverWait(self.driver, TIMEOUT)
 
         self.driver.get(url)
         print('Firefox Initialized')
@@ -93,6 +94,8 @@ class FirefoxTestBase:
         downloaddir = (tmpdir / 'download').mkdir()
 
         copyfile('example.ipynb', str(jupyterdir / 'example.ipynb'))
+        copyfile('offline-notebook-buttons.png',
+                 str(jupyterdir / 'offline-notebook-buttons.png'))
         self.expected_download = str(downloaddir / 'example.ipynb')
 
         self.start_jupyter(str(jupyterdir), app)
@@ -181,6 +184,8 @@ class TestOfflineNotebook(FirefoxTestBase):
 class TestOfflineLab(FirefoxTestBase):
 
     def download_visible(self):
+        self.wait.until(EC.invisibility_of_element(
+            (By.XPATH, "//div[@class='modal-backdrop']")))
         self.wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//button[@title='Download visible']"))).click()
         size = os.stat(self.expected_download).st_size
