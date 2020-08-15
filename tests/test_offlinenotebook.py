@@ -182,6 +182,8 @@ class TestOfflineNotebook(FirefoxTestBase):
 class TestOfflineLab(FirefoxTestBase):
 
     def download_visible(self):
+        self.wait.until(EC.invisibility_of_element(
+            (By.XPATH, "//div[@class='modal-backdrop']")))
         self.wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//button[@title='Download visible']"))).click()
         size = os.stat(self.expected_download).st_size
