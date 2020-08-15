@@ -22,6 +22,7 @@ EXPECTED_SIZE = 1700
 EXPECTED_EMPTY_SIZE = 450
 EXPECTED_NUM_CELLS = 5
 HEADLESS = True
+TIMEOUT = 10
 
 
 # Size of downloaded notebook varies depending on jupyter versions as
@@ -83,7 +84,7 @@ class FirefoxTestBase:
 
         self.driver = webdriver.Firefox(
             firefox_profile=profile, options=options)
-        self.wait = WebDriverWait(self.driver, 10)
+        self.wait = WebDriverWait(self.driver, TIMEOUT)
 
         self.driver.get(url)
         print('Firefox Initialized')
