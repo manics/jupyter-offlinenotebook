@@ -1,15 +1,8 @@
-import {
-  IDisposable,
-  DisposableDelegate
-} from '@lumino/disposable';
+import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 
-import {
-  Widget
-} from '@lumino/widgets';
+import { Widget } from '@lumino/widgets';
 
-import {
-  PageConfig
-} from '@jupyterlab/coreutils';
+import { PageConfig } from '@jupyterlab/coreutils';
 
 import {
   JupyterFrontEnd,
@@ -23,20 +16,14 @@ import {
   ToolbarButton
 } from '@jupyterlab/apputils';
 
-import {
-  DocumentRegistry
-} from '@jupyterlab/docregistry';
+import { DocumentRegistry } from '@jupyterlab/docregistry';
 
-import {
-  NotebookPanel,
-  INotebookModel
-} from '@jupyterlab/notebook';
+import { NotebookPanel, INotebookModel } from '@jupyterlab/notebook';
 
-import * as offline from "./offlinenotebook";
+import * as offline from './jslib/offlinenotebook';
 
-import $ from "jquery";
+import $ from 'jquery';
 import { PartialJSONValue } from '@lumino/coreutils';
-
 
 /**
  * The CSS class for a Toolbar icon.
@@ -52,16 +39,18 @@ const extension: JupyterFrontEndPlugin<void> = {
   autoStart: true
 };
 
-
 /**
  * A notebook widget extension that adds a button to the toolbar.
  */
-export
-  class OfflineNotebookButtons implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
+export class OfflineNotebookButtons
+  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
   /**
    * Create a new extension object.
    */
-  createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
+  createNew(
+    panel: NotebookPanel,
+    context: DocumentRegistry.IContext<INotebookModel>
+  ): IDisposable {
     // https://stackoverflow.com/a/40679225
     // For debugging in browser console assign panel to a global var
     // eval("window.jlpanel = panel;");
@@ -69,74 +58,92 @@ export
     // https://jupyterlab.github.io/jupyterlab/apputils/classes/toolbarbutton.html
     // https://jupyterlab.github.io/jupyterlab/apputils/interfaces/toolbarbuttoncomponent.iprops.html
 
-    let buttons: Array<[string, ToolbarButton]> = [];
-    buttons.push(['downloadVisible', new ToolbarButton({
-      className: 'downloadVisible',
-      iconClass: 'fas fa-download ' + CSS_ICON_CLASS,
-      onClick: () => {
-        downloadNotebookFromBrowser(panel);
-      },
-      tooltip: 'Download visible',
-      label: 'Download'
-    })]);
+    const buttons: Array<[string, ToolbarButton]> = [];
+    buttons.push([
+      'downloadVisible',
+      new ToolbarButton({
+        className: 'downloadVisible',
+        iconClass: 'fas fa-download ' + CSS_ICON_CLASS,
+        onClick: (): void => {
+          downloadNotebookFromBrowser(panel);
+        },
+        tooltip: 'Download visible',
+        label: 'Download'
+      })
+    ]);
 
     if (offline.repoid()) {
-      buttons.push(['saveToBrowser', new ToolbarButton({
-        className: 'saveToBrowser',
-        iconClass: 'fas fa-cloud-download-alt ' + CSS_ICON_CLASS,
-        onClick: () => {
-          localstoreSaveNotebook(panel);
-        },
-        tooltip: 'Save to browser storage'
-      })]);
-      buttons.push(['loadFromBrowser', new ToolbarButton({
-        className: 'loadFromBrowser',
-        iconClass: 'fas fa-cloud-upload-alt ' + CSS_ICON_CLASS,
-        onClick: () => {
-          localstoreLoadNotebook(panel);
-        },
-        tooltip: 'Restore from browser storage'
-      })]);
+      buttons.push([
+        'saveToBrowser',
+        new ToolbarButton({
+          className: 'saveToBrowser',
+          iconClass: 'fas fa-cloud-download-alt ' + CSS_ICON_CLASS,
+          onClick: (): void => {
+            localstoreSaveNotebook(panel);
+          },
+          tooltip: 'Save to browser storage'
+        })
+      ]);
+      buttons.push([
+        'loadFromBrowser',
+        new ToolbarButton({
+          className: 'loadFromBrowser',
+          iconClass: 'fas fa-cloud-upload-alt ' + CSS_ICON_CLASS,
+          onClick: (): void => {
+            localstoreLoadNotebook(panel);
+          },
+          tooltip: 'Restore from browser storage'
+        })
+      ]);
     }
 
-    interface StringStringMap {
+    interface IStringStringMap {
       [index: string]: string;
     }
     if (offline.binderRefUrl()) {
-      let repoIcons: StringStringMap = {
-        'GitHub': 'fab fa-github',
-        'GitLab': 'fab fa-gitlab',
-        'Git': 'fab fa-git'
-      }
+      const repoIcons: IStringStringMap = {
+        GitHub: 'fab fa-github',
+        GitLab: 'fab fa-gitlab',
+        Git: 'fab fa-git'
+      };
 
-      buttons.push(['openRepo', new ToolbarButton({
-        className: 'openRepo',
-        iconClass: (repoIcons[offline.repoLabel()] || 'fas fa-external-link-alt') + ' ' + CSS_ICON_CLASS,
-        onClick: offline.openBinderRepo,
-        tooltip: 'Visit Binder repository',
-        label: offline.repoLabel()
-      })]);
+      buttons.push([
+        'openRepo',
+        new ToolbarButton({
+          className: 'openRepo',
+          iconClass:
+            (repoIcons[offline.repoLabel()] || 'fas fa-external-link-alt') +
+            ' ' +
+            CSS_ICON_CLASS,
+          onClick: offline.openBinderRepo,
+          tooltip: 'Visit Binder repository',
+          label: offline.repoLabel()
+        })
+      ]);
     }
     if (offline.binderPersistentUrl()) {
-      buttons.push(['linkToBinder', new ToolbarButton({
-        className: 'linkToBinder',
-        iconClass: 'fas fa-link ' + CSS_ICON_CLASS,
-        onClick: () => {
-          showBinderLink(panel);
-        },
-        tooltip: 'Link to this Binder',
-        label: 'Binder'
-      })]);
+      buttons.push([
+        'linkToBinder',
+        new ToolbarButton({
+          className: 'linkToBinder',
+          iconClass: 'fas fa-link ' + CSS_ICON_CLASS,
+          onClick: (): void => {
+            showBinderLink(panel);
+          },
+          tooltip: 'Link to this Binder',
+          label: 'Binder'
+        })
+      ]);
     }
 
     buttons.reverse();
     buttons.forEach(item => {
       panel.toolbar.insertItem(9, item[0], item[1]);
-    })
+    });
     return new DisposableDelegate(() => {
       buttons.forEach(item => {
         item[1].dispose();
-      })
+      });
     });
   }
 }
@@ -149,17 +156,19 @@ function formatRepoPathforDialog(path: string): string {
 //   return Jupyter.notebook.toJSON();
 // }
 
-function localstoreSaveNotebook(panel: NotebookPanel) {
-  var path = panel.context.path;
-  var nb = panel.content.model?.toJSON();
+function localstoreSaveNotebook(panel: NotebookPanel): void {
+  const path = panel.context.path;
+  const nb = panel.content.model?.toJSON();
   if (!nb) {
-    var e = 'Content model is null';
+    const e = 'Content model is null';
     showErrorMessage('Local storage error', e);
-    throw (e);
+    throw e;
   }
-  var repopathDisplay = formatRepoPathforDialog(path);
-  offline.saveNotebook(path, nb,
-    function (key: string) {
+  const repopathDisplay = formatRepoPathforDialog(path);
+  offline.saveNotebook(
+    path,
+    nb,
+    (key: string) => {
       console.log('offline-notebook saved: ', key);
       return showDialog({
         title: 'Notebook saved to browser storage',
@@ -169,7 +178,7 @@ function localstoreSaveNotebook(panel: NotebookPanel) {
     },
     (e: any) => {
       showErrorMessage('Local storage IndexedDB error', e);
-      throw (e);
+      throw e;
     }
   );
 }
@@ -182,11 +191,12 @@ function hasKey<O>(obj: O, key: keyof any): key is keyof O {
   return key in obj;
 }
 
-function localstoreLoadNotebook(panel: NotebookPanel) {
-  var path = panel.context.path;
-  var repopathDisplay = formatRepoPathforDialog(path);
-  var key = 'repoid:' + offline.repoid() + ' path:' + path;
-  offline.loadNotebook(path,
+function localstoreLoadNotebook(panel: NotebookPanel): void {
+  const path = panel.context.path;
+  const repopathDisplay = formatRepoPathforDialog(path);
+  const key = 'repoid:' + offline.repoid() + ' path:' + path;
+  offline.loadNotebook(
+    path,
     (nb: PartialJSONValue) => {
       if (nb) {
         console.log('offline-notebook found ' + key);
@@ -199,82 +209,84 @@ function localstoreLoadNotebook(panel: NotebookPanel) {
           if (result.button.accept && !panel.context.isDisposed) {
             if (hasKey(nb, contentsKey)) {
               panel.context.model.fromJSON(nb[contentsKey]);
-            }
-            else {
+            } else {
               showErrorMessage('Invalid notebook', '"content" not found');
             }
           }
-        })
-      }
-      else {
+        });
+      } else {
         console.log('offline-notebook not found ' + key);
-        showErrorMessage(
-          'Notebook not found in browser storage', key);
+        showErrorMessage('Notebook not found in browser storage', key);
       }
     },
     (e: any) => {
       showErrorMessage('Local storage IndexedDB error', e);
-      throw (e);
+      throw e;
     }
   );
 }
 
-function downloadNotebookFromBrowser(panel: NotebookPanel) {
-  var name = panel.context.path.replace(/.*\//, '');
-  var nb = panel.content.model?.toJSON();
+function downloadNotebookFromBrowser(panel: NotebookPanel): void {
+  const name = panel.context.path.replace(/.*\//, '');
+  const nb = panel.content.model?.toJSON();
   if (!nb) {
-    var e = 'Content model is null';
+    const e = 'Content model is null';
     showErrorMessage('Local storage error', e);
-    throw (e);
+    throw e;
   }
   offline.downloadNotebookFromBrowser(name, nb);
 }
 
 class CopyShareURLWidget extends Widget {
-  constructor(
-    binderUrl: string
-  ) {
+  constructor(binderUrl: string) {
     super({ node: createCopyShareURLNode(binderUrl) });
   }
 }
 
 // https://github.com/jupyterhub/binderhub/blob/b32ad4425be3319f7a2c59cf8253e979512b955d/examples/appendix/static/custom.js#L1-L7
-function copy_link_into_clipboard(b: JQuery<HTMLElement>) {
-  var $temp = $("<input>");
-  $(b).parent().append($temp);
+function copyLinkIntoClipboard(b: JQuery<HTMLElement>): void {
+  const $temp = $('<input>');
+  $(b)
+    .parent()
+    .append($temp);
   $temp.val($(b).data('url')).select();
-  document.execCommand("copy");
+  document.execCommand('copy');
   $temp.remove();
 }
 
 function createCopyShareURLNode(binderUrl: string): HTMLElement {
-  var body = $('<div/>', {
-    'style': 'flex-direction: row;',
+  const body = $('<div/>', {
+    style: 'flex-direction: row;',
     'data-url': binderUrl
   }).append(
     $('<pre/>', {
-      'text': binderUrl,
-      'style': 'margin: 0; white-space: pre-wrap; word-break: break-all;'
-    }));
-  var button = $('<button/>', {
-    'title': 'Copy binder link to clipboard',
+      text: binderUrl,
+      style: 'margin: 0; white-space: pre-wrap; word-break: break-all;'
+    })
+  );
+  const button = $('<button/>', {
+    title: 'Copy binder link to clipboard',
     'data-url': binderUrl
-  }).click(function () {
-    copy_link_into_clipboard(button);
-  })
+  }).click(() => {
+    copyLinkIntoClipboard(button);
+  });
   button.append(
     $('<i/>', {
-      'class': 'fas fa-clipboard'
-    }));
+      class: 'fas fa-clipboard'
+    })
+  );
   body.append(button);
   // Unwrap JQuery object
   return body.get(0);
 }
 
 // TODO: Format link and copy it
-function showBinderLink(panel: NotebookPanel) {
-  var path = panel.context.path;
-  var binderUrl = offline.binderPersistentUrl() + '?urlpath=' + encodeURIComponent('lab/tree/' + path);
+function showBinderLink<T>(panel: NotebookPanel): Promise<Dialog.IResult<T>> {
+  const path = panel.context.path;
+  const binderUrl =
+    offline.binderPersistentUrl() +
+    '?urlpath=' +
+    encodeURIComponent('lab/tree/' + path);
   // Note adding a copy button here doesn't work, perhaps because the event goes
   // through too many steps (firefox only allows "copy" on certain actions)
   return showDialog({
@@ -284,21 +296,18 @@ function showBinderLink(panel: NotebookPanel) {
   });
 }
 
-
-
 /**
  * Activate the extension.
  */
-function activate(app: JupyterFrontEnd) {
+function activate(app: JupyterFrontEnd): void {
   console.log('Activating jupyter-offlinenotebook JupyterLab extension');
   const baseUrl = PageConfig.getBaseUrl();
-  $.getJSON(baseUrl + 'offlinenotebook/config', function (data) {
+  $.getJSON(baseUrl + 'offlinenotebook/config', data => {
     offline.initialise(data);
     // addButtons();
   });
   app.docRegistry.addWidgetExtension('Notebook', new OfflineNotebookButtons());
-};
-
+}
 
 /**
  * Export the extension as default.
