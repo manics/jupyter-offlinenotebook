@@ -4,7 +4,7 @@ const path = require('path');
 // This is the main configuration object.
 // Here you write different options and tell Webpack what to do
 module.exports = {
-  "mode": "development",
+  "mode": "production",
   "devtool": "source-map",
   "entry": "./lib/jslib/offlinenotebook.js",
   "output": {
