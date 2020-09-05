@@ -44,14 +44,13 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('dev-requirements*.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      - name: Cache node modules
+      - name: Cache yarn
         uses: actions/cache@v2
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('yarn.lock') }}
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('*.lock') }}
           restore-keys: |
-            ${{ runner.os }}-npm
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
         run: python -mpip install -r dev-requirements-jl${{ matrix.jupyterlab-major }}.txt
