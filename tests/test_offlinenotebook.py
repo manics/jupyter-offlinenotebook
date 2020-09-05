@@ -44,6 +44,7 @@ def assert_empty_size(size):
 class FirefoxTestBase:
     def setup(self):
         self.jupyter_proc = None
+        self.major_version = None
         self.driver = None
         self.wait = None
 
@@ -56,6 +57,10 @@ class FirefoxTestBase:
                 self.jupyter_proc.kill()
 
     def start_jupyter(self, jupyterdir, app):
+        version = subprocess.check_output(
+            ["jupyter-{}".format(app.lower()), "--version"]
+        )
+        self.major_version = int(version.split(b".", 1)[0])
         command = [
             "jupyter-{}".format(app.lower()),
             "--no-browser",
@@ -224,7 +229,11 @@ class TestOfflineLab(FirefoxTestBase):
             EC.visibility_of_element_located((By.CSS_SELECTOR, "div.jp-Dialog-content"))
         )
 
-        assert dialog.find_element_by_css_selector("span.jp-Dialog-header").text == (
+        if self.major_version == 2:
+            el = "span"
+        else:
+            el = "div"
+        assert dialog.find_element_by_css_selector(f"{el}.jp-Dialog-header").text == (
             "Notebook saved to browser storage"
         )
         assert dialog.find_element_by_css_selector("span.jp-Dialog-body").text == (
@@ -241,7 +250,11 @@ class TestOfflineLab(FirefoxTestBase):
             EC.visibility_of_element_located((By.CSS_SELECTOR, "div.jp-Dialog-content"))
         )
 
-        assert dialog.find_element_by_css_selector("span.jp-Dialog-header").text == (
+        if self.major_version == 2:
+            el = "span"
+        else:
+            el = "div"
+        assert dialog.find_element_by_css_selector(f"{el}.jp-Dialog-header").text == (
             "This will replace your current notebook with"
         )
         assert dialog.find_element_by_css_selector("span.jp-Dialog-body").text == (
@@ -258,6 +271,17 @@ class TestOfflineLab(FirefoxTestBase):
         # downloading the updated notebook
 
         self.initialise(tmpdir, "Lab", JUPYTERLAB_URL)
+        assert self.major_version in (2, 3)
+
+        # Wait for the loading logo to appear, then disappear
+        # TODO: Might be better to sleep a few seconds to give JupyterLab time
+        # to load, and only check for invisiblity?
+        self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, "//div[@id='main-logo']"))
+        )
+        self.wait.until(
+            EC.invisibility_of_element((By.XPATH, "//div[@id='main-logo']"))
+        )
 
         size, ncells = self.download_visible()
         assert_expected_size(size)
