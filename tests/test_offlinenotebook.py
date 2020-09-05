@@ -22,6 +22,9 @@ EXPECTED_SIZE = 1700
 EXPECTED_EMPTY_SIZE = 450
 EXPECTED_NUM_CELLS = 5
 HEADLESS = True
+# If 'firefox' is a script selenium may not work, if this happens set this to
+# the binary e.g. '/usr/lib64/firefox/firefox'
+FIREFOX_BIN = None
 TIMEOUT = 10
 
 
@@ -82,7 +85,10 @@ class FirefoxTestBase:
         options = Options()
         options.headless = HEADLESS
 
-        self.driver = webdriver.Firefox(firefox_profile=profile, options=options)
+        kwargs = {"firefox_profile": profile, "options": options}
+        if FIREFOX_BIN:
+            kwargs["firefox_binary"] = FIREFOX_BIN
+        self.driver = webdriver.Firefox(**kwargs)
         self.wait = WebDriverWait(self.driver, TIMEOUT)
 
         self.driver.get(url)
