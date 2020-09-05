@@ -15,8 +15,7 @@ install:
   - pip install -r dev-requirements.txt
 
 script:
-  - pwd
-  - flake8 .
+  - pre-commit run -a
   - python setup.py sdist
   - python -mpip install dist/*.tar.gz
   - jlpm
