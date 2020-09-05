@@ -215,7 +215,11 @@ class TestOfflineLab(FirefoxTestBase):
                 (By.XPATH, "//button[@title='Download visible']")
             )
         ).click()
+
+        # Allow time for the downloaded file to be saved
+        sleep(2)
         size = os.stat(self.expected_download).st_size
+        assert size
         with open(self.expected_download) as f:
             nb = json.load(f)
             ncells = len(nb["cells"])

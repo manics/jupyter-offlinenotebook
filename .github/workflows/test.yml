@@ -62,7 +62,7 @@ jobs:
           jlpm
           jupyter labextension install --debug
       - name: Run pytest
-        run: pytest -v tests
+        run: pytest -vs tests
 
 
   # https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
