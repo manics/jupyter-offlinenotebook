@@ -6,6 +6,7 @@ from time import sleep
 from urllib.request import urlopen
 
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -274,11 +275,14 @@ class TestOfflineLab(FirefoxTestBase):
         assert self.major_version in (2, 3)
 
         # Wait for the loading logo to appear, then disappear
-        # TODO: Might be better to sleep a few seconds to give JupyterLab time
-        # to load, and only check for invisiblity?
-        self.wait.until(
-            EC.visibility_of_element_located((By.XPATH, "//div[@id='main-logo']"))
-        )
+        try:
+            self.wait.until(
+                EC.visibility_of_element_located((By.XPATH, "//div[@id='main-logo']"))
+            )
+        except TimeoutException:
+            # Maybe JupyterLab loaded too quickly for selenium to see the logo?
+            pass
+
         self.wait.until(
             EC.invisibility_of_element((By.XPATH, "//div[@id='main-logo']"))
         )
