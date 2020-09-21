@@ -1,4 +1,4 @@
-jupyterlab==2.2.7
+jupyterlab==2.2.8
 notebook==6.1.4
 pre-commit==2.7.1
 pytest==6.0.2
