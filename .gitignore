@@ -1,3 +1,12 @@
+*.bundle.*
+lib/
+node_modules/
+*.egg-info/
+.ipynb_checkpoints
+*.tsbuildinfo
+
+*/labextension/*.tgz
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -132,4 +141,5 @@ dmypy.json
 # JavaScript
 node_modules
 tsconfig.tsbuildinfo
-yarn.lock
+# jupyter notebook extension webpack output
+jupyter_offlinenotebook/static/jslib/
