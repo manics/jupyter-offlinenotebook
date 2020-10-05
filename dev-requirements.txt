@@ -2,5 +2,5 @@ jupyter_packaging==0.7.3
 jupyterlab==2.2.8
 notebook==6.1.4
 pre-commit==2.7.1
-pytest==6.1.0
+pytest==6.1.1
 selenium==3.141.0
