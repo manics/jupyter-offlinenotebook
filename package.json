@@ -65,7 +65,7 @@
     "rimraf": "^3.0.2",
     "typescript": "~3.9.0",
     "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^4.0.0"
   },
   "sideEffects": [
     "style/*.css"
