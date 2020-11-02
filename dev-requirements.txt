@@ -1,4 +1,4 @@
-jupyter_packaging==0.7.4
+jupyter_packaging==0.7.5
 jupyterlab==2.2.9
 notebook==6.1.4
 pre-commit==2.7.1
