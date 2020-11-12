@@ -2,11 +2,11 @@ repos:
   - repo: https://github.com/psf/black
     rev: 20.8b1
     hooks:
-    - id: black
-      args: [--target-version=py36]
+      - id: black
+        args: [--target-version=py36]
   - repo: https://gitlab.com/pycqa/flake8
     rev: 3.8.3
     hooks:
-    - id: flake8
-      # default black line length is 88
-      args: [--max-line-length=88]
+      - id: flake8
+        # default black line length is 88
+        args: [--max-line-length=88]

@@ -5,7 +5,6 @@ on:
   pull_request:
 
 jobs:
-
   # https://github.com/pre-commit/action
   pre-commit:
     name: Lint
@@ -62,7 +61,6 @@ jobs:
           jupyter labextension install --debug
       - name: Run pytest
         run: pytest -vs tests
-
 
   # https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
   publish-pypi:
