@@ -23,6 +23,9 @@ jobs:
       matrix:
         include:
           - python-version: '3.6'
+            jupyterlab-major: '2'
+          - python-version: '3.8'
+            jupyterlab-major: '3'
     runs-on: ubuntu-latest
     # Includes geckdriver and firefox
     # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
@@ -33,19 +36,24 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Cache pip
-        id: cache
         uses: actions/cache@v2
         with:
           # This path is specific to Ubuntu
           path: ~/.cache/pip
           # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-pip-${{ hashFiles('dev-requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('dev-requirements*.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-            ${{ runner.os }}-
+      - name: Cache yarn
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('*.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
-        run: python -mpip install -r dev-requirements.txt
+        run: python -mpip install -r dev-requirements-jl${{ matrix.jupyterlab-major }}.txt
       - name: Install plugin
         run: |
           python setup.py sdist
@@ -53,7 +61,7 @@ jobs:
           jlpm
           jupyter labextension install --debug
       - name: Run pytest
-        run: pytest -v tests
+        run: pytest -vs tests
 
 
   # https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
