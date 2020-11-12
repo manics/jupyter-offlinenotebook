@@ -61,6 +61,8 @@ jobs:
           jupyter labextension install --debug
       - name: Run pytest
         run: pytest -vs tests
+      - name: Javascript Lint
+        run: jlpm run lint:check
 
   # https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
   publish-pypi:
