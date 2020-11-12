@@ -166,6 +166,16 @@ class TestOfflineNotebook(FirefoxTestBase):
         assert buttons[1].text == "Cancel"
         buttons[0].click()
 
+    def wait_for_modal_dialog(self):
+        # element_to_be_clickable doesn't actually mean clickable
+        # so need to make sure the modal dialog has cleared
+        # https://stackoverflow.com/a/51842120
+        self.wait.until(
+            EC.invisibility_of_element_located(
+                (By.XPATH, "//div[@class='modal-dialog']")
+            )
+        )
+
     def test_offline_notebook(self, tmpdir):
         # Selenium can't access IndexedDB so instead check save/load by
         # downloading the updated notebook
@@ -181,12 +191,7 @@ class TestOfflineNotebook(FirefoxTestBase):
 
         # Delete some cells and download
         # element_to_be_clickable doesn't actually mean clickable
-        # https://stackoverflow.com/a/51842120
-        self.wait.until(
-            EC.invisibility_of_element_located(
-                (By.XPATH, "//div[@class='modal-dialog']")
-            )
-        )
+        self.wait_for_modal_dialog()
         # Still doesn't work so force a pause
         sleep(0.5)
         for n in range(EXPECTED_NUM_CELLS):
@@ -200,6 +205,10 @@ class TestOfflineNotebook(FirefoxTestBase):
         assert ncells == 1
 
         self.restore_from_browser_storage()
+
+        # download_visible uses element_to_be_clickable but that doesn't
+        # actually mean clickable
+        self.wait_for_modal_dialog()
         size, ncells = self.download_visible()
         assert_expected_size(size)
         assert ncells == EXPECTED_NUM_CELLS
