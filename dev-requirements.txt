@@ -4,4 +4,5 @@ pre-commit==2.8.2
 pytest==6.1.2
 pytest-tornasync==0.6.0
 selenium==3.141.0
+wheel==0.35.1
 # jupyterlab is installed separately so we can test multiple versions
