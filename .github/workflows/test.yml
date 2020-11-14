@@ -57,12 +57,14 @@ jobs:
         run: |
           python setup.py sdist
           python -mpip install dist/*.tar.gz
-          jlpm
-          jupyter labextension install --debug
+          if [[ {{ matrix.jupyterlab-major }} = 2 ]]; then
+            jlpm
+            jupyter labextension install --debug --minimize=False
+          fi
       - name: Run pytest
         run: pytest -vs tests
-      - name: Javascript Lint
-        run: jlpm run lint:check
+      - name: Javascript Format
+        run: jlpm run format:check
 
   # https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
   publish-pypi:
