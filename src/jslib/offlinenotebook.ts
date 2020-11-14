@@ -16,11 +16,11 @@ class OfflinenotebookDatabase extends Dexie {
 
     // Define tables and indexes
     this.version(1).stores({
-      offlinenotebook: 'pk, repoid, name, type'
+      offlinenotebook: 'pk, repoid, name, type',
     });
 
     // The following lines are needed for it to work across typescipt using babel-preset-typescript:
-    this.offlinenotebook = this.table("offlinenotebook");
+    this.offlinenotebook = this.table('offlinenotebook');
   }
 }
 
@@ -77,10 +77,10 @@ export function saveNotebook(
       path: path,
       format: 'json',
       type: 'notebook',
-      content: nb
+      content: nb,
     })
-    .then(key => success(key))
-    .catch(e => error(e));
+    .then((key) => success(key))
+    .catch((e) => error(e));
 }
 
 export function loadNotebook(
@@ -91,8 +91,8 @@ export function loadNotebook(
   const primaryKey = 'repoid:' + _repoid + ' path:' + path;
   getDb()
     .offlinenotebook.get(primaryKey)
-    .then(key => success(key))
-    .catch(e => error(e));
+    .then((key) => success(key))
+    .catch((e) => error(e));
 }
 
 // Download https://jsfiddle.net/koldev/cW7W5/

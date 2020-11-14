@@ -1,5 +1,4 @@
-Jupyter Offline Notebook
-========================
+# Jupyter Offline Notebook
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?filepath=example.ipynb)
 [![PyPI](https://img.shields.io/pypi/v/jupyter-offlinenotebook.svg)](https://pypi.python.org/pypi/jupyter-offlinenotebook)
@@ -7,9 +6,7 @@ Jupyter Offline Notebook
 
 Save and load notebooks to browser storage, even if you've lost your connection to the server.
 
-
-Installation
-------------
+## Installation
 
     pip install jupyter-offlinenotebook
 
@@ -21,13 +18,12 @@ This should automatically enable the extension. If it is not listed in `jupyter 
     jupyter serverextension install --py jupyter_offlinenotebook --sys-prefix
     jupyter serverextension enable --py jupyter_offlinenotebook --sys-prefix
 
-
-Usage
------
+## Usage
 
 ![Offline notebook buttons](./offline-notebook-buttons.png)
 
 You should see up to five new buttons depending on your configuration and where you are running the notebook:
+
 - download the in-memory (browser) state of the notebook
 - save the in-memory state of the notebook to local-storage
 - load a notebook from local-storage
@@ -44,11 +40,10 @@ If you don't see the buttons check the Javascript console log.
 
 See [example.ipynb](./example.ipynb)
 
-
-Configuration
--------------
+## Configuration
 
 This extension can be configured in `jupyter_notebook_config.py` by setting the following properties of `c.OfflineNotebookConfig`:
+
 - `repository_id`:
   A callable that returns the repository ID.
   This is used when storing and retrieving notebooks.
@@ -63,9 +58,7 @@ This extension can be configured in `jupyter_notebook_config.py` by setting the 
 - `binder_repo_label`:
   A callable that returns the label used to link to the repository.
 
-
-JupyterLab Extension
-====================
+# JupyterLab Extension
 
 The JupyterLab extension is still under development.
 To try it out:
@@ -73,17 +66,12 @@ To try it out:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?urlpath=lab%2Ftree%2Fexample.ipynb)
 [![npm](https://img.shields.io/npm/v/jupyter-offlinenotebook)](https://www.npmjs.com/package/jupyter-offlinenotebook)
 
-
-
-Installation
-------------
+## Installation
 
     pip install jupyter-offlinenotebook
     jupyter labextension install jupyter-offlinenotebook
 
-
-Warning
-=======
+# Warning
 
 This extension is still in development.
 It is only tested on Firefox.
@@ -95,9 +83,7 @@ There are [several major limitations](https://github.com/manics/jupyter-offlinen
 - A repository ID and path of the notebook within Jupyter Notebook are used, joined by a ` `.
   This may change in future.
 
-
-Development notes
-=================
+# Development notes
 
 This extension stores notebooks in browser storage using the [IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), wrapped with [Dexie.js](https://dexie.org/).
 
@@ -116,6 +102,7 @@ Jupyter Lab:
 Tagged releases of this repository are automatically published to Pypi and NPM by Travis.
 
 To test that the binder and repo buttons work when developing locally set some placeholder environment variables, e.g.:
+
 ```
 BINDER_LAUNCH_HOST=http://localhost BINDER_REPO_URL=http://localhost BINDER_PERSISTENT_REQUEST=v2/gh/repo BINDER_REF_URL=http://localhost jupyter-lab --debug
 ```

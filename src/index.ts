@@ -6,14 +6,14 @@ import { PageConfig } from '@jupyterlab/coreutils';
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import {
   showDialog,
   showErrorMessage,
   Dialog,
-  ToolbarButton
+  ToolbarButton,
 } from '@jupyterlab/apputils';
 
 import { DocumentRegistry } from '@jupyterlab/docregistry';
@@ -36,7 +36,7 @@ const CSS_ICON_CLASS = 'jp-OfflineNotebookToolbarIcon';
 const extension: JupyterFrontEndPlugin<void> = {
   activate,
   id: 'offlinenotebook:offlineNotebookButtons',
-  autoStart: true
+  autoStart: true,
 };
 
 /**
@@ -68,8 +68,8 @@ export class OfflineNotebookButtons
           downloadNotebookFromBrowser(panel);
         },
         tooltip: 'Download visible',
-        label: 'Download'
-      })
+        label: 'Download',
+      }),
     ]);
 
     if (offline.repoid()) {
@@ -81,8 +81,8 @@ export class OfflineNotebookButtons
           onClick: (): void => {
             localstoreSaveNotebook(panel);
           },
-          tooltip: 'Save to browser storage'
-        })
+          tooltip: 'Save to browser storage',
+        }),
       ]);
       buttons.push([
         'loadFromBrowser',
@@ -92,8 +92,8 @@ export class OfflineNotebookButtons
           onClick: (): void => {
             localstoreLoadNotebook(panel);
           },
-          tooltip: 'Restore from browser storage'
-        })
+          tooltip: 'Restore from browser storage',
+        }),
       ]);
     }
 
@@ -104,7 +104,7 @@ export class OfflineNotebookButtons
       const repoIcons: IStringStringMap = {
         GitHub: 'fab fa-github',
         GitLab: 'fab fa-gitlab',
-        Git: 'fab fa-git'
+        Git: 'fab fa-git',
       };
 
       buttons.push([
@@ -117,8 +117,8 @@ export class OfflineNotebookButtons
             CSS_ICON_CLASS,
           onClick: offline.openBinderRepo,
           tooltip: 'Visit Binder repository',
-          label: offline.repoLabel()
-        })
+          label: offline.repoLabel(),
+        }),
       ]);
     }
     if (offline.binderPersistentUrl()) {
@@ -131,17 +131,17 @@ export class OfflineNotebookButtons
             showBinderLink(panel);
           },
           tooltip: 'Link to this Binder',
-          label: 'Binder'
-        })
+          label: 'Binder',
+        }),
       ]);
     }
 
     buttons.reverse();
-    buttons.forEach(item => {
+    buttons.forEach((item) => {
       panel.toolbar.insertItem(9, item[0], item[1]);
     });
     return new DisposableDelegate(() => {
-      buttons.forEach(item => {
+      buttons.forEach((item) => {
         item[1].dispose();
       });
     });
@@ -173,7 +173,7 @@ function localstoreSaveNotebook(panel: NotebookPanel): void {
       return showDialog({
         title: 'Notebook saved to browser storage',
         body: repopathDisplay,
-        buttons: [Dialog.okButton()]
+        buttons: [Dialog.okButton()],
       });
     },
     (e: any) => {
@@ -203,8 +203,8 @@ function localstoreLoadNotebook(panel: NotebookPanel): void {
         return showDialog({
           title: 'This will replace your current notebook with',
           body: repopathDisplay,
-          buttons: [Dialog.cancelButton(), Dialog.warnButton({ label: 'OK' })]
-        }).then(result => {
+          buttons: [Dialog.cancelButton(), Dialog.warnButton({ label: 'OK' })],
+        }).then((result) => {
           const contentsKey = 'content';
           if (result.button.accept && !panel.context.isDisposed) {
             if (hasKey(nb, contentsKey)) {
@@ -246,9 +246,7 @@ class CopyShareURLWidget extends Widget {
 // https://github.com/jupyterhub/binderhub/blob/b32ad4425be3319f7a2c59cf8253e979512b955d/examples/appendix/static/custom.js#L1-L7
 function copyLinkIntoClipboard(b: JQuery<HTMLElement>): void {
   const $temp = $('<input>');
-  $(b)
-    .parent()
-    .append($temp);
+  $(b).parent().append($temp);
   $temp.val($(b).data('url')).select();
   document.execCommand('copy');
   $temp.remove();
@@ -257,22 +255,22 @@ function copyLinkIntoClipboard(b: JQuery<HTMLElement>): void {
 function createCopyShareURLNode(binderUrl: string): HTMLElement {
   const body = $('<div/>', {
     style: 'flex-direction: row;',
-    'data-url': binderUrl
+    'data-url': binderUrl,
   }).append(
     $('<pre/>', {
       text: binderUrl,
-      style: 'margin: 0; white-space: pre-wrap; word-break: break-all;'
+      style: 'margin: 0; white-space: pre-wrap; word-break: break-all;',
     })
   );
   const button = $('<button/>', {
     title: 'Copy binder link to clipboard',
-    'data-url': binderUrl
+    'data-url': binderUrl,
   }).click(() => {
     copyLinkIntoClipboard(button);
   });
   button.append(
     $('<i/>', {
-      class: 'fas fa-clipboard'
+      class: 'fas fa-clipboard',
     })
   );
   body.append(button);
@@ -292,7 +290,7 @@ function showBinderLink<T>(panel: NotebookPanel): Promise<Dialog.IResult<T>> {
   return showDialog({
     title: 'Share Binder link',
     body: new CopyShareURLWidget(binderUrl),
-    buttons: [Dialog.okButton()]
+    buttons: [Dialog.okButton()],
   });
 }
 
@@ -302,7 +300,7 @@ function showBinderLink<T>(panel: NotebookPanel): Promise<Dialog.IResult<T>> {
 function activate(app: JupyterFrontEnd): void {
   console.log('Activating jupyter-offlinenotebook JupyterLab extension');
   const baseUrl = PageConfig.getBaseUrl();
-  $.getJSON(baseUrl + 'offlinenotebook/config', data => {
+  $.getJSON(baseUrl + 'offlinenotebook/config', (data) => {
     offline.initialise(data);
     // addButtons();
   });
