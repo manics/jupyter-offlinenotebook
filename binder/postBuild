@@ -1,19 +1,8 @@
 #!/bin/bash
 set -eux
 
-env | sort
-pwd
-
 # jupyter-offlinenotebook is automatically installed by repo2docker.
-# Uninstall to avoid conflicts
-jupyter labextension uninstall --no-build jupyter-offlinenotebook
+# In JupyterLab 3.0.0rc7 it looks like the older extension is ignored,
+# no need to uninstall it
 
-# repo2docker copies this repo into $HOME which means jupyter labextension
-# picks up hidden dot files and runs into problems so install from a
-# different directory
-SRCDIR=/srv/conda/src/jupyter-offlinenotebook
-mkdir -p "$SRCDIR"
-cp -a * "$SRCDIR"
-cd "$SRCDIR"
 python -m pip install .
-jupyter labextension link --debug
