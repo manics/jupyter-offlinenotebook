@@ -14,8 +14,55 @@ jobs:
       - uses: actions/setup-python@v2
       - uses: pre-commit/action@v2.0.0
 
+  # Due to complications in the build process when trying to support both JupyterLab
+  # 2 and 3 we build the pypi packages with JupyterLab 3, but test on 2 and 3
+
+  build:
+    name: Build dist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          # This path is specific to Ubuntu
+          path: ~/.cache/pip
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-pip-${{ hashFiles('dev-requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Cache yarn
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('*.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: python -mpip install -r dev-requirements-jl3.txt
+      - name: Build dist
+        run: |
+          python setup.py sdist bdist_wheel
+          ls dist/*tar.gz dist/*.whl
+
+      - name: Javascript format
+        run: |
+          jlpm install
+          jlpm run format:check
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+          if-no-files-found: error
+
   test:
     name: Pytest
+    needs: build
     strategy:
       # Keep running so we can see if other tests pass
       fail-fast: false
@@ -43,26 +90,22 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('dev-requirements*.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      - name: Cache yarn
-        uses: actions/cache@v2
+      - name: Download artifacts from build
+        uses: actions/download-artifact@v2
         with:
-          path: ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('*.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          name: dist
+          path: dist
 
       - name: Install dependencies
         run: python -mpip install -r dev-requirements-jl${{ matrix.jupyterlab-major }}.txt
       - name: Install plugin
         run: |
-          python setup.py sdist
-          python -mpip install dist/*.tar.gz
-          jlpm
-          jupyter labextension install --debug
+          python -mpip install dist/*.whl
+          if [[ ${{ matrix.jupyterlab-major }} = 2 ]]; then
+            jupyter labextension install --debug --minimize=False
+          fi
       - name: Run pytest
         run: pytest -vs tests
-      - name: Javascript Lint
-        run: jlpm run lint:check
 
   # https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
   publish-pypi:
@@ -75,10 +118,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
-      - name: Build package
-        run: |
-          python -mpip install wheel
-          python setup.py sdist bdist_wheel
+      - name: Download artifacts from build
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@v1.3.0
         with:
