@@ -134,3 +134,8 @@ def load_jupyter_server_extension(nbapp):
         nbapp.web_app.settings["base_url"], "/offlinenotebook/config"
     )
     nbapp.web_app.add_handlers(".*", [(route_pattern, OfflineNotebookHandler)])
+
+
+# Add compatibility with jupyter-server
+# https://jupyter-server.readthedocs.io/en/latest/developers/extensions.html#migrating-an-extension-to-use-jupyter-serverjupyter_server
+_load_jupyter_server_extension = load_jupyter_server_extension
