@@ -46,7 +46,12 @@ data_files_spec = [
     (
         "etc/jupyter/jupyter_notebook_config.d",
         f"{name}/etc",
-        "offlinenotebook_serverextension.json",
+        "offlinenotebook_nbserverextension.json",
+    ),
+    (
+        "etc/jupyter/jupyter_server_config.d",
+        f"{name}/etc",
+        "offlinenotebook_jpserverextension.json",
     ),
     (
         "etc/jupyter/nbconfig/notebook.d",
@@ -87,9 +92,7 @@ setup_args = dict(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     cmdclass=cmdclass,
-    install_requires=[
-        "notebook",
-    ],
+    install_requires=[],
     python_requires=">=3.6",
     zip_safe=False,
     include_package_data=True,
