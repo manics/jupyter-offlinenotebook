@@ -5,4 +5,4 @@ dependencies:
   - pip
   - python
   - pip:
-      - jupyterlab==3.0.0rc13
+      - jupyterlab==3.0.0rc14
