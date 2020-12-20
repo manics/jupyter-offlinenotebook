@@ -73,7 +73,6 @@ To try it out:
 
 JupyterLab 3 support is available in the [`master` branch](https://github.com/manics/jupyter-offlinenotebook) but is not yet released.
 
-
 # Warning
 
 This extension is still in development.
@@ -118,3 +117,9 @@ To test that the binder and repo buttons work when developing locally set some p
 ```
 BINDER_LAUNCH_HOST=http://localhost BINDER_REPO_URL=http://localhost BINDER_PERSISTENT_REQUEST=v2/gh/repo BINDER_REF_URL=http://localhost jupyter-lab --debug
 ```
+
+If you make any changes remember to run all linters and auto-formaters:
+
+- `pre-commit run -a`
+- `jlpm run eslint`
+- `jlpm run prettier`
