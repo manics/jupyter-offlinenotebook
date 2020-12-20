@@ -66,10 +66,13 @@ To try it out:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?urlpath=lab%2Ftree%2Fexample.ipynb)
 [![npm](https://img.shields.io/npm/v/jupyter-offlinenotebook)](https://www.npmjs.com/package/jupyter-offlinenotebook)
 
-## Installation
+## Installation (JupyterLab 2)
 
     pip install jupyter-offlinenotebook
     jupyter labextension install jupyter-offlinenotebook
+
+JupyterLab 3 support is available in the [`master` branch](https://github.com/manics/jupyter-offlinenotebook) but is not yet released.
+
 
 # Warning
 
@@ -90,13 +93,22 @@ This extension stores notebooks in browser storage using the [IndexedDB API](htt
 One server API call is made during initialisation to obtain the storage configuration.
 Everything else is done client-side so should work even if the server is disconnected.
 
-Jupyter Notebook:
+The [`master` branch](https://github.com/manics/jupyter-offlinenotebook) supports both JupyterLab 2 and 3 as well as Jupyter Notebook, but it must be _built_ using JupyterLab 3.
+This is because the JavaScript assets are compiled using JupyterLab's `jlpm` command.
+Install the development dependencies:
+
+    pip install -r dev-requirements-jl3.txt
+
+To build and install the development version on Jupyter Notebook and JupyterLab 3:
 
     pip install .
 
-Jupyter Lab:
+This automatically runs `jlpm`.
+JupyterLab 3 supports the installation of extensions as a static package so no further steps are required.
 
-    jlpm
+If you are using JupyterLab 2 you must manually install the JavaScript component of the extension:
+
+    pip install .
     jupyter labextension link
 
 Tagged releases of this repository are automatically published to Pypi and NPM by Travis.
