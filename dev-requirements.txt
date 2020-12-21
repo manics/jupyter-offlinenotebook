@@ -1,7 +1,7 @@
 jupyter_packaging==0.7.6
 notebook==6.1.5
 pre-commit==2.9.3
-pytest==6.2.0
+pytest==6.2.1
 pytest-tornasync==0.6.0.post2
 selenium==3.141.0
 wheel==0.36.2
