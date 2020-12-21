@@ -1,4 +1,4 @@
-jupyter_packaging==0.7.6
+jupyter_packaging==0.7.9
 notebook==6.1.5
 pre-commit==2.9.3
 pytest==6.2.1
