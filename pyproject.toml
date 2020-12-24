@@ -1,7 +1,7 @@
 [build-system]
 requires = [
   "jupyter_packaging~=0.7.0",
-  "jupyterlab>=3.0.0rc15,==3.*",  # jlpm is used to build static js
+  "jupyterlab>=3.0.0,==3.*",  # jlpm is used to build static js
   "setuptools>=40.8.0",
   "wheel"
 ]

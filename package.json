@@ -50,11 +50,11 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^2.0.2 || ^3.0.0-rc.15",
-    "@jupyterlab/apputils": "^2.0.2 || ^3.0.0-rc.15",
-    "@jupyterlab/coreutils": "^4.2.0 || ^5.0.0-rc.15",
-    "@jupyterlab/docregistry": "^2.0.2 || ^3.0.0-rc.15",
-    "@jupyterlab/notebook": "^2.0.2 || ^3.0.0-rc.15",
+    "@jupyterlab/application": "^2.0.2 || ^3.0.0",
+    "@jupyterlab/apputils": "^2.0.2 || ^3.0.0",
+    "@jupyterlab/coreutils": "^4.2.0 || ^5.0.0",
+    "@jupyterlab/docregistry": "^2.0.2 || ^3.0.0",
+    "@jupyterlab/notebook": "^2.0.2 || ^3.0.0",
     "@lumino/disposable": "^1.4.3",
     "@lumino/widgets": "^1.17.0",
     "@types/jquery": "^3",
@@ -64,7 +64,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
-    "@jupyterlab/builder": "^3.0.0-rc.15",
+    "@jupyterlab/builder": "^3.0.0",
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.3.0",
