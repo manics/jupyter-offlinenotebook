@@ -103,9 +103,6 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Download artifacts from build
         uses: actions/download-artifact@v2
-        with:
-          name: dist
-          path: dist
 
       - name: Install dependencies
         run: python -mpip install -r dev-requirements-jl${{ matrix.jupyterlab-major }}.txt
@@ -113,7 +110,7 @@ jobs:
         run: |
           python -mpip install dist/*.whl
           if [[ ${{ matrix.jupyterlab-major }} = 2 ]]; then
-            jupyter labextension install --debug --minimize=False
+            jupyter labextension install --debug --minimize=False ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
           fi
       - name: Run pytest
         run: pytest -vs tests
