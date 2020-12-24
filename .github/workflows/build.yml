@@ -54,10 +54,21 @@ jobs:
           jlpm install
           jlpm run format:check
 
+      - name: Javascript package
+        run: |
+          mkdir jsdist
+          jlpm pack --filename jsdist/jupyter-offlinenotebook-jlpmpack.tgz
+
       - uses: actions/upload-artifact@v2
         with:
           name: dist
           path: dist
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: jsdist
+          path: jsdist
           if-no-files-found: error
 
   test:
@@ -116,7 +127,6 @@ jobs:
       - test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - name: Download artifacts from build
         uses: actions/download-artifact@v2
@@ -124,26 +134,31 @@ jobs:
           name: dist
           path: dist
       - name: Publish to PyPI
+        if: startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@v1.3.0
         with:
           password: ${{ secrets.PYPI_PASSWORD }}
 
   # https://docs.github.com/en/actions/language-and-framework-guides/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
-  public-npm:
-    if: startsWith(github.ref, 'refs/tags')
+  publish-npm:
     needs:
       # Only publish if other jobs passed
       - pre-commit
       - test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
           registry-url: https://registry.npmjs.org
-      - run: npm install
-      - run: npm publish
+      - name: Download artifacts from build
+        uses: actions/download-artifact@v2
+        with:
+          name: jsdist
+          path: jsdist
+      - run: npm publish --dry-run ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
+      - run: npm publish ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
+        if: startsWith(github.ref, 'refs/tags')
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
