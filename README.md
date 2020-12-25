@@ -2,7 +2,7 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?filepath=example.ipynb)
 [![PyPI](https://img.shields.io/pypi/v/jupyter-offlinenotebook.svg)](https://pypi.python.org/pypi/jupyter-offlinenotebook)
-[![Build Status](https://github.com/manics/jupyter-offlinenotebook/workflows/Test/badge.svg)](https://github.com/manics/jupyter-offlinenotebook/actions)
+[![Build Status](https://github.com/manics/jupyter-offlinenotebook/workflows/Build/badge.svg)](https://github.com/manics/jupyter-offlinenotebook/actions)
 
 Save and load notebooks to browser storage, even if you've lost your connection to the server.
 
