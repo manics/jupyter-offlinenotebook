@@ -1,5 +1,6 @@
 import json
 import os
+import pytest
 from shutil import copyfile
 import subprocess
 from time import sleep
@@ -176,6 +177,7 @@ class TestOfflineNotebook(FirefoxTestBase):
             )
         )
 
+    @pytest.mark.flaky(max_runs=3)
     def test_offline_notebook(self, tmpdir):
         # Selenium can't access IndexedDB so instead check save/load by
         # downloading the updated notebook
@@ -280,6 +282,7 @@ class TestOfflineLab(FirefoxTestBase):
         assert buttons[1].text == "OK"
         buttons[1].click()
 
+    @pytest.mark.flaky(max_runs=3)
     def test_offline_lab(self, tmpdir):
         # Selenium can't access IndexedDB so instead check save/load by
         # downloading the updated notebook
