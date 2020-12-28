@@ -1,5 +1,5 @@
 jupyter_packaging==0.7.9
-notebook==6.1.5
+notebook==6.1.6
 pre-commit==2.9.3
 pytest==6.2.1
 pytest-tornasync==0.6.0.post2
