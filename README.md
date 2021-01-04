@@ -1,7 +1,8 @@
 # Jupyter Offline Notebook
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?filepath=example.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?urlpath=lab%2Ftree%2Fexample.ipynb)
 [![PyPI](https://img.shields.io/pypi/v/jupyter-offlinenotebook.svg)](https://pypi.python.org/pypi/jupyter-offlinenotebook)
+[![npm](https://img.shields.io/npm/v/jupyter-offlinenotebook)](https://www.npmjs.com/package/jupyter-offlinenotebook)
 [![Build Status](https://github.com/manics/jupyter-offlinenotebook/workflows/Build/badge.svg)](https://github.com/manics/jupyter-offlinenotebook/actions)
 
 Save and load notebooks to browser storage, even if you've lost your connection to the server.
@@ -10,13 +11,13 @@ Save and load notebooks to browser storage, even if you've lost your connection 
 
     pip install jupyter-offlinenotebook
 
-This should automatically enable the extension. If it is not listed in `jupyter nbextension list` or `jupyter serverextension list` install and enable it:
+This should automatically enable the extension on Jupyter Notebook and JupyterLab 3.
 
-    jupyter nbextension install --py jupyter_offlinenotebook --sys-prefix
-    jupyter nbextension enable --py jupyter_offlinenotebook --sys-prefix
+If you are using JupyterLab 2 you must manually install the JavaScript component of the extension:
 
-    jupyter serverextension install --py jupyter_offlinenotebook --sys-prefix
-    jupyter serverextension enable --py jupyter_offlinenotebook --sys-prefix
+    jupyter labextension install jupyter-offlinenotebook
+
+This is not needed on JupyterLab 3 due to the new extensions framework that means the JavaScript can be included in the Python `pip` package.
 
 ## Usage
 
@@ -58,21 +59,6 @@ This extension can be configured in `jupyter_notebook_config.py` by setting the 
 - `binder_repo_label`:
   A callable that returns the label used to link to the repository.
 
-# JupyterLab Extension
-
-The JupyterLab extension is still under development.
-To try it out:
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?urlpath=lab%2Ftree%2Fexample.ipynb)
-[![npm](https://img.shields.io/npm/v/jupyter-offlinenotebook)](https://www.npmjs.com/package/jupyter-offlinenotebook)
-
-## Installation (JupyterLab 2)
-
-    pip install jupyter-offlinenotebook
-    jupyter labextension install jupyter-offlinenotebook
-
-JupyterLab 3 support is available in the [`master` branch](https://github.com/manics/jupyter-offlinenotebook) but is not yet released.
-
 # Warning
 
 This extension is still in development.
@@ -103,6 +89,16 @@ To build and install the development version on Jupyter Notebook and JupyterLab 
     pip install .
 
 This automatically runs `jlpm`.
+
+The notebook and server extensions should be automatically enabled.
+If for some reason it isn't (i.e. it's not listed in `jupyter nbextension list` or `jupyter serverextension list`) install and enable it:
+
+    jupyter nbextension install --py jupyter_offlinenotebook --sys-prefix
+    jupyter nbextension enable --py jupyter_offlinenotebook --sys-prefix
+
+    jupyter serverextension install --py jupyter_offlinenotebook --sys-prefix
+    jupyter serverextension enable --py jupyter_offlinenotebook --sys-prefix
+
 JupyterLab 3 supports the installation of extensions as a static package so no further steps are required.
 
 If you are using JupyterLab 2 you must manually install the JavaScript component of the extension:
@@ -110,7 +106,7 @@ If you are using JupyterLab 2 you must manually install the JavaScript component
     pip install .
     jupyter labextension link
 
-Tagged releases of this repository are automatically published to Pypi and NPM by Travis.
+Tagged releases of this repository are automatically published to [PyPI](https://pypi.python.org/pypi/jupyter-offlinenotebook) and [NPM](https://www.npmjs.com/package/jupyter-offlinenotebook).
 
 To test that the binder and repo buttons work when developing locally set some placeholder environment variables, e.g.:
 
@@ -118,7 +114,7 @@ To test that the binder and repo buttons work when developing locally set some p
 BINDER_LAUNCH_HOST=http://localhost BINDER_REPO_URL=http://localhost BINDER_PERSISTENT_REQUEST=v2/gh/repo BINDER_REF_URL=http://localhost jupyter-lab --debug
 ```
 
-If you make any changes remember to run all linters and auto-formaters:
+If you make any changes remember to run all linters and auto-formatters:
 
 - `pre-commit run -a`
 - `jlpm run eslint`
