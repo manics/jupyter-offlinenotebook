@@ -86,7 +86,7 @@ class FirefoxTestBase:
         profile.set_preference("browser.download.manager.showWhenStarting", "false")
         profile.set_preference("browser.download.dir", downloaddir)
         profile.set_preference(
-            "browser.helperApps.neverAsk.saveToDisk", "application/json"
+            "browser.helperApps.neverAsk.saveToDisk", "application/x-ipynb+json"
         )
 
         options = Options()

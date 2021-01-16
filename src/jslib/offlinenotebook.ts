@@ -100,7 +100,10 @@ export function downloadNotebookFromBrowser(
   name: string,
   nb: PartialJSONValue
 ): void {
-  const blob = new Blob([JSON.stringify(nb)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(nb)], {
+    // https://jupyter.readthedocs.io/en/latest/reference/mimetype.html
+    type: 'application/x-ipynb+json',
+  });
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   document.body.appendChild(a);
