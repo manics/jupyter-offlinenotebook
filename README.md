@@ -1,6 +1,6 @@
 # Jupyter Offline Notebook
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/master?urlpath=lab%2Ftree%2Fexample.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/manics/jupyter-offlinenotebook/main?urlpath=lab%2Ftree%2Fexample.ipynb)
 [![PyPI](https://img.shields.io/pypi/v/jupyter-offlinenotebook.svg)](https://pypi.python.org/pypi/jupyter-offlinenotebook)
 [![npm](https://img.shields.io/npm/v/jupyter-offlinenotebook)](https://www.npmjs.com/package/jupyter-offlinenotebook)
 [![Build Status](https://github.com/manics/jupyter-offlinenotebook/workflows/Build/badge.svg)](https://github.com/manics/jupyter-offlinenotebook/actions)
@@ -78,7 +78,7 @@ This extension stores notebooks in browser storage using the [IndexedDB API](htt
 One server API call is made during initialisation to obtain the storage configuration.
 Everything else is done client-side so should work even if the server is disconnected.
 
-The [`master` branch](https://github.com/manics/jupyter-offlinenotebook) supports both JupyterLab 2 and 3 as well as Jupyter Notebook, but it must be _built_ using JupyterLab 3.
+The [`main` branch](https://github.com/manics/jupyter-offlinenotebook) supports both JupyterLab 2 and 3 as well as Jupyter Notebook, but it must be _built_ using JupyterLab 3.
 This is because the JavaScript assets are compiled using JupyterLab's `jlpm` command.
 Install the development dependencies:
 

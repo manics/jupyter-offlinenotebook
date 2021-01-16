@@ -74,7 +74,7 @@ class FirefoxTestBase:
             "BINDER_REPO_URL": "https://github.com/manics/jupyter-offlinenotebook",
             "BINDER_PERSISTENT_REQUEST": "v2/gh/repo",
             "BINDER_REF_URL": (
-                "https://github.com/manics/" "jupyter-offlinenotebook/tree/master"
+                "https://github.com/manics/jupyter-offlinenotebook/tree/main"
             ),
             "PATH": os.getenv("PATH"),
         }
@@ -337,7 +337,7 @@ class TestServer(FirefoxTestBase):
                 "repoid": "https://github.com/manics/jupyter-offlinenotebook",
                 "binder_repo_label": "GitHub",
                 "binder_ref_url": (
-                    "https://github.com/manics/jupyter-offlinenotebook/" "tree/master"
+                    "https://github.com/manics/jupyter-offlinenotebook/tree/main"
                 ),
                 "binder_persistent_url": "http://localhost/v2/gh/repo",
             }
