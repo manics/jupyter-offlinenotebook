@@ -1,8 +1,4 @@
 #!/bin/bash
 set -eux
 
-# jupyter-offlinenotebook is automatically installed by repo2docker.
-# In JupyterLab 3.0.0rc7 it looks like the older extension is ignored,
-# no need to uninstall it
-
-python -m pip install .
+python -m pip install --upgrade .
