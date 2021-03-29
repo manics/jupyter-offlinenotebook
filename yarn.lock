@@ -321,9 +321,9 @@
     react "^17.0.1"
 
 "@jupyterlab/docregistry@^2.0.2 || ^3.0.0", "@jupyterlab/docregistry@^3.0.6":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/docregistry/-/docregistry-3.0.6.tgz#07f5480435c1a8510b2397d4bdf9168aea2371fb"
-  integrity sha512-e4LEXudcgVWJsuzRnz4zg+lAd0gjsvShAQQQomT8ZYWv6wPTC2ci/6LPKQY9MyeVSw+9JEHIj8650BjmRc7oLA==
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/docregistry/-/docregistry-3.0.7.tgz#fe18d9294e22a580a3f5f712975865649c49b672"
+  integrity sha512-BkyYZjARHw4FF+dtSSOdYxdILtw3PiQSRGQdKmhrN+/jsTK28Kl9U2Cz0sBkar9ZIG70tj8wjIe2xNj8kazInA==
   dependencies:
     "@jupyterlab/apputils" "^3.0.5"
     "@jupyterlab/codeeditor" "^3.0.5"
@@ -3785,9 +3785,9 @@ webpack-sources@^2.1.1:
     source-map "^0.6.1"
 
 webpack@^5.10.1, webpack@^5.3.1:
-  version "5.27.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.27.1.tgz#6808fb6e45e35290cdb8ae43c7a10884839a3079"
-  integrity sha512-rxIDsPZ3Apl3JcqiemiLmWH+hAq04YeOXqvCxNZOnTp8ZgM9NEPtbu4CaMfMEf9KShnx/Ym8uLGmM6P4XnwCoA==
+  version "5.28.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.28.0.tgz#0de8bcd706186b26da09d4d1e8cbd3e4025a7c2f"
+  integrity sha512-1xllYVmA4dIvRjHzwELgW4KjIU1fW4PEuEnjsylz7k7H5HgPOctIq7W1jrt3sKH9yG5d72//XWzsHhfoWvsQVg==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.46"
