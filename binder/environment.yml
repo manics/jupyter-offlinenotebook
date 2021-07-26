@@ -2,6 +2,6 @@ name: offlinenotebook
 channels:
   - defaults
 dependencies:
-  - jupyterlab==3.0.9
+  - jupyterlab==3.0.16
   - pip
   - python
