@@ -189,11 +189,11 @@
     "@lumino/signaling" "^1.4.3"
 
 "@jupyterlab/builder@^3.0.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/builder/-/builder-3.1.0.tgz#e5f88914c43459df96afbb33db7b108e79c2f383"
-  integrity sha512-oq/6YnOSO3CsL7rIf1nZCNLWa87usuq15E37LkFTbwMU8RZruCRs+YthIkH1bzVRw7eZYuNwHv3uiGJBkSNBPQ==
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/builder/-/builder-3.1.1.tgz#10728e9969d8824b32c89caf9218795701101137"
+  integrity sha512-iWjL2GxlRse8uyObXQfujearEMLpq4YRcolFst3bSqRpOx3o0QVm1yztbQdIIuMWY5kZRl/hh+u5995ucj3FDA==
   dependencies:
-    "@jupyterlab/buildutils" "^3.1.0"
+    "@jupyterlab/buildutils" "^3.1.1"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/application" "^1.16.0"
     "@lumino/commands" "^1.12.0"
@@ -229,10 +229,10 @@
     webpack-merge "^5.1.2"
     worker-loader "^3.0.2"
 
-"@jupyterlab/buildutils@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/buildutils/-/buildutils-3.1.0.tgz#8740831f91ccde4d45e375ea07bae586b87f9b86"
-  integrity sha512-hPFMmv4PAWnbNobiH7LkfcH0dmJ4u05z+eowFDS6h5fXORZqlNGrxD3hKS4NneLCAeZiWtpb0O8tOaXNok+iag==
+"@jupyterlab/buildutils@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/buildutils/-/buildutils-3.1.1.tgz#2e40c87473f06d9ef3d78af0c692460c7c3294ea"
+  integrity sha512-91v250wMMGg4+EalhGHhwe4XZ0t3bbeKKOmdMoMyWzmuE74+ypi1p0MZM7aIBVnbDdGeqL/AU+7oBFRgyvYM7g==
   dependencies:
     "@lumino/coreutils" "^1.5.3"
     "@yarnpkg/lockfile" "^1.1.0"
