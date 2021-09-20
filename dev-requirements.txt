@@ -1,6 +1,6 @@
 jupyter_packaging==0.7.12
 flaky==3.7.0
-notebook==6.4.3
+notebook==6.4.4
 pre-commit==2.14.0
 pytest==6.2.4
 pytest-tornasync==0.6.0.post2
