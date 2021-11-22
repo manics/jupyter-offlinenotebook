@@ -1,9 +1,9 @@
 jupyter_packaging==0.7.12
 flaky==3.7.0
-notebook==6.4.3
+notebook==6.4.6
 pre-commit==2.14.0
 pytest==6.2.4
 pytest-tornasync==0.6.0.post2
-selenium==3.141.0
+selenium==4.0.0
 wheel==0.37.0
 # jupyterlab is installed separately so we can test multiple versions
