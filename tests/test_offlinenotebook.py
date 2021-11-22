@@ -59,6 +59,13 @@ class FirefoxTestBase:
                 self.jupyter_proc.kill()
 
     def start_jupyter(self, jupyterdir, app):
+        # Use unique JupyterLab dirs to avoid unexpected interactions
+        # https://jupyterlab.readthedocs.io/en/stable/user/directories.html
+        settings_dir = jupyterdir / "settings"
+        settings_dir.mkdir()
+        workspaces_dir = jupyterdir / "workspaces"
+        workspaces_dir.mkdir()
+
         version = subprocess.check_output(
             ["jupyter-{}".format(app.lower()), "--version"]
         )
@@ -77,8 +84,10 @@ class FirefoxTestBase:
                 "https://github.com/manics/jupyter-offlinenotebook/tree/main"
             ),
             "PATH": os.getenv("PATH"),
+            "JUPYTERLAB_SETTINGS_DIR": str(settings_dir),
+            "JUPYTERLAB_WORKSPACES_DIR": str(workspaces_dir),
         }
-        self.jupyter_proc = subprocess.Popen(command, cwd=jupyterdir, env=env)
+        self.jupyter_proc = subprocess.Popen(command, cwd=str(jupyterdir), env=env)
 
     def initialise_firefox(self, downloaddir, url):
         profile = FirefoxProfile()
@@ -90,6 +99,7 @@ class FirefoxTestBase:
         )
 
         options = Options()
+        # Comment this out to see the browser window
         options.headless = HEADLESS
 
         kwargs = {"firefox_profile": profile, "options": options}
@@ -112,7 +122,7 @@ class FirefoxTestBase:
         )
         self.expected_download = str(downloaddir / "example.ipynb")
 
-        self.start_jupyter(str(jupyterdir), app)
+        self.start_jupyter(jupyterdir, app)
         self.initialise_firefox(str(downloaddir), url)
 
 
@@ -328,7 +338,7 @@ class TestOfflineLab(FirefoxTestBase):
 
 class TestServer(FirefoxTestBase):
     def test_server_config(self, tmpdir):
-        self.start_jupyter(str(tmpdir), "Notebook")
+        self.start_jupyter(tmpdir, "Notebook")
         # Wait for server to start
         sleep(2)
 
