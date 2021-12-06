@@ -1,7 +1,7 @@
 jupyter_packaging==0.7.12
 flaky==3.7.0
 notebook==6.4.6
-pre-commit==2.15.0
+pre-commit==2.16.0
 pytest==6.2.5
 pytest-tornasync==0.6.0.post2
 selenium==3.141.0
