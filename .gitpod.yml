@@ -1,0 +1,8 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  # https://www.gitpod.io/docs/languages/python#start-tasks
+  - init: >
+      pip3 install -r dev-requirements-jl3.txt &&
+      pip3 install .
