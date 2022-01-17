@@ -325,9 +325,9 @@
     y-codemirror "^3.0.1"
 
 "@jupyterlab/coreutils@^4.2.0 || ^5.0.0", "@jupyterlab/coreutils@^5.2.4":
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/coreutils/-/coreutils-5.2.4.tgz#7cf858a35dc3076b77a7194c0abf1340564b1c39"
-  integrity sha512-0QXhg8R0bkb5LILhfphE/K5k4zJI8N+fNsmy/Nr4mDo8l8mB7km6OUcbSSNuJg1mYikOhEA+UxhqE0954UgxkQ==
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/coreutils/-/coreutils-5.2.8.tgz#8bb3456d0d98450b73e2aa3729bda83d42943a87"
+  integrity sha512-Qto/4ayWIkDnovK/myse2xbcs6MmShtK0MntQCipp+rdIX3T6m6UHPX5AURB9vuJoZmnx57KsejOhuYxJXHBIw==
   dependencies:
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
