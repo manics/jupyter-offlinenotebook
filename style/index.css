@@ -3,5 +3,5 @@
  * https://github.com/jupyterlab/jupyterlab/blob/v2.0.1/packages/ui-components/style/base.css#L70-L73
  */
 .jp-OfflineNotebookToolbarIcon {
-  color: var(--md-grey-700);
+  color: var(--jp-inverse-layout-color3);
 }
