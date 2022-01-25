@@ -1,3 +1,15 @@
+# 0.2.2 2022-01-25
+
+([full changelog](https://github.com/manics/jupyter-offlinenotebook/compare/v0.2.1...v0.2.2))
+
+### New features
+
+- Theme toolbar icon color [#389](https://github.com/manics/jupyter-offlinenotebook/pull/389) ([@fcollonval](https://github.com/fcollonval))
+
+### Other
+
+- Add gitpod config [#373](https://github.com/manics/jupyter-offlinenotebook/pull/373) ([@manics](https://github.com/manics))
+
 # 0.2.1 2021-01-16
 
 ## Bug fixes
