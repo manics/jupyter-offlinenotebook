@@ -1,2 +1,2 @@
 -r dev-requirements.txt
-jupyterlab==3.2.8
+jupyterlab==3.3.1
