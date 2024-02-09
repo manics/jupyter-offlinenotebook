@@ -11,7 +11,6 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.webdriver.firefox.options import Options
@@ -94,6 +93,7 @@ class FirefoxTestBase:
         profile = FirefoxProfile()
         profile.set_preference("browser.download.folderList", 2)
         profile.set_preference("browser.download.manager.showWhenStarting", "false")
+        profile.set_preference("browser.download.alwaysOpenPanel", False)
         profile.set_preference("browser.download.dir", downloaddir)
         profile.set_preference(
             "browser.helperApps.neverAsk.saveToDisk", "application/x-ipynb+json"
@@ -126,9 +126,6 @@ class FirefoxTestBase:
         self.start_jupyter(jupyterdir, app)
         self.initialise_firefox(str(downloaddir), url)
 
-    def escape_key(self):
-        webdriver.ActionChains(self.driver).send_keys(Keys.ESCAPE).perform()
-
 
 class TestOfflineNotebook(FirefoxTestBase):
     def download_visible(self):
@@ -137,8 +134,6 @@ class TestOfflineNotebook(FirefoxTestBase):
                 (By.XPATH, "//button[@title='Download visible']")
             )
         ).click()
-        # Firefox may have left a download panel open which covers other elements
-        self.escape_key()
 
         size = os.stat(self.expected_download).st_size
         with open(self.expected_download) as f:
@@ -246,8 +241,6 @@ class TestOfflineLab(FirefoxTestBase):
 
         # Allow time for the downloaded file to be saved
         sleep(2)
-        # Firefox may have left a download panel open which covers other elements
-        self.escape_key()
 
         size = os.stat(self.expected_download).st_size
         assert size
