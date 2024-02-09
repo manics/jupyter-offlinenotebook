@@ -72,15 +72,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python-version: '3.6'
-            jupyterlab-major: '2'
-            ubuntu: '20.04'
-            node: '16.x'
+          - python-version: '3.7'
+            jupyterlab-major: '3'
           - python-version: '3.8'
             jupyterlab-major: '3'
-            ubuntu: '22.04'
-            node: '18.x'
-    runs-on: ubuntu-${{ matrix.ubuntu }}
+    runs-on: ubuntu-22.04
     # Includes geckdriver and firefox
     # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
     steps:
@@ -95,7 +91,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: '18.x'
           cache: yarn
 
       - name: Download artifacts from build
@@ -107,9 +103,6 @@ jobs:
       - name: Install plugin
         run: |
           python -mpip install dist/*.whl
-          if [[ ${{ matrix.jupyterlab-major }} = 2 ]]; then
-            jupyter labextension install --debug --minimize=False ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
-          fi
 
       - name: Run pytest
         run: pytest -vs tests
