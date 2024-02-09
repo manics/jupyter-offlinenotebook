@@ -8,42 +8,35 @@ jobs:
   # https://github.com/pre-commit/action
   pre-commit:
     name: Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - uses: pre-commit/action@v2.0.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - uses: pre-commit/action@v3.0.1
 
   # Due to complications in the build process when trying to support both JupyterLab
   # 2 and 3 we build the pypi packages with JupyterLab 3, but test on 2 and 3
 
   build:
     name: Build dist
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
-          python-version: 3.8
-      - name: Cache pip
-        uses: actions/cache@v2
+          python-version: '3.8'
+          cache: pip
+          cache-dependency-path: 'dev-requirements*'
+
+      - uses: actions/setup-node@v4
         with:
-          # This path is specific to Ubuntu
-          path: ~/.cache/pip
-          # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-pip-${{ hashFiles('dev-requirements*') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-      - name: Cache yarn
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('*.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          node-version: '18.x'
+          cache: yarn
 
       - name: Install dependencies
         run: python -mpip install -r dev-requirements-jl3.txt
+
       - name: Build dist
         run: |
           python setup.py sdist bdist_wheel
@@ -59,13 +52,13 @@ jobs:
           mkdir jsdist
           jlpm pack --filename jsdist/jupyter-offlinenotebook-jlpmpack.tgz
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
           if-no-files-found: error
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: jsdist
           path: jsdist
@@ -81,37 +74,43 @@ jobs:
         include:
           - python-version: '3.6'
             jupyterlab-major: '2'
+            ubuntu: '20.04'
+            node: '16.x'
           - python-version: '3.8'
             jupyterlab-major: '3'
-    runs-on: ubuntu-latest
+            ubuntu: '22.04'
+            node: '18.x'
+    runs-on: ubuntu-${{ matrix.ubuntu }}
     # Includes geckdriver and firefox
     # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Cache pip
-        uses: actions/cache@v2
+          cache: pip
+          cache-dependency-path: 'dev-requirements*'
+
+      - uses: actions/setup-node@v4
         with:
-          # This path is specific to Ubuntu
-          path: ~/.cache/pip
-          # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-pip-${{ hashFiles('dev-requirements*') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          node-version: ${{ matrix.node }}
+          cache: yarn
+
       - name: Download artifacts from build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
 
       - name: Install dependencies
         run: python -mpip install -r dev-requirements-jl${{ matrix.jupyterlab-major }}.*
+
       - name: Install plugin
         run: |
           python -mpip install dist/*.whl
           if [[ ${{ matrix.jupyterlab-major }} = 2 ]]; then
             jupyter labextension install --debug --minimize=False ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
           fi
+
       - name: Run pytest
         run: pytest -vs tests
 
@@ -122,17 +121,19 @@ jobs:
       # Only publish if other jobs passed
       - pre-commit
       - test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v5
+
       - name: Download artifacts from build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist
+
       - name: Publish to PyPI
         if: startsWith(github.ref, 'refs/tags')
-        uses: pypa/gh-action-pypi-publish@v1.3.0
+        uses: pypa/gh-action-pypi-publish@v1.8.11
         with:
           password: ${{ secrets.PYPI_PASSWORD }}
 
@@ -142,15 +143,17 @@ jobs:
       # Only publish if other jobs passed
       - pre-commit
       - test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
-          node-version: 12.x
+          node-version: '18.x'
+          cache: yarn
           registry-url: https://registry.npmjs.org
+
       - name: Download artifacts from build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: jsdist
           path: jsdist
