@@ -1,6 +1,7 @@
 """
 jupyter_offlinenotebook setup
 """
+
 import json
 import os
 
