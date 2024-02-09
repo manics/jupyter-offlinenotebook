@@ -44,13 +44,13 @@ def assert_empty_size(size):
 
 
 class FirefoxTestBase:
-    def setup(self):
+    def setup_method(self):
         self.jupyter_proc = None
         self.major_version = None
         self.driver = None
         self.wait = None
 
-    def teardown(self):
+    def teardown_method(self):
         try:
             if self.driver:
                 self.driver.quit()
