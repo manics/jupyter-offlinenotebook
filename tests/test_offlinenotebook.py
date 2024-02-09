@@ -190,7 +190,7 @@ class TestOfflineNotebook(FirefoxTestBase):
         # https://stackoverflow.com/a/51842120
         self.wait.until(
             EC.invisibility_of_element_located(
-                (By.XPATH, "//div[@class='modal-dialog']")
+                (By.XPATH, "//div[@class='modal-backdrop']")
             )
         )
 
