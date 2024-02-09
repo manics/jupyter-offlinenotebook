@@ -65,8 +65,8 @@ function getDb(): OfflinenotebookDatabase {
 export function saveNotebook(
   path: string,
   nb: PartialJSONValue,
-  success: Function,
-  error: Function
+  success: (...args: any[]) => unknown,
+  error: (...args: any[]) => unknown,
 ): void {
   const primaryKey = 'repoid:' + _repoid + ' path:' + path;
   getDb()
@@ -85,8 +85,8 @@ export function saveNotebook(
 
 export function loadNotebook(
   path: string,
-  success: Function,
-  error: Function
+  success: (...args: any[]) => unknown,
+  error: (...args: any[]) => unknown,
 ): void {
   const primaryKey = 'repoid:' + _repoid + ' path:' + path;
   getDb()
@@ -98,7 +98,7 @@ export function loadNotebook(
 // Download https://jsfiddle.net/koldev/cW7W5/
 export function downloadNotebookFromBrowser(
   name: string,
-  nb: PartialJSONValue
+  nb: PartialJSONValue,
 ): void {
   const blob = new Blob([JSON.stringify(nb)], {
     // https://jupyter.readthedocs.io/en/latest/reference/mimetype.html

@@ -50,7 +50,7 @@ export class OfflineNotebookButtons
    */
   createNew(
     panel: NotebookPanel,
-    context: DocumentRegistry.IContext<INotebookModel>
+    context: DocumentRegistry.IContext<INotebookModel>,
   ): IDisposable {
     // https://stackoverflow.com/a/40679225
     // For debugging in browser console assign panel to a global var
@@ -180,7 +180,7 @@ function localstoreSaveNotebook(panel: NotebookPanel): void {
     (e: any) => {
       showErrorMessage('Local storage IndexedDB error', e);
       throw e;
-    }
+    },
   );
 }
 
@@ -228,7 +228,7 @@ function localstoreLoadNotebook(panel: NotebookPanel): void {
     (e: any) => {
       showErrorMessage('Local storage IndexedDB error', e);
       throw e;
-    }
+    },
   );
 }
 
@@ -266,7 +266,7 @@ function createCopyShareURLNode(binderUrl: string): HTMLElement {
     $('<pre/>', {
       text: binderUrl,
       style: 'margin: 0; white-space: pre-wrap; word-break: break-all;',
-    })
+    }),
   );
   const button = $('<button/>', {
     title: 'Copy binder link to clipboard',
@@ -277,7 +277,7 @@ function createCopyShareURLNode(binderUrl: string): HTMLElement {
   button.append(
     $('<i/>', {
       class: 'fas fa-clipboard',
-    })
+    }),
   );
   body.append(button);
   // Unwrap JQuery object
