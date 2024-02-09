@@ -102,10 +102,10 @@ class FirefoxTestBase:
         # Comment this out to see the browser window
         options.headless = HEADLESS
 
-        kwargs = {"firefox_profile": profile, "options": options}
+        options.profile = profile
         if FIREFOX_BIN:
-            kwargs["firefox_binary"] = FIREFOX_BIN
-        self.driver = webdriver.Firefox(**kwargs)
+            options.binary_location = FIREFOX_BIN
+        self.driver = webdriver.Firefox(options=options)
         self.wait = WebDriverWait(self.driver, TIMEOUT)
 
         self.driver.get(url)
@@ -141,38 +141,38 @@ class TestOfflineNotebook(FirefoxTestBase):
         return size, ncells
 
     def save_to_browser_storage(self):
-        self.driver.find_element_by_xpath(
-            "//button[@title='Save to browser storage']"
+        self.driver.find_element(
+            By.XPATH, "//button[@title='Save to browser storage']"
         ).click()
         dialog = self.wait.until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "div.modal-dialog"))
         )
 
-        assert dialog.find_element_by_css_selector("h4.modal-title").text == (
+        assert dialog.find_element(By.CSS_SELECTOR, "h4.modal-title").text == (
             "Notebook saved to browser storage"
         )
-        assert dialog.find_element_by_css_selector("div.modal-body").text == (
+        assert dialog.find_element(By.CSS_SELECTOR, "div.modal-body").text == (
             "repoid: https://github.com/manics/jupyter-offlinenotebook\n"
             "path: example.ipynb"
         )
-        dialog.find_element_by_css_selector("button.btn-default").click()
+        dialog.find_element(By.CSS_SELECTOR, "button.btn-default").click()
 
     def restore_from_browser_storage(self):
-        self.driver.find_element_by_xpath(
-            "//button[@title='Restore from browser storage']"
+        self.driver.find_element(
+            By.XPATH, "//button[@title='Restore from browser storage']"
         ).click()
         dialog = self.wait.until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "div.modal-dialog"))
         )
 
-        assert dialog.find_element_by_css_selector("h4.modal-title").text == (
+        assert dialog.find_element(By.CSS_SELECTOR, "h4.modal-title").text == (
             "This will replace your current notebook with"
         )
-        assert dialog.find_element_by_css_selector("div.modal-body").text == (
+        assert dialog.find_element(By.CSS_SELECTOR, "div.modal-body").text == (
             "repoid: https://github.com/manics/jupyter-offlinenotebook\n"
             "path: example.ipynb"
         )
-        buttons = dialog.find_elements_by_css_selector("button.btn-default")
+        buttons = dialog.find_elements(By.CSS_SELECTOR, "button.btn-default")
         assert buttons[0].text == "OK"
         assert buttons[1].text == "Cancel"
         buttons[0].click()
@@ -248,8 +248,8 @@ class TestOfflineLab(FirefoxTestBase):
         return size, ncells
 
     def save_to_browser_storage(self):
-        self.driver.find_element_by_xpath(
-            "//button[@title='Save to browser storage']"
+        self.driver.find_element(
+            By.XPATH, "//button[@title='Save to browser storage']"
         ).click()
         dialog = self.wait.until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "div.jp-Dialog-content"))
@@ -259,18 +259,18 @@ class TestOfflineLab(FirefoxTestBase):
             el = "span"
         else:
             el = "div"
-        assert dialog.find_element_by_css_selector(f"{el}.jp-Dialog-header").text == (
+        assert dialog.find_element(By.CSS_SELECTOR, f"{el}.jp-Dialog-header").text == (
             "Notebook saved to browser storage"
         )
-        assert dialog.find_element_by_css_selector("span.jp-Dialog-body").text == (
+        assert dialog.find_element(By.CSS_SELECTOR, "span.jp-Dialog-body").text == (
             "repoid: https://github.com/manics/jupyter-offlinenotebook "
             "path: example.ipynb"
         )
-        dialog.find_element_by_css_selector("button.jp-Dialog-button").click()
+        dialog.find_element(By.CSS_SELECTOR, "button.jp-Dialog-button").click()
 
     def restore_from_browser_storage(self):
-        self.driver.find_element_by_xpath(
-            "//button[@title='Restore from browser storage']"
+        self.driver.find_element(
+            By.XPATH, "//button[@title='Restore from browser storage']"
         ).click()
         dialog = self.wait.until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "div.jp-Dialog-content"))
@@ -280,14 +280,14 @@ class TestOfflineLab(FirefoxTestBase):
             el = "span"
         else:
             el = "div"
-        assert dialog.find_element_by_css_selector(f"{el}.jp-Dialog-header").text == (
+        assert dialog.find_element(By.CSS_SELECTOR, f"{el}.jp-Dialog-header").text == (
             "This will replace your current notebook with"
         )
-        assert dialog.find_element_by_css_selector("span.jp-Dialog-body").text == (
+        assert dialog.find_element(By.CSS_SELECTOR, "span.jp-Dialog-body").text == (
             "repoid: https://github.com/manics/jupyter-offlinenotebook "
             "path: example.ipynb"
         )
-        buttons = dialog.find_elements_by_css_selector("button.jp-Dialog-button")
+        buttons = dialog.find_elements(By.CSS_SELECTOR, "button.jp-Dialog-button")
         assert buttons[0].text == "Cancel"
         assert buttons[1].text == "OK"
         buttons[1].click()
