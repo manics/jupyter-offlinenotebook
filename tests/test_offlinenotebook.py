@@ -235,7 +235,7 @@ class TestOfflineLab(FirefoxTestBase):
         )
         self.wait.until(
             EC.element_to_be_clickable(
-                (By.XPATH, "//button[@title='Download visible']")
+                (By.XPATH, f"//{self.toolbar_button}[@title='Download visible']")
             )
         ).click()
 
@@ -252,17 +252,13 @@ class TestOfflineLab(FirefoxTestBase):
 
     def save_to_browser_storage(self):
         self.driver.find_element(
-            By.XPATH, "//button[@title='Save to browser storage']"
+            By.XPATH, f"//{self.toolbar_button}[@title='Save to browser storage']"
         ).click()
         dialog = self.wait.until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "div.jp-Dialog-content"))
         )
 
-        if self.major_version == 2:
-            el = "span"
-        else:
-            el = "div"
-        assert dialog.find_element(By.CSS_SELECTOR, f"{el}.jp-Dialog-header").text == (
+        assert dialog.find_element(By.CSS_SELECTOR, "div.jp-Dialog-header").text == (
             "Notebook saved to browser storage"
         )
         assert dialog.find_element(By.CSS_SELECTOR, "span.jp-Dialog-body").text == (
@@ -273,17 +269,13 @@ class TestOfflineLab(FirefoxTestBase):
 
     def restore_from_browser_storage(self):
         self.driver.find_element(
-            By.XPATH, "//button[@title='Restore from browser storage']"
+            By.XPATH, f"//{self.toolbar_button}[@title='Restore from browser storage']"
         ).click()
         dialog = self.wait.until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "div.jp-Dialog-content"))
         )
 
-        if self.major_version == 2:
-            el = "span"
-        else:
-            el = "div"
-        assert dialog.find_element(By.CSS_SELECTOR, f"{el}.jp-Dialog-header").text == (
+        assert dialog.find_element(By.CSS_SELECTOR, "div.jp-Dialog-header").text == (
             "This will replace your current notebook with"
         )
         assert dialog.find_element(By.CSS_SELECTOR, "span.jp-Dialog-body").text == (
@@ -301,7 +293,11 @@ class TestOfflineLab(FirefoxTestBase):
         # downloading the updated notebook
 
         self.initialise(tmpdir, "Lab", JUPYTERLAB_URL)
-        assert self.major_version in (2, 3)
+        assert self.major_version in (3, 4)
+        if self.major_version == 3:
+            self.toolbar_button = "button"
+        else:
+            self.toolbar_button = "jp-button"
 
         # Wait for the loading logo to appear, then disappear
         try:
@@ -326,10 +322,12 @@ class TestOfflineLab(FirefoxTestBase):
         for n in range(EXPECTED_NUM_CELLS):
             self.wait.until(
                 EC.element_to_be_clickable(
-                    # May end with ' (X)'
+                    # Cut the selected cells
+                    # Cut the selected cells (X)
+                    # Cut this cell
                     (
                         By.XPATH,
-                        "//button[starts-with(@title, 'Cut the selected cells')]",
+                        f"//{self.toolbar_button}[starts-with(@title, 'Cut ')]",
                     )
                 )
             ).click()
