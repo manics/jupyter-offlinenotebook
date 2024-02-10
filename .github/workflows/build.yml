@@ -76,9 +76,11 @@ jobs:
             jupyterlab-major: '3'
           - python-version: '3.10'
             jupyterlab-major: '4'
+          - python-version: '3.12'
+            jupyterlab-major: '4'
     runs-on: ubuntu-22.04
     # Includes geckdriver and firefox
-    # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
+    # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
     steps:
       - uses: actions/checkout@v4
 
