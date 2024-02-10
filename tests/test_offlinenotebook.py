@@ -17,9 +17,9 @@ from selenium.webdriver.firefox.options import Options
 
 
 PORT = 18888
-CONFIG_URL = "http://localhost:{}/offlinenotebook/config".format(PORT)
-JUPYTERLAB_URL = "http://localhost:{}/lab/tree/example.ipynb".format(PORT)
-JUPYTERNOTEBOOK_URL = "http://localhost:{}/tree/example.ipynb".format(PORT)
+CONFIG_URL = f"http://localhost:{PORT}/offlinenotebook/config"
+JUPYTERLAB_URL = f"http://localhost:{PORT}/lab/tree/example.ipynb"
+JUPYTERNOTEBOOK_URL = f"http://localhost:{PORT}/tree/example.ipynb"
 EXPECTED_SIZE = 1700
 EXPECTED_EMPTY_SIZE = 450
 EXPECTED_NUM_CELLS = 5
@@ -66,15 +66,13 @@ class FirefoxTestBase:
         workspaces_dir = jupyterdir / "workspaces"
         workspaces_dir.mkdir()
 
-        version = subprocess.check_output(
-            ["jupyter-{}".format(app.lower()), "--version"]
-        )
+        version = subprocess.check_output([f"jupyter-{app}", "--version"])
         self.major_version = int(version.split(b".", 1)[0])
         command = [
-            "jupyter-{}".format(app.lower()),
+            f"jupyter-{app}",
             "--no-browser",
-            "--{}App.token=".format(app),
-            "--port={}".format(PORT),
+            "--ServerApp.token=",
+            f"--port={PORT}",
         ]
         env = {
             "BINDER_LAUNCH_HOST": "http://localhost/",
@@ -188,13 +186,15 @@ class TestOfflineNotebook(FirefoxTestBase):
                 (By.XPATH, "//div[@class='modal-backdrop']")
             )
         )
+        # Still doesn't work so force a pause
+        sleep(0.5)
 
     @pytest.mark.flaky(max_runs=3)
     def test_offline_notebook(self, tmpdir):
         # Selenium can't access IndexedDB so instead check save/load by
         # downloading the updated notebook
 
-        self.initialise(tmpdir, "Notebook", JUPYTERNOTEBOOK_URL)
+        self.initialise(tmpdir, "nbclassic", JUPYTERNOTEBOOK_URL)
 
         size, ncells = self.download_visible()
         assert_expected_size(size)
@@ -206,8 +206,6 @@ class TestOfflineNotebook(FirefoxTestBase):
         # Delete some cells and download
         # element_to_be_clickable doesn't actually mean clickable
         self.wait_for_modal_dialog()
-        # Still doesn't work so force a pause
-        sleep(0.5)
         for n in range(EXPECTED_NUM_CELLS):
             self.wait.until(
                 EC.element_to_be_clickable(
@@ -292,7 +290,7 @@ class TestOfflineLab(FirefoxTestBase):
         # Selenium can't access IndexedDB so instead check save/load by
         # downloading the updated notebook
 
-        self.initialise(tmpdir, "Lab", JUPYTERLAB_URL)
+        self.initialise(tmpdir, "lab", JUPYTERLAB_URL)
         assert self.major_version in (3, 4)
         if self.major_version == 3:
             self.toolbar_button = "button"
@@ -343,7 +341,7 @@ class TestOfflineLab(FirefoxTestBase):
 
 class TestServer(FirefoxTestBase):
     def test_server_config(self, tmpdir):
-        self.start_jupyter(tmpdir, "Notebook")
+        self.start_jupyter(tmpdir, "server")
         # Wait for server to start
         sleep(2)
 

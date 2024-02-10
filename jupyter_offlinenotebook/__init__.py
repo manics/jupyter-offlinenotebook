@@ -1,6 +1,6 @@
 import json
-from notebook.utils import url_path_join
-from notebook.base.handlers import IPythonHandler
+from jupyter_server.utils import url_path_join
+from jupyter_server.base.handlers import JupyterHandler
 import os
 from tornado import web
 from traitlets import TraitType
@@ -23,7 +23,7 @@ class Callable(TraitType):
             self.error(obj, value)
 
 
-class OfflineNotebookHandler(IPythonHandler):
+class OfflineNotebookHandler(JupyterHandler):
     @web.authenticated
     async def get(self):
         """

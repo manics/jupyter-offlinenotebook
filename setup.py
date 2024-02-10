@@ -93,7 +93,7 @@ setup_args = dict(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     cmdclass=cmdclass,
-    install_requires=[],
+    install_requires=["jupyter-server"],
     python_requires=">=3.6",
     zip_safe=False,
     include_package_data=True,
