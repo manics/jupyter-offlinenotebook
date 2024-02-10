@@ -50,7 +50,7 @@ export class OfflineNotebookButtons
    */
   createNew(
     panel: NotebookPanel,
-    context: DocumentRegistry.IContext<INotebookModel>
+    context: DocumentRegistry.IContext<INotebookModel>,
   ): IDisposable {
     // https://stackoverflow.com/a/40679225
     // For debugging in browser console assign panel to a global var
@@ -180,7 +180,7 @@ function localstoreSaveNotebook(panel: NotebookPanel): void {
     (e: any) => {
       showErrorMessage('Local storage IndexedDB error', e);
       throw e;
-    }
+    },
   );
 }
 
@@ -188,8 +188,12 @@ function localstoreSaveNotebook(panel: NotebookPanel): void {
 // Element implicitly has an 'any' type because expression of type '"contents"' can't be used to index type 'string | number | true | JSONObject | JSONArray'.
 // Property 'contents' does not exist on type 'string | number | true | JSONObject | JSONArray'.ts(7053)
 // https://dev.to/kingdaro/indexing-objects-in-typescript-1cgi
-function hasKey<O>(obj: O, key: keyof any): key is keyof O {
-  return key in obj;
+function getKey(val: PartialJSONValue, key: string): boolean {
+  if (typeof val === 'object' && val !== null && key in val) {
+    const obj: { [key: string]: any } = val;
+    return obj[key];
+  }
+  return null;
 }
 
 function localstoreLoadNotebook(panel: NotebookPanel): void {
@@ -208,8 +212,9 @@ function localstoreLoadNotebook(panel: NotebookPanel): void {
         }).then((result) => {
           const contentsKey = 'content';
           if (result.button.accept && !panel.context.isDisposed) {
-            if (hasKey(nb, contentsKey)) {
-              panel.context.model.fromJSON(nb[contentsKey]);
+            const nbContents = getKey(nb, contentsKey);
+            if (nbContents) {
+              panel.context.model.fromJSON(nbContents);
             } else {
               showErrorMessage('Invalid notebook', '"content" not found');
             }
@@ -223,7 +228,7 @@ function localstoreLoadNotebook(panel: NotebookPanel): void {
     (e: any) => {
       showErrorMessage('Local storage IndexedDB error', e);
       throw e;
-    }
+    },
   );
 }
 
@@ -261,7 +266,7 @@ function createCopyShareURLNode(binderUrl: string): HTMLElement {
     $('<pre/>', {
       text: binderUrl,
       style: 'margin: 0; white-space: pre-wrap; word-break: break-all;',
-    })
+    }),
   );
   const button = $('<button/>', {
     title: 'Copy binder link to clipboard',
@@ -272,7 +277,7 @@ function createCopyShareURLNode(binderUrl: string): HTMLElement {
   button.append(
     $('<i/>', {
       class: 'fas fa-clipboard',
-    })
+    }),
   );
   body.append(button);
   // Unwrap JQuery object

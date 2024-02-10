@@ -1,2 +1,0 @@
--r dev-requirements.txt
-jupyterlab==3.6.7

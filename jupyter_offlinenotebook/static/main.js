@@ -13,7 +13,7 @@ define([
       function (data) {
         offline.initialise(data);
         addButtons();
-      }
+      },
     );
   };
 
@@ -25,7 +25,7 @@ define([
         handler: downloadNotebookFromBrowser,
       },
       'offline-notebook-download',
-      'offlinenotebook'
+      'offlinenotebook',
     );
     Jupyter.actions.register(
       {
@@ -34,7 +34,7 @@ define([
         handler: localstoreSaveNotebook,
       },
       'offline-notebook-save',
-      'offlinenotebook'
+      'offlinenotebook',
     );
     Jupyter.actions.register(
       {
@@ -43,7 +43,7 @@ define([
         handler: localstoreLoadNotebook,
       },
       'offline-notebook-load',
-      'offlinenotebook'
+      'offlinenotebook',
     );
 
     var repoIcons = {
@@ -58,7 +58,7 @@ define([
         handler: offline.openBinderRepo,
       },
       'offline-notebook-binderrepo',
-      'offlinenotebook'
+      'offlinenotebook',
     );
     Jupyter.actions.register(
       {
@@ -67,7 +67,7 @@ define([
         handler: showBinderLink,
       },
       'offline-notebook-binderlink',
-      'offlinenotebook'
+      'offlinenotebook',
     );
 
     var buttons = [
@@ -123,8 +123,8 @@ define([
       }).append(
         $('<b/>', {
           text: offline.repoid(),
-        })
-      )
+        }),
+      ),
     );
     var displayPath = $('<div/>').append(
       $('<span/>', {
@@ -132,8 +132,8 @@ define([
       }).append(
         $('<b/>', {
           text: path,
-        })
-      )
+        }),
+      ),
     );
     return displayRepoid.append(displayPath);
   }
@@ -157,15 +157,15 @@ define([
         var body = repopathDisplay.append(
           $('<div/>', {
             text: e,
-          })
+          }),
         );
         modalDialog(
           'Local storage IndexedDB error',
           body,
-          'alert alert-danger'
+          'alert alert-danger',
         );
         throw e;
-      }
+      },
     );
   }
 
@@ -191,14 +191,14 @@ define([
                 },
               },
               Cancel: {},
-            }
+            },
           );
         } else {
           console.log('offline-notebook not found ' + key);
           modalDialog(
             'Notebook not found in browser storage',
             repopathDisplay,
-            'alert alert-danger'
+            'alert alert-danger',
           );
         }
       },
@@ -207,20 +207,20 @@ define([
           .append(
             $('<div/>', {
               text: key,
-            })
+            }),
           )
           .append(
             $('<div/>', {
               text: e,
-            })
+            }),
           );
         modalDialog(
           'Local storage IndexedDB error',
           body,
-          'alert alert-danger'
+          'alert alert-danger',
         );
         throw e;
-      }
+      },
     );
   }
 
@@ -250,7 +250,7 @@ define([
       $('<pre/>', {
         text: binderUrl,
         style: 'flex-grow: 1; margin: 0;',
-      })
+      }),
     );
     var button = $('<button/>', {
       title: 'Copy binder link to clipboard',
@@ -261,7 +261,7 @@ define([
     button.append(
       $('<i/>', {
         class: 'fa fa-clipboard',
-      })
+      }),
     );
     body.append(button);
     modalDialog('Link to this Binder', body);

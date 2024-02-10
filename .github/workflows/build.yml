@@ -31,11 +31,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '20.x'
           cache: yarn
 
       - name: Install dependencies
-        run: python -mpip install -r dev-requirements-jl3.txt
+        run: python -mpip install -r dev-requirements-jl4.txt
 
       - name: Build dist
         run: |
@@ -75,7 +75,7 @@ jobs:
           - python-version: '3.7'
             jupyterlab-major: '3'
           - python-version: '3.10'
-            jupyterlab-major: '3'
+            jupyterlab-major: '4'
     runs-on: ubuntu-22.04
     # Includes geckdriver and firefox
     # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
@@ -91,7 +91,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '20.x'
           cache: yarn
 
       - name: Download artifacts from build
@@ -141,7 +141,7 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '20.x'
           registry-url: https://registry.npmjs.org
 
       - name: Download artifacts from build

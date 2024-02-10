@@ -11,13 +11,10 @@ Save and load notebooks to browser storage, even if you've lost your connection 
 
     pip install jupyter-offlinenotebook
 
-This should automatically enable the extension on Jupyter Notebook and JupyterLab 3.
+This should automatically enable the extension on Jupyter Notebook and JupyterLab.
 
-If you are using JupyterLab 2 you must manually install the JavaScript component of the extension:
-
-    jupyter labextension install jupyter-offlinenotebook
-
-This is not needed on JupyterLab 3 due to the new extensions framework that means the JavaScript can be included in the Python `pip` package.
+This extension supports JupyterLab 3 and 4, and NBclassic.
+Use [version 0.2.2](https://github.com/manics/jupyter-offlinenotebook/tree/v0.2.2) for JupyterLab 2 and Notebook &lt;7.
 
 ## Usage
 
@@ -78,33 +75,20 @@ This extension stores notebooks in browser storage using the [IndexedDB API](htt
 One server API call is made during initialisation to obtain the storage configuration.
 Everything else is done client-side so should work even if the server is disconnected.
 
-The [`main` branch](https://github.com/manics/jupyter-offlinenotebook) supports both JupyterLab 2 and 3 as well as Jupyter Notebook, but it must be _built_ using JupyterLab 3.
-This is because the JavaScript assets are compiled using JupyterLab's `jlpm` command.
+The CI pipeline builds the extension with JupyterLab 4, but the build package works with JupyterLab 3 and NBclassic.
 Install the development dependencies:
 
-    pip install -r dev-requirements-jl3.txt
+    pip install -r dev-requirements-jl4.txt
 
-To build and install the development version on Jupyter Notebook and JupyterLab 3:
+To build and install the development version:
 
     pip install .
 
 This automatically runs `jlpm`.
 
 The notebook and server extensions should be automatically enabled.
-If for some reason it isn't (i.e. it's not listed in `jupyter nbextension list` or `jupyter serverextension list`) install and enable it:
 
-    jupyter nbextension install --py jupyter_offlinenotebook --sys-prefix
-    jupyter nbextension enable --py jupyter_offlinenotebook --sys-prefix
-
-    jupyter serverextension install --py jupyter_offlinenotebook --sys-prefix
-    jupyter serverextension enable --py jupyter_offlinenotebook --sys-prefix
-
-JupyterLab 3 supports the installation of extensions as a static package so no further steps are required.
-
-If you are using JupyterLab 2 you must manually install the JavaScript component of the extension:
-
-    pip install .
-    jupyter labextension link
+JupyterLab 3+ supports the installation of extensions as a static package so no further steps are required.
 
 Tagged releases of this repository are automatically published to [PyPI](https://pypi.python.org/pypi/jupyter-offlinenotebook) and [NPM](https://www.npmjs.com/package/jupyter-offlinenotebook).
 
@@ -117,5 +101,4 @@ BINDER_LAUNCH_HOST=http://localhost BINDER_REPO_URL=http://localhost BINDER_PERS
 If you make any changes remember to run all linters and auto-formatters:
 
 - `pre-commit run -a`
-- `jlpm run eslint`
-- `jlpm run prettier`
+- `jlpm run format`
