@@ -1,8 +1,8 @@
-# 0.3.0-rc.1
+# 0.3.0 2024-02-10
 
 JupyterLab 4 support, require Jupyter Server (for Notebook support use NbClassic), drop support for Python 3.6.
 
-([full changelog](https://github.com/manics/jupyter-offlinenotebook/compare/v0.2.2...v0.3.1-rc.1))
+([full changelog](https://github.com/manics/jupyter-offlinenotebook/compare/v0.2.2...v0.3.0))
 
 ### New features
 
