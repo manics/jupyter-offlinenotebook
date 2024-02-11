@@ -6,6 +6,7 @@ include pyproject.toml
 include package.json
 include ts*.json
 include webpack.config.js
+include yarn.lock
 
 graft jupyter_offlinenotebook/static
 

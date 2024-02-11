@@ -27,8 +27,6 @@ def get_version():
 
 # Representative files that should exist after a successful build
 jstargets = [
-    # tsc
-    os.path.join(HERE, "lib", "index.js"),
     # notebook
     os.path.join(HERE, name, "static", "jslib", "offlinenotebook.js"),
     # jupyterlab 3 bundled extension
