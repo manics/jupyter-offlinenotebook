@@ -39,7 +39,7 @@ jobs:
 
       - name: Build dist
         run: |
-          python setup.py sdist bdist_wheel
+          python -mbuild
           ls dist/*tar.gz dist/*.whl
 
       - name: Javascript format
