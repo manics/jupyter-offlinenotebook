@@ -1,8 +1,13 @@
 [build-system]
 requires = [
-  "jupyter_packaging~=0.7.0",
-  "jupyterlab>=3.0.0,==3.*",  # jlpm is used to build static js
-  "setuptools>=40.8.0",
+  "jupyter_packaging~=0.12.3",
+  "jupyterlab~=4.0",  # jlpm is used to build static js
+  "setuptools>=60",
+  "setuptools-scm>=8",
   "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+# Used to ensure all files are packaged in the sdist
+# This is not used for versioning

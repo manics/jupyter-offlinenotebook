@@ -1,23 +1,7 @@
-include LICENSE
-include LICENSE.dexie
-include README.md
-include pyproject.toml
-
-include package.json
-include ts*.json
-include webpack.config.js
+# setuptools-scm includes all source controlled files
 
 graft jupyter_offlinenotebook/static
 
 # Javascript files
-graft src
-graft style
 prune **/node_modules
 prune lib
-
-# Patterns to exclude from any directory
-global-exclude *~
-global-exclude *.pyc
-global-exclude *.pyo
-global-exclude .git
-global-exclude .ipynb_checkpoints
