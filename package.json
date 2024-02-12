@@ -55,7 +55,7 @@
     "@jupyterlab/coreutils": "^5.0.0 || ^6.0.0",
     "@jupyterlab/docregistry": "^3.0.0 || ^4.0.0",
     "@jupyterlab/notebook": "^3.0.0 || ^4.0.0",
-    "@lumino/disposable": "^1.4.3",
+    "@lumino/disposable": "^2.1.2",
     "@lumino/widgets": "^1.17.0 || ^2.0.0",
     "@types/jquery": "^3",
     "dexie": "^3.2.2",
