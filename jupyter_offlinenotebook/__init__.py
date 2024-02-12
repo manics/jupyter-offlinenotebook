@@ -139,3 +139,4 @@ def load_jupyter_server_extension(nbapp):
 # Add compatibility with jupyter-server
 # https://jupyter-server.readthedocs.io/en/latest/developers/extensions.html#migrating-an-extension-to-use-jupyter-serverjupyter_server
 _load_jupyter_server_extension = load_jupyter_server_extension
+_jupyter_server_extension_points = _jupyter_server_extension_paths
