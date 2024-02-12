@@ -1,3 +1,16 @@
+# v0.3.1-rc.1 2024-02-12
+
+([full changelog](https://github.com/manics/jupyter-offlinenotebook/compare/v0.3.0...v0.3.1-rc.1))
+
+## Bug fixes
+
+- Use setuptools-scm to include files in sdist, switch to `python -mbuild` [#568](https://github.com/manics/jupyter-offlinenotebook/pull/568) ([@manics](https://github.com/manics))
+
+## Other
+
+- Add \_jupyter_server_extension_points [#578](https://github.com/manics/jupyter-offlinenotebook/pull/578) ([@manics](https://github.com/manics))
+- Disable NPM in dependabot, add github actions [#577](https://github.com/manics/jupyter-offlinenotebook/pull/577) ([@manics](https://github.com/manics))
+
 # 0.3.0 2024-02-10
 
 JupyterLab 4 support, require Jupyter Server (for Notebook support use NbClassic), drop support for Python 3.6.
