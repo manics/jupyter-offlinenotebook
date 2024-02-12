@@ -1,6 +1,6 @@
-# v0.3.1-rc.1 2024-02-12
+# 0.3.1 2024-02-12
 
-([full changelog](https://github.com/manics/jupyter-offlinenotebook/compare/v0.3.0...v0.3.1-rc.1))
+([full changelog](https://github.com/manics/jupyter-offlinenotebook/compare/v0.3.0...v0.3.1))
 
 ## Bug fixes
 
