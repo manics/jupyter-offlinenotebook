@@ -2,7 +2,7 @@ build==1.1.1
 jupyter_packaging==0.12.3
 flaky==3.8.1
 nbclassic==1.0.0
-pre-commit==2.21.0
+pre-commit==3.6.2
 pytest==7.4.4
 selenium==4.11.2
 traitlets==5.9.0
