@@ -4,7 +4,7 @@ flaky==3.8.1
 nbclassic==1.0.0
 pre-commit==2.21.0
 pytest==7.4.4
-selenium==4.11.2
+selenium==4.19.0
 traitlets==5.9.0
 wheel==0.42.0
 # jupyterlab and jupyter_server are installed separately so we can test multiple versions
