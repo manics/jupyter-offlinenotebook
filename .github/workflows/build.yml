@@ -129,7 +129,7 @@ jobs:
 
       - name: Publish to PyPI
         if: startsWith(github.ref, 'refs/tags')
-        uses: pypa/gh-action-pypi-publish@v1.10.2
+        uses: pypa/gh-action-pypi-publish@v1.11.0
 
   # https://docs.github.com/en/actions/language-and-framework-guides/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
   publish-npm:
