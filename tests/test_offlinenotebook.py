@@ -7,7 +7,7 @@ from time import sleep
 from urllib.request import urlopen
 
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -107,7 +107,15 @@ class FirefoxTestBase:
         self.driver = webdriver.Firefox(options=options)
         self.wait = WebDriverWait(self.driver, TIMEOUT)
 
-        self.driver.get(url)
+        # Jupyter may be slow to start
+        for n in range(5):
+            sleep(1)
+            try:
+                self.driver.get(url)
+            except WebDriverException as exc:
+                if "about:neterror" not in exc.msg:
+                    raise
+
         print("Firefox Initialized")
 
     def initialise(self, tmpdir, app, url):
