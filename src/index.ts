@@ -312,7 +312,9 @@ function activate(app: JupyterFrontEnd): void {
     baseUrl + 'offlinenotebook/config',
     {},
     settings,
-  );
+  ).then(async (response) => {
+    offline.initialise(await response.json());
+  });
   app.docRegistry.addWidgetExtension('Notebook', new OfflineNotebookButtons());
 }
 
