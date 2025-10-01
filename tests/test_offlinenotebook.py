@@ -5,9 +5,10 @@ from shutil import copyfile
 import subprocess
 from time import sleep
 from urllib.request import urlopen
+from urllib.error import URLError
 
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException, WebDriverException
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -87,6 +88,16 @@ class FirefoxTestBase:
         }
         self.jupyter_proc = subprocess.Popen(command, cwd=str(jupyterdir), env=env)
 
+        # Wait for Jupyter to start
+        for n in range(10):
+            sleep(1)
+            try:
+                with urlopen(f"http://localhost:{PORT}", timeout=2) as _:
+                    pass
+            except URLError:
+                continue
+        print(f"jupyter-{app} started")
+
     def initialise_firefox(self, downloaddir, url):
         profile = FirefoxProfile()
         profile.set_preference("browser.download.folderList", 2)
@@ -107,15 +118,7 @@ class FirefoxTestBase:
         self.driver = webdriver.Firefox(options=options)
         self.wait = WebDriverWait(self.driver, TIMEOUT)
 
-        # Jupyter may be slow to start
-        for n in range(5):
-            sleep(1)
-            try:
-                self.driver.get(url)
-            except WebDriverException as exc:
-                if "about:neterror" not in exc.msg:
-                    raise
-
+        self.driver.get(url)
         print("Firefox Initialized")
 
     def initialise(self, tmpdir, app, url):
@@ -350,8 +353,6 @@ class TestOfflineLab(FirefoxTestBase):
 class TestServer(FirefoxTestBase):
     def test_server_config(self, tmpdir):
         self.start_jupyter(tmpdir, "server")
-        # Wait for server to start
-        sleep(2)
 
         with urlopen(CONFIG_URL) as r:
             assert json.load(r) == {
