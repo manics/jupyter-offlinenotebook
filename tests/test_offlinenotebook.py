@@ -5,6 +5,7 @@ from shutil import copyfile
 import subprocess
 from time import sleep
 from urllib.request import urlopen
+from urllib.error import URLError
 
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
@@ -86,6 +87,16 @@ class FirefoxTestBase:
             "JUPYTERLAB_WORKSPACES_DIR": str(workspaces_dir),
         }
         self.jupyter_proc = subprocess.Popen(command, cwd=str(jupyterdir), env=env)
+
+        # Wait for Jupyter to start
+        for n in range(10):
+            sleep(1)
+            try:
+                with urlopen(f"http://localhost:{PORT}", timeout=2) as _:
+                    pass
+            except URLError:
+                continue
+        print(f"jupyter-{app} started")
 
     def initialise_firefox(self, downloaddir, url):
         profile = FirefoxProfile()
@@ -342,8 +353,6 @@ class TestOfflineLab(FirefoxTestBase):
 class TestServer(FirefoxTestBase):
     def test_server_config(self, tmpdir):
         self.start_jupyter(tmpdir, "server")
-        # Wait for server to start
-        sleep(2)
 
         with urlopen(CONFIG_URL) as r:
             assert json.load(r) == {

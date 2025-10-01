@@ -3,6 +3,7 @@ import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 import { Widget } from '@lumino/widgets';
 
 import { PageConfig } from '@jupyterlab/coreutils';
+import { ServerConnection } from '@jupyterlab/services';
 
 import {
   JupyterFrontEnd,
@@ -306,9 +307,13 @@ function showBinderLink<T>(panel: NotebookPanel): Promise<Dialog.IResult<T>> {
 function activate(app: JupyterFrontEnd): void {
   console.log('Activating jupyter-offlinenotebook JupyterLab extension');
   const baseUrl = PageConfig.getBaseUrl();
-  $.getJSON(baseUrl + 'offlinenotebook/config', (data) => {
-    offline.initialise(data);
-    // addButtons();
+  const settings = ServerConnection.makeSettings();
+  ServerConnection.makeRequest(
+    baseUrl + 'offlinenotebook/config',
+    {},
+    settings,
+  ).then(async (response) => {
+    offline.initialise(await response.json());
   });
   app.docRegistry.addWidgetExtension('Notebook', new OfflineNotebookButtons());
 }
