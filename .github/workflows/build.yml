@@ -143,13 +143,24 @@ jobs:
           node-version: '24.x'
           registry-url: https://registry.npmjs.org
 
+      - name: Should this be set as latest
+        run: |
+          if [[ ${{ github.ref }} =~ ^refs/tags/v?[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            NPM_TAG=latest
+          else
+            NPM_TAG=dev
+          fi
+          echo "NPM_TAG=$NPM_TAG" >> "$GITHUB_ENV"
+
       - name: Download artifacts from build
         uses: actions/download-artifact@v5
         with:
           name: jsdist
           path: jsdist
-      - run: npm publish --dry-run ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
-      - run: npm publish ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
+
+      - run: npm publish --tag "$NPM_TAG" --dry-run ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
+
+      - run: npm publish --tag "$NPM_TAG" ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
         if: startsWith(github.ref, 'refs/tags')
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
