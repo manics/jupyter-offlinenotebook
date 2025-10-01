@@ -102,7 +102,7 @@ class OfflineNotebookConfig(Configurable):
     ).tag(config=True)
 
 
-def _jupyter_server_extension_paths():
+def _jupyter_server_extension_points():
     """
     Jupyter server extension
     """
@@ -123,7 +123,7 @@ def _jupyter_nbextension_paths():
     ]
 
 
-def load_jupyter_server_extension(nbapp):
+def _load_jupyter_server_extension(nbapp):
     """
     Called during notebook start
     """
@@ -134,9 +134,3 @@ def load_jupyter_server_extension(nbapp):
         nbapp.web_app.settings["base_url"], "/offlinenotebook/config"
     )
     nbapp.web_app.add_handlers(".*", [(route_pattern, OfflineNotebookHandler)])
-
-
-# Add compatibility with jupyter-server
-# https://jupyter-server.readthedocs.io/en/latest/developers/extensions.html#migrating-an-extension-to-use-jupyter-serverjupyter_server
-_load_jupyter_server_extension = load_jupyter_server_extension
-_jupyter_server_extension_points = _jupyter_server_extension_paths

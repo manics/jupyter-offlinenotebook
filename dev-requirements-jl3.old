@@ -1,4 +1,0 @@
--r dev-requirements.txt
-jupyterlab==3.6.7
-# Also test the old version of jupyter_server
-jupyter_server==1.24.0

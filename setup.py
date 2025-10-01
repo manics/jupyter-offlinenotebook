@@ -29,7 +29,7 @@ def get_version():
 jstargets = [
     # notebook
     os.path.join(HERE, name, "static", "jslib", "offlinenotebook.js"),
-    # jupyterlab 3 bundled extension
+    # jupyterlab 4 bundled extension
     os.path.join(HERE, name, "static", "lab", "package.json"),
 ]
 
@@ -91,8 +91,8 @@ setup_args = dict(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     cmdclass=cmdclass,
-    install_requires=["jupyter-server"],
-    python_requires=">=3.7",
+    install_requires=["jupyter-server>=2"],
+    python_requires=">=3.8",
     zip_safe=False,
     include_package_data=True,
     platforms="Linux, Mac OS X, Windows",
@@ -101,12 +101,12 @@ setup_args = dict(
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Framework :: Jupyter",
     ],
 )
