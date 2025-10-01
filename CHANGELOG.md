@@ -1,3 +1,11 @@
+# v0.3.2 2025-10-01
+
+([full changelog](https://github.com/manics/jupyter-offlinenotebook/compare/v0.3.1...v0.3.2))
+
+## Bug fixes
+
+- Fix missing JupyterHub XSRF in config request [#646](https://github.com/manics/jupyter-offlinenotebook/pull/646) ([@manics](https://github.com/manics))
+
 # 0.3.1 2024-02-12
 
 ([full changelog](https://github.com/manics/jupyter-offlinenotebook/compare/v0.3.0...v0.3.1))
