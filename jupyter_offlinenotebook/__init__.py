@@ -109,20 +109,6 @@ def _jupyter_server_extension_points():
     return [{"module": "jupyter_offlinenotebook"}]
 
 
-def _jupyter_nbextension_paths():
-    """
-    Jupyter notebook extension
-    """
-    return [
-        dict(
-            section="notebook",
-            src="./static",
-            dest="jupyter-offlinenotebook",
-            require="jupyter-offlinenotebook/main",
-        )
-    ]
-
-
 def _load_jupyter_server_extension(nbapp):
     """
     Called during notebook start
