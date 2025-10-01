@@ -1640,11 +1640,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 24.6.0
-  resolution: "@types/node@npm:24.6.0"
+  version: 24.6.1
+  resolution: "@types/node@npm:24.6.1"
   dependencies:
     undici-types: ~7.13.0
-  checksum: 5550f2c93824f9dde6b4277f2774a833f5d276e3ebd5cf2f071d76553dff6fb896965fccc0ebed79374720034f24936841a7c544188f4d3d9ae52dc00b7aa63b
+  checksum: a2d2646e9c22c8084e943f5622f373114d0487a5116245c9a7b927ad54e5c3267c31233c9c410f729c2391db5da53861e6a6ab355e2ca8f2526c4b4d3bb2b51b
   languageName: node
   linkType: hard
 
@@ -2285,12 +2285,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"baseline-browser-mapping@npm:^2.8.3":
-  version: 2.8.9
-  resolution: "baseline-browser-mapping@npm:2.8.9"
+"baseline-browser-mapping@npm:^2.8.9":
+  version: 2.8.10
+  resolution: "baseline-browser-mapping@npm:2.8.10"
   bin:
     baseline-browser-mapping: dist/cli.js
-  checksum: ad426d6e239ffaad388e126c52263c0bf4248b9482b56db219f7c866a3f5a6cef39a5c08b7ace1bdf3f87f26ac96b0e9f9bfc199fc148d838ea68e43e3104d92
+  checksum: 42e28fb10472bf35abdcb881e599d8b968e3d0d723380a8e7ca1b0424811f111d89f78b1121d9c3cadf777e57af7a23cb0a3931e4135d94f70653b353fde0cba
   languageName: node
   linkType: hard
 
@@ -2330,17 +2330,17 @@ __metadata:
   linkType: hard
 
 "browserslist@npm:^4.24.5":
-  version: 4.26.2
-  resolution: "browserslist@npm:4.26.2"
+  version: 4.26.3
+  resolution: "browserslist@npm:4.26.3"
   dependencies:
-    baseline-browser-mapping: ^2.8.3
-    caniuse-lite: ^1.0.30001741
-    electron-to-chromium: ^1.5.218
+    baseline-browser-mapping: ^2.8.9
+    caniuse-lite: ^1.0.30001746
+    electron-to-chromium: ^1.5.227
     node-releases: ^2.0.21
     update-browserslist-db: ^1.1.3
   bin:
     browserslist: cli.js
-  checksum: ebd96e8895cdfc72be074281eb377332b69ceb944ec0c063739d8eeb8e513b168ac1e27d26ce5cc260e69a340a44c6bb5e9408565449d7a16739e5844453d4c7
+  checksum: aa5bbcda9db1eeb9952b4c2f11f9a5a2247da7bcce7fa14d3cc215e67246a93394eda2f86378a41c3f73e6e1a1561bf0e7eade93c5392cb6d37bc66f70d0c53f
   languageName: node
   linkType: hard
 
@@ -2390,7 +2390,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001741":
+"caniuse-lite@npm:^1.0.30001746":
   version: 1.0.30001746
   resolution: "caniuse-lite@npm:1.0.30001746"
   checksum: 3d2a310b49bc414d87184a73ca7c3b1aea0a1547cc9e3bfd8a6ee45129d269917a94b8e773e7b2821cfc3b9e1256759a34e4b7242c56e3f70f575213baa6c880
@@ -2862,10 +2862,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:^1.5.218":
-  version: 1.5.227
-  resolution: "electron-to-chromium@npm:1.5.227"
-  checksum: 6a798b53216b300f20dbad56c0ef3777da59cb37a761c169fbf8b1dcbeca74ccf137f83a5b3b959ae82cf3cd454aae1d4fda8c7dabd99a72bef645ac18fa6a45
+"electron-to-chromium@npm:^1.5.227":
+  version: 1.5.228
+  resolution: "electron-to-chromium@npm:1.5.228"
+  checksum: fc7158588289f82ba16aaff2056b5faec1690e916981227e80c5ac759161f0c1613864745b8530a4eaff4b4b90c815b5a90615754bef6f604dd251e21cd2012a
   languageName: node
   linkType: hard
 
@@ -4438,8 +4438,6 @@ __metadata:
     prettier: ^3.3.3
     rimraf: ^6.0.1
     typescript: ^5.5.4
-    webpack: ^5.94.0
-    webpack-cli: ^5.1.4
   languageName: unknown
   linkType: soft
 
@@ -6190,22 +6188,22 @@ __metadata:
   linkType: hard
 
 "typescript@npm:^5.5.4":
-  version: 5.9.2
-  resolution: "typescript@npm:5.9.2"
+  version: 5.9.3
+  resolution: "typescript@npm:5.9.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: f619cf6773cfe31409279711afd68cdf0859780006c50bc2a7a0c3227f85dea89a3b97248846326f3a17dad72ea90ec27cf61a8387772c680b2252fd02d8497b
+  checksum: 0d0ffb84f2cd072c3e164c79a2e5a1a1f4f168e84cb2882ff8967b92afe1def6c2a91f6838fb58b168428f9458c57a2ba06a6737711fdd87a256bbe83e9a217f
   languageName: node
   linkType: hard
 
 "typescript@patch:typescript@^5.5.4#~builtin<compat/typescript>":
-  version: 5.9.2
-  resolution: "typescript@patch:typescript@npm%3A5.9.2#~builtin<compat/typescript>::version=5.9.2&hash=85af82"
+  version: 5.9.3
+  resolution: "typescript@patch:typescript@npm%3A5.9.3#~builtin<compat/typescript>::version=5.9.3&hash=85af82"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: e42a701947325500008334622321a6ad073f842f5e7d5e7b588a6346b31fdf51d56082b9ce5cef24312ecd3e48d6c0d4d44da7555f65e2feec18cf62ec540385
+  checksum: 8bb8d86819ac86a498eada254cad7fb69c5f74778506c700c2a712daeaff21d3a6f51fd0d534fe16903cb010d1b74f89437a3d02d4d0ff5ca2ba9a4660de8497
   languageName: node
   linkType: hard
 
@@ -6429,7 +6427,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-cli@npm:^5.0.1, webpack-cli@npm:^5.1.4":
+"webpack-cli@npm:^5.0.1":
   version: 5.1.4
   resolution: "webpack-cli@npm:5.1.4"
   dependencies:
@@ -6489,7 +6487,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.76.1, webpack@npm:^5.94.0":
+"webpack@npm:^5.76.1":
   version: 5.102.0
   resolution: "webpack@npm:5.102.0"
   dependencies:

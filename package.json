@@ -27,15 +27,13 @@
   "//": "Dependency versions are based on https://github.com/jupyterlab/jupyterlab/blob/v3.6.1/examples/notebook/package.json",
   "scripts": {
     "build": "jlpm run build:lib",
-    "build:all": "jlpm run build:lib && jlpm run build:notebook && jlpm run build:labextension",
+    "build:all": "jlpm run build:lib && jlpm run build:labextension",
     "build:labextension": "jupyter labextension build .",
     "build:labextension:dev": "jupyter labextension build --development True .",
     "build:lib": "tsc",
-    "build:notebook": "webpack",
-    "clean": "jlpm run clean:lib && jlpm run clean:notebook && jlpm run clean:labextension",
+    "clean": "jlpm run clean:lib && jlpm run clean:labextension",
     "clean:labextension": "rimraf jupyter_offlinenotebook/static/lab",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
-    "clean:notebook": "rimraf jupyter_offlinenotebook/static/jslib",
     "default": "jlpm run clean && jlpm run build:all",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
@@ -75,9 +73,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
-    "typescript": "^5.5.4",
-    "webpack": "^5.94.0",
-    "webpack-cli": "^5.1.4"
+    "typescript": "^5.5.4"
   },
   "sideEffects": [
     "style/*.css"
