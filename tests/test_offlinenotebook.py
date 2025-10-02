@@ -19,8 +19,10 @@ from selenium.webdriver.firefox.options import Options
 
 PORT = 18888
 CONFIG_URL = f"http://localhost:{PORT}/offlinenotebook/config"
-JUPYTERLAB_URL = f"http://localhost:{PORT}/lab/tree/example.ipynb"
-JUPYTERNOTEBOOK_URL = f"http://localhost:{PORT}/tree/example.ipynb"
+JUPYTER_URL = {
+    "lab": f"http://localhost:{PORT}/lab/tree/example.ipynb",
+    "notebook": f"http://localhost:{PORT}/tree/example.ipynb",
+}
 EXPECTED_SIZE = 1700
 EXPECTED_EMPTY_SIZE = 450
 EXPECTED_NUM_CELLS = 5
@@ -136,107 +138,6 @@ class FirefoxTestBase:
         self.initialise_firefox(str(downloaddir), url)
 
 
-class TestOfflineNotebook(FirefoxTestBase):
-    def download_visible(self):
-        self.wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, "//button[@title='Download visible']")
-            )
-        ).click()
-
-        size = os.stat(self.expected_download).st_size
-        with open(self.expected_download) as f:
-            nb = json.load(f)
-            ncells = len(nb["cells"])
-        os.remove(self.expected_download)
-        return size, ncells
-
-    def save_to_browser_storage(self):
-        self.driver.find_element(
-            By.XPATH, "//button[@title='Save to browser storage']"
-        ).click()
-        dialog = self.wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "div.modal-dialog"))
-        )
-
-        assert dialog.find_element(By.CSS_SELECTOR, "h4.modal-title").text == (
-            "Notebook saved to browser storage"
-        )
-        assert dialog.find_element(By.CSS_SELECTOR, "div.modal-body").text == (
-            "repoid: https://github.com/manics/jupyter-offlinenotebook\n"
-            "path: example.ipynb"
-        )
-        dialog.find_element(By.CSS_SELECTOR, "button.btn-default").click()
-
-    def restore_from_browser_storage(self):
-        self.driver.find_element(
-            By.XPATH, "//button[@title='Restore from browser storage']"
-        ).click()
-        dialog = self.wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "div.modal-dialog"))
-        )
-
-        assert dialog.find_element(By.CSS_SELECTOR, "h4.modal-title").text == (
-            "This will replace your current notebook with"
-        )
-        assert dialog.find_element(By.CSS_SELECTOR, "div.modal-body").text == (
-            "repoid: https://github.com/manics/jupyter-offlinenotebook\n"
-            "path: example.ipynb"
-        )
-        buttons = dialog.find_elements(By.CSS_SELECTOR, "button.btn-default")
-        assert buttons[0].text == "OK"
-        assert buttons[1].text == "Cancel"
-        buttons[0].click()
-
-    def wait_for_modal_dialog(self):
-        # element_to_be_clickable doesn't actually mean clickable
-        # so need to make sure the modal dialog has cleared
-        # https://stackoverflow.com/a/51842120
-        self.wait.until(
-            EC.invisibility_of_element_located(
-                (By.XPATH, "//div[@class='modal-backdrop']")
-            )
-        )
-        # Still doesn't work so force a pause
-        sleep(0.5)
-
-    @pytest.mark.flaky(max_runs=3)
-    def test_offline_notebook(self, tmpdir):
-        # Selenium can't access IndexedDB so instead check save/load by
-        # downloading the updated notebook
-
-        self.initialise(tmpdir, "nbclassic", JUPYTERNOTEBOOK_URL)
-
-        size, ncells = self.download_visible()
-        assert_expected_size(size)
-        assert ncells == EXPECTED_NUM_CELLS
-
-        self.save_to_browser_storage()
-        print("Saved to browser storage")
-
-        # Delete some cells and download
-        # element_to_be_clickable doesn't actually mean clickable
-        self.wait_for_modal_dialog()
-        for n in range(EXPECTED_NUM_CELLS):
-            self.wait.until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, "//button[@title='cut selected cells']")
-                )
-            ).click()
-        size, ncells = self.download_visible()
-        assert_empty_size(size)
-        assert ncells == 1
-
-        self.restore_from_browser_storage()
-
-        # download_visible uses element_to_be_clickable but that doesn't
-        # actually mean clickable
-        self.wait_for_modal_dialog()
-        size, ncells = self.download_visible()
-        assert_expected_size(size)
-        assert ncells == EXPECTED_NUM_CELLS
-
-
 class TestOfflineLab(FirefoxTestBase):
     def download_visible(self):
         self.wait.until(
@@ -297,16 +198,14 @@ class TestOfflineLab(FirefoxTestBase):
         buttons[1].click()
 
     @pytest.mark.flaky(max_runs=3)
-    def test_offline_lab(self, tmpdir):
+    # Notebook 7 is based on JupyterLab
+    @pytest.mark.parametrize("app", ["lab", "notebook"])
+    def test_offline_lab(self, tmpdir, app):
         # Selenium can't access IndexedDB so instead check save/load by
         # downloading the updated notebook
 
-        self.initialise(tmpdir, "lab", JUPYTERLAB_URL)
-        assert self.major_version in (3, 4)
-        if self.major_version == 3:
-            self.toolbar_button = "button"
-        else:
-            self.toolbar_button = "jp-button"
+        self.initialise(tmpdir, app, JUPYTER_URL[app])
+        self.toolbar_button = "jp-button"
 
         # Wait for the loading logo to appear, then disappear
         try:

@@ -27,8 +27,6 @@ def get_version():
 
 # Representative files that should exist after a successful build
 jstargets = [
-    # notebook
-    os.path.join(HERE, name, "static", "jslib", "offlinenotebook.js"),
     # jupyterlab 4 bundled extension
     os.path.join(HERE, name, "static", "lab", "package.json"),
 ]
@@ -40,22 +38,10 @@ jstargets = [
 # }
 
 data_files_spec = [
-    (f"share/jupyter/nbextensions/{jsname}", f"{name}/static", "*.*"),
-    (f"share/jupyter/nbextensions/{jsname}/jslib", f"{name}/static/jslib", "*.*"),
-    (
-        "etc/jupyter/jupyter_notebook_config.d",
-        f"{name}/etc",
-        "offlinenotebook_nbserverextension.json",
-    ),
     (
         "etc/jupyter/jupyter_server_config.d",
         f"{name}/etc",
         "offlinenotebook_jpserverextension.json",
-    ),
-    (
-        "etc/jupyter/nbconfig/notebook.d",
-        f"{name}/etc",
-        "offlinenotebook_nbextension.json",
     ),
     # TODO: Why is 'jupyter labextension build' putting the files under
     # static/lab/static instead of static/lab ?
