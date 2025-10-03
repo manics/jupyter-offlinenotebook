@@ -1,7 +1,0 @@
-# setuptools-scm includes all source controlled files
-
-graft jupyter_offlinenotebook/static
-
-# Javascript files
-prune **/node_modules
-prune lib
