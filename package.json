@@ -14,8 +14,9 @@
   "license": "BSD-3-Clause",
   "author": "Simon Li",
   "files": [
-    "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
-    "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
+    "lib/",
+    "style/",
+    "README.md"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -24,6 +25,7 @@
     "type": "git",
     "url": "https://github.com/manics/jupyter-offlinenotebook.git"
   },
+  "type": "module",
   "//": "Dependency versions are based on https://github.com/jupyterlab/jupyterlab/blob/v3.6.1/examples/notebook/package.json",
   "scripts": {
     "build": "jlpm run build:lib",
@@ -35,8 +37,8 @@
     "clean:labextension": "rimraf jupyter_offlinenotebook/static/lab",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
     "default": "jlpm run clean && jlpm run build:all",
-    "eslint": "eslint . --ext .ts,.tsx --fix",
-    "eslint:check": "eslint . --ext .ts,.tsx",
+    "eslint": "eslint 'src/**/*.{ts,tsx}' --fix",
+    "eslint:check": "eslint 'src/**/*.{ts,tsx}'",
     "format": "jlpm run eslint && jlpm run prettier",
     "format:check": "jlpm run eslint:check && jlpm run prettier:check",
     "install:extension": "jupyter labextension develop --overwrite .",
@@ -58,22 +60,21 @@
     "@lumino/disposable": "^2.1.4",
     "@lumino/widgets": "^2.7.1",
     "@types/jquery": "^3",
-    "dexie": "^4.0.8",
+    "dexie": "^4.2.0",
     "jquery": "^3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.36.0",
     "@jupyterlab/builder": "^4.4.9",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
+    "eslint": "^9.36.0",
+    "eslint-config-prettier": "^10.1.8",
     "mkdirp": "^3.0.1",
-    "npm-check-updates": "^17.1.0",
+    "npm-check-updates": "^19.0.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.3.3",
+    "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
-    "typescript": "^5.5.4"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.45.0"
   },
   "sideEffects": [
     "style/*.css"
