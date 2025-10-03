@@ -14,8 +14,9 @@
   "license": "BSD-3-Clause",
   "author": "Simon Li",
   "files": [
-    "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
-    "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
+    "lib/",
+    "style/",
+    "README.md"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
