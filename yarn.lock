@@ -519,7 +519,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/application@npm:^3.0.0 || ^4.0.0":
+"@jupyterlab/application@npm:^4.4.9":
   version: 4.4.9
   resolution: "@jupyterlab/application@npm:4.4.9"
   dependencies:
@@ -547,7 +547,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/apputils@npm:^3.0.0 || ^4.0.0, @jupyterlab/apputils@npm:^4.5.9":
+"@jupyterlab/apputils@npm:^4.5.9":
   version: 4.5.9
   resolution: "@jupyterlab/apputils@npm:4.5.9"
   dependencies:
@@ -590,7 +590,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/builder@npm:^3.0.0 || ^4.0.0":
+"@jupyterlab/builder@npm:^4.4.9":
   version: 4.4.9
   resolution: "@jupyterlab/builder@npm:4.4.9"
   dependencies:
@@ -733,7 +733,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/coreutils@npm:^5.0.0 || ^6.0.0, @jupyterlab/coreutils@npm:^6.4.9":
+"@jupyterlab/coreutils@npm:^6.4.9":
   version: 6.4.9
   resolution: "@jupyterlab/coreutils@npm:6.4.9"
   dependencies:
@@ -772,7 +772,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/docregistry@npm:^3.0.0 || ^4.0.0, @jupyterlab/docregistry@npm:^4.4.9":
+"@jupyterlab/docregistry@npm:^4.4.9":
   version: 4.4.9
   resolution: "@jupyterlab/docregistry@npm:4.4.9"
   dependencies:
@@ -878,7 +878,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/notebook@npm:^3.0.0 || ^4.0.0":
+"@jupyterlab/notebook@npm:^4.4.9":
   version: 4.4.9
   resolution: "@jupyterlab/notebook@npm:4.4.9"
   dependencies:
@@ -981,7 +981,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/services@npm:^6.0.0 || ^7.0.0, @jupyterlab/services@npm:^7.4.9":
+"@jupyterlab/services@npm:^7.4.9":
   version: 7.4.9
   resolution: "@jupyterlab/services@npm:7.4.9"
   dependencies:
@@ -1323,7 +1323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/disposable@npm:^1.10.0 || ^2.0.0, @lumino/disposable@npm:^1.4.3 || ^2.0.0, @lumino/disposable@npm:^2.1.4":
+"@lumino/disposable@npm:^1.10.0 || ^2.0.0, @lumino/disposable@npm:^2.1.4":
   version: 2.1.4
   resolution: "@lumino/disposable@npm:2.1.4"
   dependencies:
@@ -1403,7 +1403,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/widgets@npm:^1.17.0 || ^2.0.0, @lumino/widgets@npm:^1.37.2 || ^2.7.1, @lumino/widgets@npm:^2.7.1":
+"@lumino/widgets@npm:^1.37.2 || ^2.7.1, @lumino/widgets@npm:^2.7.1":
   version: 2.7.1
   resolution: "@lumino/widgets@npm:2.7.1"
   dependencies:
@@ -4415,15 +4415,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "jupyter-offlinenotebook@workspace:."
   dependencies:
-    "@jupyterlab/application": ^3.0.0 || ^4.0.0
-    "@jupyterlab/apputils": ^3.0.0 || ^4.0.0
-    "@jupyterlab/builder": ^3.0.0 || ^4.0.0
-    "@jupyterlab/coreutils": ^5.0.0 || ^6.0.0
-    "@jupyterlab/docregistry": ^3.0.0 || ^4.0.0
-    "@jupyterlab/notebook": ^3.0.0 || ^4.0.0
-    "@jupyterlab/services": ^6.0.0 || ^7.0.0
-    "@lumino/disposable": ^1.4.3 || ^2.0.0
-    "@lumino/widgets": ^1.17.0 || ^2.0.0
+    "@jupyterlab/application": ^4.4.9
+    "@jupyterlab/apputils": ^4.5.9
+    "@jupyterlab/builder": ^4.4.9
+    "@jupyterlab/coreutils": ^6.4.9
+    "@jupyterlab/docregistry": ^4.4.9
+    "@jupyterlab/notebook": ^4.4.9
+    "@jupyterlab/services": ^7.4.9
+    "@lumino/disposable": ^2.1.4
+    "@lumino/widgets": ^2.7.1
     "@types/jquery": ^3
     "@typescript-eslint/eslint-plugin": ^7.18.0
     "@typescript-eslint/parser": ^7.18.0
