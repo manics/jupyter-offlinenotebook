@@ -1,13 +1,73 @@
 [build-system]
 requires = [
-  "jupyter_packaging~=0.12.3",
-  "jupyterlab~=4.0",  # jlpm is used to build static js
-  "setuptools>=60",
-  "setuptools-scm>=8",
-  "wheel"
+    "hatchling",
+    "jupyterlab~=4.0",
 ]
-build-backend = "setuptools.build_meta"
+build-backend = "hatchling.build"
+
+[project]
+name = "jupyter-offlinenotebook"
+description = "Save and load notebooks to local-storage"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "Simon Li" },
+]
+keywords = [
+    "Jupyter",
+    "JupyterLab",
+]
+classifiers = [
+    "Framework :: Jupyter",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "jupyter-server>=2",
+]
+
+dynamic = ["version"]
+
+[project.license]
+file = "LICENSE"
+
+[project.urls]
+Homepage = "https://github.com/manics/jupyter-offlinenotebook"
+
+[tool.hatch.version]
+path = "package.json"
+pattern = "^\\s*\"version\":\\s*\"(?P<version>.+?)\""
+
+[tool.hatch.build.targets.wheel.shared-data]
+"jupyter_offlinenotebook/etc/offlinenotebook_jpserverextension.json" = "etc/jupyter/jupyter_server_config.d/offlinenotebook_jpserverextension.json"
+"jupyter_offlinenotebook/static/lab/" = "share/jupyter/labextensions/jupyter-offlinenotebook/"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    ".github",
+]
+
+[tool.hatch.build.hooks.jupyter-builder]
+ensured-targets = [
+    "jupyter_offlinenotebook/static/lab/package.json",
+]
+dependencies = [
+    "hatch-jupyter-builder>=0.9.1",
+]
+build-function = "hatch_jupyter_builder.npm_builder"
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+path = "."
+build_cmd = "build:all"
+npm = [
+    "jlpm",
+]
 
 [tool.setuptools_scm]
-# Used to ensure all files are packaged in the sdist
-# This is not used for versioning
