@@ -13,8 +13,8 @@ Save and load notebooks to browser storage, even if you've lost your connection 
 
 This should automatically enable the extension on Jupyter Notebook and JupyterLab.
 
-This extension supports JupyterLab 3 and 4, and NBclassic.
-Use [version 0.2.2](https://github.com/manics/jupyter-offlinenotebook/tree/v0.2.2) for JupyterLab 2 and Notebook &lt;7.
+This extension supports [JupyterLab 4](https://jupyterlab.readthedocs.io/), [Notebook 7](https://jupyter-notebook.readthedocs.io/) and [Jupyter Server 2](https://jupyter-server.readthedocs.io/).
+Use [0.3.2](https://github.com/manics/jupyter-offlinenotebook/tree/v0.3.2) for older versions.
 
 ## Usage
 
