@@ -22,17 +22,18 @@ classifiers = [
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
     "jupyter-server>=2",
 ]
-version = "0.3.3.dev0"
+
+dynamic = ["version"]
 
 [project.license]
 file = "LICENSE"
@@ -40,10 +41,13 @@ file = "LICENSE"
 [project.urls]
 Homepage = "https://github.com/manics/jupyter-offlinenotebook"
 
+[tool.hatch.version]
+path = "package.json"
+pattern = "^\\s*\"version\":\\s*\"(?P<version>.+?)\""
+
 [tool.hatch.build.targets.wheel.shared-data]
 "jupyter_offlinenotebook/etc/offlinenotebook_jpserverextension.json" = "etc/jupyter/jupyter_server_config.d/offlinenotebook_jpserverextension.json"
-"jupyter_offlinenotebook/static/lab/*.*" = "share/jupyter/labextensions/jupyter-offlinenotebook/*.*"
-"jupyter_offlinenotebook/static/lab/static/*.*" = "share/jupyter/labextensions/jupyter-offlinenotebook/static/*.*"
+"jupyter_offlinenotebook/static/lab/" = "share/jupyter/labextensions/jupyter-offlinenotebook/"
 
 [tool.hatch.build.targets.sdist]
 exclude = [
@@ -67,21 +71,3 @@ npm = [
 ]
 
 [tool.setuptools_scm]
-
-[tool.tbump]
-field = [
-    { name = "channel", default = "" },
-    { name = "release", default = "" },
-]
-
-[tool.tbump.version]
-current = "0.3.3.dev0"
-regex = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)((?P<channel>a|b|rc|.dev)(?P<release>\\d+))?"
-
-[tool.tbump.git]
-message_template = "Bump to {new_version}"
-tag_template = "v{new_version}"
-
-[[tool.tbump.file]]
-src = "pyproject.toml"
-version_template = "version = \"{major}.{minor}.{patch}{channel}{release}\""
