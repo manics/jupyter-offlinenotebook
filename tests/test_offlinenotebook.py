@@ -26,6 +26,7 @@ JUPYTER_URL = {
 EXPECTED_SIZE = 1700
 EXPECTED_EMPTY_SIZE = 450
 EXPECTED_NUM_CELLS = 5
+# Set to False to see the browser window
 HEADLESS = True
 # If 'firefox' is a script selenium may not work, if this happens set this to
 # the binary e.g. '/usr/lib64/firefox/firefox'
@@ -111,8 +112,8 @@ class FirefoxTestBase:
         )
 
         options = Options()
-        # Comment this out to see the browser window
-        options.headless = HEADLESS
+        if HEADLESS:
+            options.add_argument("-headless")
 
         options.profile = profile
         if FIREFOX_BIN:
