@@ -106,8 +106,11 @@ jobs:
         run: |
           python -mpip install dist/*.whl
 
-      - name: Run pytest
-        run: pytest -vs tests
+      - name: Run pytest (firefox)
+        run: python -mpytest -vs tests --browser=firefox
+
+      - name: Run pytest (chrome)
+        run: python -mpytest -vs tests --browser=chrome
 
   # https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
   publish-pypi:

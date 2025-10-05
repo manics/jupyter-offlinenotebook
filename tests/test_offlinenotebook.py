@@ -14,7 +14,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 
 PORT = 18888
@@ -111,7 +112,7 @@ class FirefoxTestBase:
             "browser.helperApps.neverAsk.saveToDisk", "application/x-ipynb+json"
         )
 
-        options = Options()
+        options = FirefoxOptions()
         if HEADLESS:
             options.add_argument("-headless")
 
@@ -124,7 +125,28 @@ class FirefoxTestBase:
         self.driver.get(url)
         print("Firefox Initialized")
 
-    def initialise(self, tmpdir, app, url):
+    def initialise_chrome(self, downloaddir, url):
+        """Initialises a Chrome webdriver with download preferences."""
+        options = ChromeOptions()
+        if HEADLESS:
+            options.add_argument("--headless=new")
+
+        prefs = {
+            "download.default_directory": downloaddir,
+            "download.prompt_for_download": False,
+            "safebrowsing.enabled": True,
+        }
+        options.add_experimental_option("prefs", prefs)
+
+        self.driver = webdriver.Chrome(options=options)
+        self.wait = WebDriverWait(self.driver, TIMEOUT)
+
+        self.driver.get(url)
+        # Default size is too narrow, so toolbar is partially hidden
+        self.driver.set_window_size(1024, 768)
+        print("Chrome Initialized")
+
+    def initialise(self, tmpdir, app, url, browser):
         jupyterdir = (tmpdir / "jupyter").mkdir()
         downloaddir = (tmpdir / "download").mkdir()
 
@@ -136,7 +158,12 @@ class FirefoxTestBase:
         self.expected_download = str(downloaddir / "example.ipynb")
 
         self.start_jupyter(jupyterdir, app)
-        self.initialise_firefox(str(downloaddir), url)
+        if browser == "firefox":
+            self.initialise_firefox(str(downloaddir), url)
+        elif browser == "chrome":
+            self.initialise_chrome(str(downloaddir), url)
+        else:
+            pytest.fail(f"Unsupported browser: {browser}")
 
 
 class TestOfflineLab(FirefoxTestBase):
@@ -201,11 +228,11 @@ class TestOfflineLab(FirefoxTestBase):
     @pytest.mark.flaky(max_runs=3)
     # Notebook 7 is based on JupyterLab
     @pytest.mark.parametrize("app", ["lab", "notebook"])
-    def test_offline_lab(self, tmpdir, app):
+    def test_offline_lab(self, tmpdir, app, browser):
         # Selenium can't access IndexedDB so instead check save/load by
         # downloading the updated notebook
 
-        self.initialise(tmpdir, app, JUPYTER_URL[app])
+        self.initialise(tmpdir, app, JUPYTER_URL[app], browser)
         self.toolbar_button = "jp-button"
 
         # Wait for the loading logo to appear, then disappear

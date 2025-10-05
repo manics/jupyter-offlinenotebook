@@ -59,7 +59,6 @@ This extension can be configured in `jupyter_notebook_config.py` by setting the 
 # Warning
 
 This extension is still in development.
-It is only tested on Firefox.
 Breaking changes may occur in future.
 
 There are [several major limitations](https://github.com/manics/jupyter-offlinenotebook/issues) including:
@@ -75,7 +74,6 @@ This extension stores notebooks in browser storage using the [IndexedDB API](htt
 One server API call is made during initialisation to obtain the storage configuration.
 Everything else is done client-side so should work even if the server is disconnected.
 
-The CI pipeline builds the extension with JupyterLab 4, but the build package works with JupyterLab 3 and NBclassic.
 Install the development dependencies:
 
     pip install -r dev-requirements-jl4.txt
