@@ -1,7 +1,7 @@
 build==1.2.2.post1
 jupyter_packaging==0.12.3
 flaky==3.8.1
-pre-commit==3.5.0
+pre-commit==4.3.0
 pytest==8.3.5
 selenium==4.11.2
 # selenium==4.27.1
