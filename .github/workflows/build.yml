@@ -31,7 +31,7 @@ jobs:
           cache: pip
           cache-dependency-path: 'dev-requirements*'
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: '24.x'
           cache: yarn
@@ -91,7 +91,7 @@ jobs:
           cache: pip
           cache-dependency-path: 'dev-requirements*'
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: '24.x'
           cache: yarn
@@ -141,7 +141,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: '24.x'
           registry-url: https://registry.npmjs.org
