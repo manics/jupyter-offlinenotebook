@@ -31,7 +31,7 @@ jobs:
           cache: pip
           cache-dependency-path: 'dev-requirements*'
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: '24.x'
           cache: yarn
@@ -54,13 +54,13 @@ jobs:
           mkdir jsdist
           jlpm pack --filename jsdist/jupyter-offlinenotebook-jlpmpack.tgz
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: dist
           path: dist
           if-no-files-found: error
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: jsdist
           path: jsdist
@@ -91,13 +91,13 @@ jobs:
           cache: pip
           cache-dependency-path: 'dev-requirements*'
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: '24.x'
           cache: yarn
 
       - name: Download artifacts from build
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
 
       - name: Install dependencies
         run: python -mpip install -r dev-requirements-jl${{ matrix.jupyterlab-major }}.*
@@ -123,7 +123,7 @@ jobs:
       id-token: write
     steps:
       - name: Download artifacts from build
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: dist
           path: dist
@@ -139,9 +139,11 @@ jobs:
       - pre-commit
       - test
     runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
     steps:
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: '24.x'
           registry-url: https://registry.npmjs.org
@@ -156,14 +158,13 @@ jobs:
           echo "NPM_TAG=$NPM_TAG" >> "$GITHUB_ENV"
 
       - name: Download artifacts from build
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: jsdist
           path: jsdist
 
       - run: npm publish --tag "$NPM_TAG" --dry-run ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
 
+      # Uses trusted publisher
       - run: npm publish --tag "$NPM_TAG" ./jsdist/jupyter-offlinenotebook-jlpmpack.tgz
         if: startsWith(github.ref, 'refs/tags')
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
