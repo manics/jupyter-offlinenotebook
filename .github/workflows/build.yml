@@ -54,13 +54,13 @@ jobs:
           mkdir jsdist
           jlpm pack --filename jsdist/jupyter-offlinenotebook-jlpmpack.tgz
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: dist
           path: dist
           if-no-files-found: error
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: jsdist
           path: jsdist
