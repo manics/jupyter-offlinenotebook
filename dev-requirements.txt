@@ -6,5 +6,5 @@ pytest==8.4.2
 # selenium==4.11.2
 selenium==4.38.0
 traitlets==5.14.3
-wheel==0.45.1
+wheel==0.46.2
 # jupyterlab and jupyter_server are installed separately so we can test multiple versions
