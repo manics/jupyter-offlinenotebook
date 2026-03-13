@@ -43,9 +43,10 @@ const extension: JupyterFrontEndPlugin<void> = {
 /**
  * A notebook widget extension that adds a button to the toolbar.
  */
-export class OfflineNotebookButtons
-  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
-{
+export class OfflineNotebookButtons implements DocumentRegistry.IWidgetExtension<
+  NotebookPanel,
+  INotebookModel
+> {
   /**
    * Create a new extension object.
    */
