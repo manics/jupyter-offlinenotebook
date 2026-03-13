@@ -6,7 +6,7 @@ updates:
     schedule:
       interval: weekly
     groups:
-      actions-deps:
+      pip:
         patterns:
           - '*'
 
@@ -15,7 +15,7 @@ updates:
     schedule:
       interval: monthly
     groups:
-      actions-deps:
+      github-actions:
         patterns:
           - '*'
 
@@ -24,6 +24,6 @@ updates:
     schedule:
       interval: monthly
     groups:
-      actions-deps:
+      pre-commit:
         patterns:
           - '*'
