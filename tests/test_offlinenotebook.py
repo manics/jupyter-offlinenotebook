@@ -17,7 +17,6 @@ from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 
-
 PORT = 18888
 CONFIG_URL = f"http://localhost:{PORT}/offlinenotebook/config"
 JUPYTER_URL = {
