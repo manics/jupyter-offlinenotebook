@@ -5,8 +5,25 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      actions-deps:
+        patterns:
+          - '*'
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: monthly
+    groups:
+      actions-deps:
+        patterns:
+          - '*'
+
+  - package-ecosystem: pre-commit
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions-deps:
+        patterns:
+          - '*'
