@@ -1,4 +1,4 @@
-build==1.4.0
+build==1.4.2
 jupyter_packaging==0.12.3
 flaky==3.8.1
 pre-commit==4.5.1
