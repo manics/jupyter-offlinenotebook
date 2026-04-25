@@ -1,10 +1,10 @@
-build==1.4.3
+build==1.4.4
 jupyter_packaging==0.12.3
 flaky==3.8.1
-pre-commit==4.5.1
+pre-commit==4.6.0
 pytest==9.0.3
 # selenium==4.11.2
 selenium==4.43.0
 traitlets==5.14.3
-wheel==0.46.3
+wheel==0.47.0
 # jupyterlab and jupyter_server are installed separately so we can test multiple versions
