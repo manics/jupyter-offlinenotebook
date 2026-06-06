@@ -5,6 +5,6 @@ pre-commit==4.6.0
 pytest==9.0.3
 # selenium==4.11.2
 selenium==4.44.0
-traitlets==5.15.0
+traitlets==5.15.1
 wheel==0.47.0
 # jupyterlab and jupyter_server are installed separately so we can test multiple versions
