@@ -10,11 +10,11 @@ jobs:
     name: Lint
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
-      - uses: j178/prek-action@v2.0.4
+      - uses: j178/prek-action@v2.0.5
 
   # Due to complications in the build process when trying to support multiple
   # JupyterLab versions we always build the pypi packages with latest
@@ -23,7 +23,7 @@ jobs:
     name: Build dist
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v6
         with:
@@ -82,7 +82,7 @@ jobs:
     # Includes geckdriver and firefox
     # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v6
