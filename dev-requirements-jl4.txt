@@ -1,4 +1,4 @@
 -r dev-requirements.txt
 jupyterlab==4.6.3
-jupyter_server==2.20.0
+jupyter_server==2.21.0
 notebook==7.6.2
