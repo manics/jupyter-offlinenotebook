@@ -54,30 +54,30 @@
     "packageManager": "This must be set to `jlpm --version` to e sure dependabot updates yarn.lock in a way that complies with the --immutable check"
   },
   "dependencies": {
-    "@jupyterlab/application": "^4.5.6",
-    "@jupyterlab/apputils": "^4.6.6",
-    "@jupyterlab/coreutils": "^6.5.6",
-    "@jupyterlab/docregistry": "^4.5.6",
-    "@jupyterlab/notebook": "^4.5.6",
-    "@jupyterlab/services": "^7.5.6",
-    "@lumino/disposable": "^2.1.5",
-    "@lumino/widgets": "^2.7.5",
+    "@jupyterlab/application": "^4.6.3",
+    "@jupyterlab/apputils": "^4.7.3",
+    "@jupyterlab/coreutils": "^6.6.3",
+    "@jupyterlab/docregistry": "^4.6.3",
+    "@jupyterlab/notebook": "^4.6.3",
+    "@jupyterlab/services": "^7.6.3",
+    "@lumino/disposable": "^2.1.6",
+    "@lumino/widgets": "^2.9.0",
     "@types/jquery": "^4",
-    "dexie": "^4.3.0",
+    "dexie": "^4.4.6",
     "jquery": "^4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@jupyterlab/builder": "^4.5.6",
-    "eslint": "^10.0.3",
+    "@jupyterlab/builder": "^4.5.10",
+    "eslint": "^10.11.0",
     "eslint-config-prettier": "^10.1.8",
     "mkdirp": "^3.0.1",
-    "npm-check-updates": "^19.6.3",
+    "npm-check-updates": "^23.1.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.8.1",
+    "prettier": "^3.9.8",
     "rimraf": "^6.1.3",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.0"
+    "typescript-eslint": "^8.70.0"
   },
   "sideEffects": [
     "style/*.css"
