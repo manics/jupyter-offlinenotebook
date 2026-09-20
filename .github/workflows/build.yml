@@ -31,6 +31,10 @@ jobs:
           cache: pip
           cache-dependency-path: 'dev-requirements*'
 
+      # Needed to ensure package.json:packageManager is respected
+      - name: Enable Corepack
+        run: corepack enable
+
       - uses: actions/setup-node@v7
         with:
           node-version: '24.x'
@@ -90,6 +94,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
           cache-dependency-path: 'dev-requirements*'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - uses: actions/setup-node@v7
         with:
