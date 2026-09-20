@@ -49,6 +49,10 @@
     "watch:labextension": "jupyter labextension watch .",
     "watch:src": "tsc -w"
   },
+  "packageManager": "yarn@3.5.0",
+  "//": {
+    "packageManager": "This must be set to `jlpm --version` to e sure dependabot updates yarn.lock in a way that complies with the --immutable check"
+  },
   "dependencies": {
     "@jupyterlab/application": "^4.5.6",
     "@jupyterlab/apputils": "^4.6.6",
